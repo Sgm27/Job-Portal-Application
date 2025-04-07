@@ -1,0 +1,462 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ job.title }} - Job Portal{% endblock %}
+
+{% block content %}
+<div class="container page-transition">
+    <!-- Job Detail Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'job_list' %}">Jobs</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ job.title }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Content with Job Details -->
+        <div class="col-lg-8">
+            <!-- Primary Job Information Card -->
+            <div class="card shadow-sm rounded-3 border-0 mb-4 card-animated">
+                <div class="card-body p-4">
+                    <div class="job-detail-header mb-4">
+                        <h1 class="card-title fw-bold mb-2 text-primary">{{ job.title }}</h1>
+                        <h6 class="card-subtitle mb-3">
+                            <i class="bi bi-building me-2"></i>{{ job.employer.company_name|default:job.employer.username }}
+                        </h6>
+                        
+                        <!-- Job Metadata Tags -->
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <span class="badge badge-modern badge-modern-{% if job.job_type == 'FT' %}primary{% elif job.job_type == 'PT' %}info{% elif job.job_type == 'CT' %}warning{% else %}success{% endif %} rounded-pill py-2 px-3">
+                                <i class="bi {% if job.job_type == 'FT' %}bi-briefcase-fill{% elif job.job_type == 'PT' %}bi-clock-history{% elif job.job_type == 'CT' %}bi-file-earmark-text{% else %}bi-briefcase{% endif %} me-1"></i>
+                                {{ job.get_job_type_display }}
+                            </span>
+                            <span class="badge badge-modern badge-modern-info rounded-pill py-2 px-3">
+                                <i class="bi bi-geo-alt me-1"></i>{{ job.get_location_display }}
+                            </span>
+                            {% if job.salary %}
+                                <span class="badge badge-modern badge-modern-success rounded-pill py-2 px-3">
+                                    <i class="bi bi-cash-coin me-1"></i>{{ job.salary }}
+                                </span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Job Timeline -->
+                        <div class="d-flex justify-content-between align-items-center text-muted small p-3 bg-light rounded-3">
+                            <span>
+                                <i class="bi bi-calendar-check me-1"></i>Posted: {{ job.created_at|date:"F j, Y" }}
+                            </span>
+                            <span>
+                                <i class="bi bi-calendar-x me-1"></i>Apply Before: {{ job.application_deadline|date:"F j, Y" }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Job Content Sections Card -->
+            <div class="card shadow-sm rounded-3 border-0 mb-4 card-animated" style="animation-delay: 100ms;">
+                <div class="card-body p-4">
+                    <!-- Job Description Section -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-circle bg-primary text-white me-3">
+                                <i class="bi bi-file-text"></i>
+                            </div>
+                            <h4 class="fw-bold m-0">Job Description</h4>
+                        </div>
+                        <div class="p-3 bg-light rounded-3">
+                            {{ job.description|linebreaks }}
+                        </div>
+                    </div>
+                    
+                    <!-- Requirements Section -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-circle bg-primary text-white me-3">
+                                <i class="bi bi-list-check"></i>
+                            </div>
+                            <h4 class="fw-bold m-0">Requirements</h4>
+                        </div>
+                        <div class="p-3 bg-light rounded-3">
+                            {{ job.requirements|linebreaks }}
+                        </div>
+                    </div>
+                    
+                    <!-- Skills Section if available -->
+                    {% if job.skills.all %}
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-circle bg-primary text-white me-3">
+                                <i class="bi bi-gear"></i>
+                            </div>
+                            <h4 class="fw-bold m-0">Required Skills</h4>
+                        </div>
+                        <div class="p-3 bg-light rounded-3">
+                            {% for skill in job.skills.all %}
+                                <span class="badge badge-modern badge-modern-secondary rounded-pill py-2 px-3 me-2 mb-2">{{ skill.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Share & Save Section -->
+                    <div class="mt-4 pt-3 border-top">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="fw-bold me-2">Share this job:</span>
+                                <a href="#" class="social-share facebook btn btn-sm btn-outline-primary rounded-circle mx-1" title="Share on Facebook">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                                <a href="#" class="social-share twitter btn btn-sm btn-outline-info rounded-circle mx-1" title="Share on Twitter">
+                                    <i class="bi bi-twitter"></i>
+                                </a>
+                                <a href="#" class="social-share linkedin btn btn-sm btn-outline-primary rounded-circle mx-1" title="Share on LinkedIn">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                            </div>
+                            <button class="btn btn-outline-primary rounded-pill bookmark-btn" data-job-id="{{ job.id }}">
+                                <i class="bi bi-bookmark me-2"></i>Save Job
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Application Status Card -->
+            <div class="card shadow-sm rounded-3 border-0 mb-4 card-animated" style="animation-delay: 200ms;">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="card-title mb-0 fw-bold">
+                        <i class="bi bi-send me-2"></i>Application
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    {% if user.is_authenticated %}
+                        {% if user.user_type == 'job_seeker' %}
+                            {% if job.is_expired or job.status != 'active' %}
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    This job is no longer accepting applications.
+                                </div>
+                            {% elif user_applied %}
+                                <div class="alert alert-success mb-3">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    You have already applied for this job.
+                                </div>
+                                <a href="{% url 'my_applications' %}" class="btn btn-outline-primary w-100 rounded-pill">
+                                    <i class="bi bi-file-earmark-text me-2"></i>View Your Application
+                                </a>
+                            {% else %}
+                                <p class="mb-3">Ready to apply for this position? Click below to submit your application.</p>
+                                <a href="{% url 'job_apply' job.id %}" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold">
+                                    <i class="bi bi-send me-2"></i>Apply Now
+                                </a>
+                            {% endif %}
+                        {% elif user.user_type == 'employer' %}
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                You are logged in as an employer and cannot apply for jobs.
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-info mb-3">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> as a job seeker to apply for this job.
+                        </div>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'login' %}" class="btn btn-primary rounded-pill">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Login to Apply
+                            </a>
+                            <a href="{% url 'register' %}" class="btn btn-outline-primary rounded-pill">
+                                <i class="bi bi-person-plus me-2"></i>Register
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Employer Information Card -->
+            <div class="card shadow-sm rounded-3 border-0 mb-4 card-animated" style="animation-delay: 300ms;">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="card-title mb-0 fw-bold">
+                        <i class="bi bi-building me-2"></i>About the Employer
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3">{{ job.employer.company_name|default:job.employer.username }}</h6>
+                    
+                    {% if job.employer.company_logo %}
+                        <div class="text-center mb-3">
+                            <img data-src="{{ job.employer.company_logo.url }}" alt="{{ job.employer.company_name }}" class="company-logo mb-3 img-thumbnail lazyload" style="max-height: 100px;">
+                        </div>
+                    {% endif %}
+                    
+                    {% if job.employer.company_description %}
+                        <p class="mb-3">{{ job.employer.company_description|truncatewords:50 }}</p>
+                    {% endif %}
+                    
+                    <div class="d-flex gap-2 mt-3">
+                        {% if job.employer.company_website %}
+                            <a href="{{ job.employer.company_website }}" class="btn btn-outline-primary rounded-pill btn-sm" target="_blank">
+                                <i class="bi bi-globe me-1"></i>Visit Website
+                            </a>
+                        {% endif %}
+                        
+                        <a href="{% url 'employer_jobs' job.employer.id %}" class="btn btn-outline-secondary rounded-pill btn-sm">
+                            <i class="bi bi-briefcase me-1"></i>View All Jobs
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Similar Jobs Card -->
+            <div class="card shadow-sm rounded-3 border-0 card-animated" style="animation-delay: 400ms;">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="card-title mb-0 fw-bold">
+                        <i class="bi bi-briefcase me-2"></i>Similar Jobs
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush rounded-bottom">
+                        {% for similar_job in similar_jobs|default:'' %}
+                            <a href="{% url 'job_detail' similar_job.id %}" class="list-group-item list-group-item-action p-3 border-start-0 border-end-0 similar-job-link">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1 fw-bold text-primary">{{ similar_job.title }}</h6>
+                                    <small class="text-muted">{{ similar_job.created_at|timesince }}</small>
+                                </div>
+                                <p class="mb-1">{{ similar_job.employer.company_name|default:similar_job.employer.username }}</p>
+                                <div class="d-flex align-items-center">
+                                    <small class="text-muted me-3">
+                                        <i class="bi bi-geo-alt me-1"></i>{{ similar_job.get_location_display }}
+                                    </small>
+                                    <small class="text-muted">
+                                        <i class="bi bi-briefcase me-1"></i>{{ similar_job.get_job_type_display }}
+                                    </small>
+                                </div>
+                            </a>
+                        {% empty %}
+                            <div class="p-4 text-center">
+                                <i class="bi bi-search display-5 text-muted mb-3"></i>
+                                <p class="text-muted">No similar jobs found at the moment.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading indicator overlay - hiển thị khi đang chuyển trang -->
+<div id="pageLoadingOverlay" style="display: none;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Ẩn loading overlay ngay khi trang được tải xong
+        const loadingOverlay = document.getElementById('pageLoadingOverlay');
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'none';
+        }
+        
+        // Để ngăn khởi tạo nhiều lần
+        if (window.jobDetailInitialized) return;
+        window.jobDetailInitialized = true;
+        
+        console.log('Job detail page initialized');
+        
+        // Animation for fading in elements on scroll
+        const cardElements = document.querySelectorAll('.card-animated');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target); // Chỉ kích hoạt hiệu ứng một lần
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        cardElements.forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(element);
+        });
+        
+        // Lazy loading company logo and images
+        const lazyImages = document.querySelectorAll('.lazyload');
+        
+        if ('IntersectionObserver' in window && lazyImages.length > 0) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazyload');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            lazyImages.forEach(img => {
+                imageObserver.observe(img);
+            });
+        } else {
+            // Fallback for browsers that don't support IntersectionObserver
+            lazyImages.forEach(img => {
+                img.src = img.dataset.src;
+            });
+        }
+        
+        // Share job functionality
+        window.shareJob = function(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent('{{ job.title }} at {{ job.employer.company_name|default:job.employer.username }}');
+            
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+                    break;
+            }
+            
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+            return false;
+        };
+        
+        // Cải thiện trải nghiệm khi click vào similar job
+        const similarJobLinks = document.querySelectorAll('.similar-job-link');
+        
+        if (similarJobLinks.length > 0 && loadingOverlay) {
+            similarJobLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Sử dụng trực tiếp link thay vì hiển thị loading overlay
+                    // Không cần preventDefault nữa, để chuyển trang bình thường
+                });
+            });
+        }
+        
+        // Xử lý sự kiện popstate để ẩn loading overlay khi người dùng quay lại trang
+        window.addEventListener('popstate', function() {
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+        });
+        
+        // Xử lý sự kiện pageshow để ẩn loading overlay khi trang được hiển thị lại từ cache
+        window.addEventListener('pageshow', function(event) {
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .icon-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+    
+    .badge-modern {
+        transition: all 0.3s ease;
+    }
+    
+    .badge-modern:hover {
+        transform: translateY(-2px);
+    }
+    
+    .social-share {
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .social-share:hover {
+        transform: translateY(-3px);
+    }
+    
+    /* Job detail header styling */
+    .job-detail-header {
+        border-left: 4px solid var(--primary-color);
+        padding-left: 15px;
+    }
+    
+    /* Company logo style */
+    .company-logo {
+        max-width: 120px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    /* List styling improvement */
+    .list-group-item-action {
+        transition: all 0.2s ease;
+    }
+    
+    .list-group-item-action:hover {
+        background-color: rgba(var(--primary-rgb), 0.05);
+        transform: translateX(3px);
+    }
+    
+    /* Loading overlay */
+    #pageLoadingOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+    
+    /* Tối ưu hiển thị trên mobile */
+    @media (max-width: 768px) {
+        .job-detail-header {
+            padding-left: 10px;
+        }
+        
+        .icon-circle {
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
+        }
+    }
+</style>
+{% endblock %}

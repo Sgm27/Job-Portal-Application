@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Đơn Ứng Tuyển Của Tôi - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h1>Đơn Ứng Tuyển Của Tôi</h1>
+    </div>
+    
+    <!-- Widget hiển thị thông báo mới nhất -->
+    {% if unread_notification_count > 0 %}
+    <div class="col-12 mb-4">
+        <div class="card border-primary shadow">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-bell-fill me-2"></i>Thông báo mới ({{ unread_notification_count }})
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for notification in unread_notifications|slice:":3" %}
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ notification.get_notification_type_display }}</h6>
+                            <small>{{ notification.created_at|date:"d/m/Y H:i" }}</small>
+                        </div>
+                        <p class="mb-1">{{ notification.message }}</p>
+                        <div class="mt-2">
+                            {% if user.user_type == 'employer' and notification.application %}
+                                <a href="{% url 'applicant_tracking' notification.application.job.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-people me-1"></i>Xem ứng viên
+                                </a>
+                            {% else %}
+                                <a href="{% url 'job_detail' notification.application.job.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye me-1"></i>Xem công việc
+                                </a>
+                            {% endif %}
+                            <a href="{% url 'mark_notification_read' notification.id %}?next={{ request.path }}" class="btn btn-sm btn-outline-secondary">Đánh dấu đã đọc</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if unread_notification_count > 3 %}
+                <div class="text-center mt-3">
+                    <a href="{% url 'notifications' %}" class="btn btn-primary">Xem tất cả thông báo</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if applications %}
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Tiêu Đề Công Việc</th>
+                                    <th>Công Ty</th>
+                                    <th>Ngày Ứng Tuyển</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Cập Nhật</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for application in applications %}
+                                    <tr>
+                                        <td>{{ application.job.title }}</td>
+                                        <td>{{ application.job.employer.company_name|default:application.job.employer.username }}</td>
+                                        <td>{{ application.created_at|date:"d/m/Y" }}</td>
+                                        <td>
+                                            <span class="badge 
+                                                {% if application.status == 'pending' %}bg-warning
+                                                {% elif application.status == 'reviewed' %}bg-info
+                                                {% elif application.status == 'shortlisted' %}bg-primary
+                                                {% elif application.status == 'rejected' %}bg-danger
+                                                {% elif application.status == 'hired' %}bg-success
+                                                {% endif %}">
+                                                {{ application.get_status_display }}
+                                            </span>
+                                        </td>
+                                        <td>{{ application.updated_at|date:"d/m/Y H:i" }}</td>
+                                        <td>
+                                            <a href="{% url 'job_detail' application.job.id %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-eye"></i> Xem Công Việc
+                                            </a>
+                                            
+                                            <!-- Nút xem CV đã ứng tuyển -->
+                                            {% if application.resume %}
+                                                <a href="{% url 'view_my_application_resume' application.id %}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-file-earmark-pdf"></i> Xem CV Đã Ứng Tuyển
+                                                </a>
+                                            {% endif %}
+                                            
+                                            <!-- Hiển thị thông báo gần đây nhất -->
+                                            {% for notification in application.notifications.all|slice:":1" %}
+                                                {% if not notification.is_read %}
+                                                <a href="{% url 'mark_notification_read' notification.id %}?next={{ request.path }}" class="btn btn-sm btn-outline-primary mt-1">
+                                                    <i class="bi bi-bell"></i> Thông báo mới
+                                                </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <p class="mb-0">Bạn chưa ứng tuyển công việc nào. <a href="{% url 'job_list' %}">Xem danh sách công việc</a> để bắt đầu ứng tuyển.</p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

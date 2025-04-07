@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Job Portal{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <i class="bi bi-briefcase-fill"></i>
+        </div>
+        <div class="auth-card-content">
+            <h2 class="auth-title text-center">Welcome Back</h2>
+            <p class="auth-subtitle text-center">Please login to your account</p>
+            
+            <form method="post" class="auth-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_username" class="form-label">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        {{ form.password }}
+                    </div>
+                </div>
+                <div class="form-options">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe" name="remember_me">
+                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </button>
+                </div>
+            </form>
+            
+            <div class="text-center mt-4">
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+                <p class="text-center text-muted mb-3">Login with Google</p>
+                <div class="social-login">
+                    <a href="/auth/google/login/" class="btn btn-social btn-google">
+                        <i class="bi bi-google"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="register-prompt">Don't have an account? <a href="{% url 'register' %}" class="auth-link">Create Account</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+    }
+
+    .auth-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 20px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 420px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        transition: transform 0.3s ease;
+    }
+    
+    .auth-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .auth-logo {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 3rem;
+        color: #3a7bd5;
+    }
+    
+    .auth-card-content {
+        padding: 1.5rem 2.5rem 2.5rem;
+    }
+
+    .auth-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .auth-subtitle {
+        color: #34495e;
+        margin-bottom: 2rem;
+    }
+
+    .auth-form .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .auth-form .form-label {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .auth-form .input-group {
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .auth-form .input-group:focus-within {
+        box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.3);
+        border-color: rgba(58, 123, 213, 0.6);
+    }
+
+    .auth-form .input-group-text {
+        background: rgba(255, 255, 255, 0.3);
+        color: #3a7bd5;
+        border: none;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+
+    .auth-form .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        padding: 0.75rem 1rem;
+        color: #2c3e50;
+        font-size: 1rem;
+    }
+    
+    .auth-form .form-control::placeholder {
+        color: rgba(52, 73, 94, 0.7);
+    }
+    
+    .form-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+    
+    .auth-form .form-check-label {
+        color: #34495e;
+        font-size: 0.9rem;
+    }
+    
+    .auth-form .form-check-input {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-color: rgba(58, 123, 213, 0.4);
+    }
+    
+    .auth-form .form-check-input:checked {
+        background-color: #3a7bd5;
+        border-color: #3a7bd5;
+    }
+    
+    .forgot-link {
+        color: #3a7bd5;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .forgot-link:hover {
+        text-decoration: underline;
+    }
+
+    .auth-form .btn-primary {
+        background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+        border: none;
+        padding: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(58, 123, 213, 0.35);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+    }
+
+    .auth-form .btn-primary:hover {
+        background: linear-gradient(135deg, #3a7bd5 0%, #3a9efd 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(58, 123, 213, 0.4);
+    }
+    
+    .auth-form .btn-primary:active {
+        transform: translateY(0);
+    }
+    
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+        color: #34495e;
+    }
+    
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    
+    .divider span {
+        padding: 0 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .social-login {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .btn-social {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        color: #34495e;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(4px);
+    }
+    
+    .btn-social:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-google:hover {
+        background: rgba(219, 68, 55, 0.8);
+        color: white;
+        border-color: rgba(219, 68, 55, 0.3);
+    }
+    
+    .register-prompt {
+        color: #34495e;
+        font-size: 0.95rem;
+    }
+
+    .auth-link {
+        color: #3a7bd5;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+    .auth-link:hover {
+        color: #00d2ff;
+        text-decoration: underline;
+    }
+    
+    @media (max-width: 576px) {
+        .auth-card-content {
+            padding: 1.5rem 1.5rem 2rem;
+        }
+        
+        .form-options {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "socialaccount/login.html" %}
+
+{% block title %}Sign In Via Google - Job Portal{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <i class="bi bi-google" style="color: #DB4437;"></i>
+        </div>
+        <div class="auth-card-content">
+            <h2 class="auth-title text-center">Sign in with Google</h2>
+            <p class="auth-subtitle text-center">You are about to sign in using your Google account</p>
+            
+            <form method="post" class="auth-form">
+                {% csrf_token %}
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-google btn-lg">
+                        <i class="bi bi-google me-2"></i>Continue with Google
+                    </button>
+                    <a href="{% url 'account_login' %}" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<style>
+    .auth-logo .bi-google {
+        color: #DB4437;
+    }
+    
+    .btn-google {
+        background: #DB4437;
+        border: none;
+        padding: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(219, 68, 55, 0.35);
+        transition: all 0.3s ease;
+    }
+    
+    .btn-google:hover {
+        background: #c23124;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(219, 68, 55, 0.4);
+    }
+    
+    .btn-google:active {
+        transform: translateY(0);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Thông Báo{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="card shadow">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><i class="bi bi-bell me-2"></i>Thông Báo</h3>
+            {% if notifications %}
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="mark_all_read" class="btn btn-outline-primary">
+                    <i class="bi bi-check-all me-1"></i>Đánh dấu tất cả đã đọc
+                </button>
+            </form>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {% if notifications %}
+                <div class="list-group notification-list">
+                    {% for notification in notifications %}
+                        <div class="list-group-item notification-item {% if not notification.is_read %}list-group-item-primary unread{% endif %}">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    {% if not notification.is_read %}
+                                        <span class="notification-indicator"></span>
+                                    {% endif %}
+                                    {{ notification.get_notification_type_display }}
+                                    {% if not notification.is_read %}
+                                        <span class="badge bg-danger">Mới</span>
+                                    {% endif %}
+                                </h5>
+                                <small class="notification-time">{{ notification.created_at|date:"d/m/Y H:i" }}</small>
+                            </div>
+                            <p class="notification-message">{{ notification.message }}</p>
+                            <div class="notification-actions">
+                                {% if user.user_type == 'employer' and notification.application %}
+                                    <a href="{% url 'applicant_tracking' notification.application.job.id %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-people me-1"></i>Xem ứng viên
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'job_detail' notification.application.job.id %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye me-1"></i>Xem công việc
+                                    </a>
+                                {% endif %}
+                                {% if not notification.is_read %}
+                                    <a href="{% url 'mark_notification_read' notification.id %}?next={{ request.path }}" class="btn btn-sm btn-outline-secondary">
+                                        <i class="bi bi-check me-1"></i>Đánh dấu đã đọc
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>Bạn không có thông báo nào.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

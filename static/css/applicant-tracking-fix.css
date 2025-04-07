@@ -1,0 +1,161 @@
+/* Fix for application status dropdown menu in applicant tracking page */
+#status-dropdowns-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 0 !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+}
+
+.status-dropdown-container {
+  position: absolute !important;
+  pointer-events: auto !important;
+}
+
+.status-dropdown-container .dropdown-menu {
+  position: absolute !important;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 9999 !important;
+  transform: none !important;
+  /* Ensure dropdown is unaffected by overflow hidden */
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2) !important;
+  background: white !important;
+  /* Ensure styling matches the site design */
+  padding: 0.5rem 0 !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  display: none;
+}
+
+.status-dropdown-container .dropdown-menu.show {
+  display: block !important;
+}
+
+.status-dropdown-container .dropdown-menu .dropdown-item {
+  padding: 0.6rem 1rem !important;
+  color: #1e293b !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+
+.status-dropdown-container .dropdown-menu .dropdown-item:hover {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+@media (max-width: 768px) {
+  .status-dropdown-container .dropdown-menu {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: 90vw;
+    max-width: 300px;
+  }
+}
+
+/* Ensure the button is always clickable */
+.show-status-dropdown {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* Force table responsive and all parent elements to not clip dropdowns */
+.table-responsive {
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  position: static !important;
+}
+
+.table-responsive table,
+.table-responsive tr,
+.table-responsive td {
+  position: static !important;
+}
+
+/* Ensure the card does not clip the dropdown */
+.card {
+  position: static !important;
+  overflow: visible !important;
+}
+
+.card-body {
+  position: static !important;
+  overflow: visible !important;
+}
+
+/* Fix for Bootstrap dropdown toggling */
+.dropdown-toggle::after {
+  vertical-align: middle !important;
+}
+
+/* Make sure dropdowns always appear on top */
+.dropdown-menu.show {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ensure that the job list container itself is visible */
+.job-list-container {
+  opacity: 1;
+}
+
+/* Disable animations on home page */
+.homepage-special .card,
+.homepage-special .job-card,
+.homepage-special .card-animated,
+.homepage-special .glass-container,
+.homepage-special .jumbotron,
+.homepage-special .fade-in {
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* Prevent flickering on home page jumbotron */
+.glass-container.jumbotron.fade-in {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+  transition: none !important;
+  will-change: auto !important;
+  transform: none !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+}
+
+/* Force immediate display for home page elements */
+body[data-page="home"] .glass-container,
+body[data-page="home"] .jumbotron,
+body[data-page="home"] .fade-in,
+.homepage-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+/* Improved skeleton loader styling */
+.skeleton-card {
+  height: 200px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

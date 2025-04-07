@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+
+{% block title %}Jobs - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row page-transition">
+    <!-- Filters Sidebar with Glass Effect -->
+    <div class="col-md-3">
+        <div class="card glass-container mb-4 sticky-top" style="top: 20px; z-index: 100;">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-funnel-fill me-2"></i>Tìm kiếm</h5>
+            </div>
+            <div class="card-body">
+                <form method="get" action="{% url 'job_list' %}" id="jobSearchForm" data-auto-submit="false">
+                    <!-- Ô tìm kiếm theo từ khóa -->
+                    <div class="mb-3">
+                        <label for="{{ form.search.id_for_label }}" class="form-label small">Từ khóa</label>
+                        <div class="search-box" style="box-sizing: border-box; overflow: hidden; width: 100%;">
+                            {{ form.search }}
+                            <i class="bi bi-search"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Ô tìm kiếm theo địa điểm -->
+                    <div class="mb-3">
+                        <label for="{{ form.location.id_for_label }}" class="form-label small">Địa điểm</label>
+                        <div class="position-relative">
+                            {{ form.location }}
+                            <i class="bi bi-geo-alt position-absolute top-50 end-0 translate-middle-y me-3"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Ô tìm kiếm theo loại công việc -->
+                    <div class="mb-3">
+                        <label for="{{ form.job_type.id_for_label }}" class="form-label small">Loại công việc</label>
+                        {{ form.job_type }}
+                    </div>
+                    
+                    <!-- Các nút tìm kiếm và xóa bộ lọc -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" id="searchButton">
+                            <i class="bi bi-search me-2"></i>Tìm kiếm
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="clearFiltersButton">
+                            <i class="bi bi-x-circle me-2"></i>Xóa bộ lọc
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jobs List with Glass Effect -->
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="fw-bold mb-0">Available Jobs</h1>
+            <div class="text-muted">
+                Found <span class="fw-bold">{{ jobs.paginator.count }}</span> jobs
+            </div>
+        </div>
+        
+        <!-- Hiển thị skeleton loading khi đang tải -->
+        <div id="skeletonLoading" style="display: none;">
+            <div class="skeleton-card delay-1"></div>
+            <div class="skeleton-card delay-2"></div>
+            <div class="skeleton-card delay-3"></div>
+        </div>
+        
+        <!-- Hiển thị container danh sách job -->
+        <div class="job-list-container">
+            {% if jobs %}
+                <div class="job-list">
+                    {% for job in jobs %}
+                        <div class="card job-card mb-4 card-animated" data-job-id="{{ job.id }}">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h5 class="card-title mb-1">{{ job.title }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            <i class="bi bi-building me-1"></i>{{ job.employer.company_name|default:job.employer.username }}
+                                        </h6>
+                                    </div>
+                                    <span class="badge badge-modern badge-modern-{% if job.job_type == 'FT' %}primary{% elif job.job_type == 'PT' %}info{% elif job.job_type == 'CT' %}warning{% else %}success{% endif %}">
+                                        <i class="bi {% if job.job_type == 'FT' %}bi-briefcase-fill{% elif job.job_type == 'PT' %}bi-clock-history{% elif job.job_type == 'CT' %}bi-file-earmark-text{% else %}bi-briefcase{% endif %} me-1"></i>
+                                        {{ job.get_job_type_display }}
+                                    </span>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <p class="card-text mb-2">
+                                            <i class="bi bi-geo-alt me-2"></i>{{ job.get_location_display }}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% if job.salary %}
+                                            <p class="card-text mb-2">
+                                                <i class="bi bi-cash-coin me-2"></i>{{ job.salary }}
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <p class="card-text mb-0">
+                                            <i class="bi bi-clock me-2"></i>Posted {{ job.created_at|timesince }} ago
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <p class="card-text mb-3">{{ job.description|truncatewords:30 }}</p>
+                                
+                                {% if job.skills.all %}
+                                <div class="mb-3">
+                                    <p class="mb-2 fw-bold text-muted small">Required Skills:</p>
+                                    {% for skill in job.skills.all|slice:":4" %}
+                                        <span class="badge badge-modern badge-modern-secondary">{{ skill.name }}</span>
+                                    {% endfor %}
+                                    {% if job.skills.all|length > 4 %}
+                                        <span class="badge badge-modern badge-modern-light">+{{ job.skills.all|length|add:"-4" }}</span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'job_detail' job.id %}" class="btn btn-primary">
+                                        <i class="bi bi-eye me-2"></i>View Details
+                                    </a>
+                                    
+                                    {% if user.is_authenticated and user.user_type == 'job_seeker' %}
+                                    <a href="{% url 'job_apply' job.id %}" class="btn btn-outline-primary">
+                                        <i class="bi bi-send me-2"></i>Apply Now
+                                    </a>
+                                    {% else %}
+                                    <button class="btn btn-outline-primary bookmark-btn" data-job-id="{{ job.id }}">
+                                        <i class="bi bi-bookmark me-2"></i>Save Job
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <!-- Cải tiến phân trang với hiệu ứng mượt mà hơn -->
+                    {% if jobs.has_other_pages %}
+                        <nav aria-label="Page navigation" class="mt-5">
+                            <ul class="pagination justify-content-center">
+                                {% if jobs.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link pagination-link" href="?page={{ jobs.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.job_type %}&job_type={{ request.GET.job_type }}{% endif %}">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+                                    </li>
+                                {% endif %}
+                                
+                                {% for i in jobs.paginator.page_range %}
+                                    {% if jobs.number == i %}
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ i }}</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link pagination-link" href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.job_type %}&job_type={{ request.GET.job_type }}{% endif %}">{{ i }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if jobs.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link pagination-link" href="?page={{ jobs.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.job_type %}&job_type={{ request.GET.job_type }}{% endif %}">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <div class="mb-4">
+                        <i class="bi bi-search display-1 text-muted"></i>
+                    </div>
+                    <h3 class="text-muted mb-4">Không tìm thấy công việc phù hợp</h3>
+                    <p class="lead mb-4">Hãy thử điều chỉnh bộ lọc tìm kiếm hoặc xem tất cả các công việc.</p>
+                    <a href="{% url 'job_list' %}" class="btn btn-primary">
+                        <i class="bi bi-arrow-repeat me-2"></i>Xem tất cả công việc
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Để ngăn khởi tạo nhiều lần - đã thêm biến flag trong jobs.js
+        console.log('Job list page initialized');
+        
+        // Xử lý skeleton loading khi chuyển trang hoặc tìm kiếm
+        const paginationLinks = document.querySelectorAll('.pagination-link');
+        const skeletonLoading = document.getElementById('skeletonLoading');
+        const jobListContainer = document.querySelector('.job-list-container');
+        
+        // Xử lý hiệu ứng skeleton khi chuyển trang
+        if (paginationLinks.length > 0) {
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const url = this.getAttribute('href');
+                    
+                    // Hiển thị skeleton loader
+                    if (skeletonLoading && jobListContainer) {
+                        jobListContainer.style.display = 'none';
+                        skeletonLoading.style.display = 'block';
+                    }
+                    
+                    // Chuyển trang sau một chút delay để người dùng thấy hiệu ứng
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 300);
+                });
+            });
+        }
+        
+        // Clean URL by removing empty params
+        const cleanSearchUrl = () => {
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            
+            // Xóa các tham số rỗng
+            ['search', 'location', 'job_type'].forEach(param => {
+                if (params.has(param) && !params.get(param)) {
+                    params.delete(param);
+                }
+            });
+            
+            // Cập nhật URL không cần reload trang
+            const newUrl = `${url.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+            window.history.replaceState({}, '', newUrl);
+        };
+        
+        // Gọi hàm dọn URL khi trang tải
+        cleanSearchUrl();
+        
+        // Xử lý nút "xóa bộ lọc"
+        const clearFiltersButton = document.getElementById('clearFiltersButton');
+        if (clearFiltersButton) {
+            clearFiltersButton.addEventListener('click', function() {
+                const searchForm = document.getElementById('jobSearchForm');
+                if (searchForm) {
+                    // Reset tất cả các trường trong form
+                    const formInputs = searchForm.querySelectorAll('input, select');
+                    formInputs.forEach(input => {
+                        if (input.type === 'text' || input.tagName === 'SELECT') {
+                            input.value = '';
+                        }
+                    });
+                    
+                    // Thêm hiệu ứng loading
+                    const jobListContainer = document.querySelector('.job-list-container');
+                    if (jobListContainer) {
+                        jobListContainer.style.opacity = '0.6';
+                        jobListContainer.style.transition = 'opacity 0.3s ease';
+                    }
+                    
+                    // Chuyển hướng về trang danh sách công việc không có bộ lọc
+                    window.location.href = '{% url "job_list" %}';
+                }
+            });
+        }
+        
+        // Fallback để đảm bảo job cards luôn hiển thị ngay cả khi jobs.js không tải được
+        setTimeout(function() {
+            const jobCards = document.querySelectorAll('.card-animated:not(.card-visible)');
+            if (jobCards.length > 0) {
+                console.log('Fallback: Making job cards visible');
+                jobCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('card-visible');
+                    }, index * 50);
+                });
+            }
+        }, 1000); // Chờ 1 giây sau khi trang tải xong để kiểm tra
+    });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Đảm bảo ô tìm kiếm không bị tràn ra ngoài box */
+    .search-box {
+        position: relative;
+        width: 100%;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+    
+    .search-box .form-control {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        max-width: 100% !important;
+        padding-left: 2.2rem;
+    }
+
+    /* Custom styles for job list page */
+    .job-card {
+        border-left: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .job-card:hover {
+        border-left-color: var(--primary-color);
+    }
+    
+    .badge-modern {
+        margin-right: 5px;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+    }
+    
+    .badge-modern:hover {
+        transform: translateY(-2px);
+    }
+    
+    /* Cải tiến pagination */
+    .pagination .page-link {
+        transition: all 0.3s ease;
+    }
+    
+    .pagination .page-link:hover {
+        transform: translateY(-2px);
+    }
+    
+    /* Hiệu ứng skeleton loading */
+    .skeleton-card {
+        height: 200px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+    
+    /* Đảm bảo job cards luôn hiển thị ngay cả khi không có JS */
+    @media (prefers-reduced-motion: reduce) {
+        .card-animated {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+    }
+</style>
+{% endblock %}

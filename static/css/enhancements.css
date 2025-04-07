@@ -1,0 +1,1590 @@
+/* Button ripple effect */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Form focus effects */
+.form-control.focused, 
+.form-select.focused {
+  box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+  border-color: var(--primary-color);
+}
+
+.form-group.focused label,
+.mb-3.focused label {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.form-control.typing {
+  animation: typing 0.3s ease;
+}
+
+@keyframes typing {
+  0% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* HOMEPAGE SPECIFIC FIXES - PREVENT FLICKERING */
+/* Aggressive fix for homepage flickering */
+.homepage-special *,
+.homepage-special *::before,
+.homepage-special *::after,
+.instant-page *,
+.instant-page *::before,
+.instant-page *::after {
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  animation-delay: 0s !important;
+  opacity: 1 !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+.homepage-special [data-aos],
+.homepage-special .animated,
+.homepage-special [data-animate],
+.homepage-special .fade-in,
+.homepage-special .stagger-item,
+.homepage-special .progressive-item,
+.homepage-special .content-visible,
+.homepage-special .content-loading,
+.homepage-special .page-load-animation,
+.instant-page [data-aos],
+.instant-page .animated,
+.instant-page [data-animate],
+.instant-page .fade-in,
+.instant-page .stagger-item,
+.instant-page .progressive-item,
+.instant-page .content-visible,
+.instant-page .content-loading,
+.instant-page .page-load-animation {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  visibility: visible !important;
+}
+
+.homepage-special img,
+.homepage-special .card,
+.homepage-special .btn,
+.homepage-special .navbar,
+.homepage-special .content-wrapper,
+.instant-page img,
+.instant-page .card,
+.instant-page .btn,
+.instant-page .navbar,
+.instant-page .content-wrapper {
+  opacity: 1 !important;
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+.homepage-visible,
+.instant-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+  visibility: visible !important;
+}
+
+/* Fix for AOS animations on home page and profile page */
+body[class*="home"] [data-aos],
+.homepage-special [data-aos],
+body[class*="profile"] [data-aos],
+.instant-page [data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  visibility: visible !important;
+}
+
+/* RESUME ANALYSIS OVERRIDE - Allow CV Analysis elements to animate */
+.instant-page .analysis-result-row,
+.instant-page .analysis-content,
+.instant-page .spinner-border,
+.instant-page .cv-analysis-markdown,
+.instant-page .smooth-loader,
+.instant-page [id^="result-row-"],
+.instant-page [id^="result-content-"],
+.instant-page .analyze-resume-btn {
+  animation-duration: inherit !important;
+  animation-iteration-count: inherit !important;
+  transition-duration: inherit !important;
+  transition-delay: inherit !important;
+  animation-delay: inherit !important;
+  opacity: inherit !important;
+  transform: inherit !important;
+  will-change: inherit !important;
+  animation: inherit !important;
+  visibility: inherit !important;
+  display: inherit !important;
+  z-index: 100 !important;
+}
+
+/* Fix for analyze button spinner */
+.analyze-resume-btn .spinner-border {
+  animation: spinner-border .75s linear infinite !important;
+  border-right-color: transparent !important;
+}
+
+/* Ensure proper animation for the analysis result row */
+.analysis-result-row {
+  transition: opacity 0.3s ease, transform 0.3s ease !important;
+  will-change: opacity, transform !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  display: table-row !important;
+}
+
+/* Force display of analysis row when shown */
+.analysis-result-row[style*="display: table-row"] {
+  display: table-row !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Fix z-index issues for analysis content */
+.analysis-content {
+  position: relative;
+  z-index: 10;
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important;
+  max-width: 100% !important;
+  padding: 1rem !important;
+}
+
+/* CV Analysis content styling */
+.cv-analysis-markdown {
+  transition: opacity 0.3s ease !important;
+  max-height: none !important;
+  overflow: visible !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Additional Debug styles to override potential hiding */
+body.instant-page .analysis-result-row,
+body.instant-page .analysis-content,
+.table .analysis-result-row,
+.table .analysis-content {
+  display: table-row !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  min-height: 200px !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+
+/* Ensure analysis-result-row has proper transitions */
+.analysis-result-row[style*="display: table-row"] {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Content loading for job pages only */
+.job-item-animated {
+  will-change: transform, opacity;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* But force immediate display on home page and profile pages */
+.homepage-special .content-wrapper,
+.instant-page .content-wrapper {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+/* Disable staggered animations for home and profile */
+.instant-page .stagger-item:nth-child(n),
+.homepage-special .stagger-item:nth-child(n) {
+  animation-delay: 0s !important;
+  transition-delay: 0s !important;
+}
+
+/* Jobs page needs specialized animations */
+body[class*="job"] .job-card,
+body[class*="job"] .job-item,
+.job-item-animated {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              opacity 0.3s ease-out,
+              box-shadow 0.3s ease;
+  will-change: transform, opacity;
+}
+
+/* Apply glass morphism to cards */
+.card {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              box-shadow 0.3s ease,
+              background-color 0.3s ease;
+}
+
+/* Improve table hover interaction */
+.table tbody tr {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Enhance notification badges */
+.notification-count.pulse {
+  position: relative;
+}
+
+.notification-count.pulse::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(220, 53, 69, 0.5);
+  z-index: -1;
+  animation: pulse 2s infinite;
+}
+
+/* Improve dropdown appearance */
+.dropdown-menu {
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+/* Enhance transitions for nav links */
+.navbar .nav-link {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+  transform: translateY(-2px);
+}
+
+/* Add smooth transitions for all interactive elements */
+a, button, input, select, textarea, .badge, .btn, .card, .dropdown-item, .nav-link {
+  transition: all 0.3s ease;
+}
+
+/* Optimize page contents for smoother loading */
+.content-wrapper {
+  opacity: 0;
+  animation: fadeContent 0.6s ease forwards;
+}
+
+/* But force immediate display on home page */
+.homepage-special .content-wrapper {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+@keyframes fadeContent {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optimize form controls */
+.form-control:focus {
+  transition: box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.3s ease;
+}
+
+/* Add nicer job card styles */
+.job-card {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-left: 3px solid transparent;
+}
+
+.job-card:hover {
+  border-left-color: var(--primary-color);
+}
+
+.job-card .badge {
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.job-card:hover .badge {
+  transform: translateY(-3px);
+}
+
+/* Optimize mobile performance */
+@media (max-width: 768px) {
+  .animation-reduce-mobile {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Enhanced UI and Modern Design Improvements */
+
+/* Improved color variables for better contrast and accessibility */
+:root {
+  --primary-color: #4f46e5; /* Slightly darker indigo for better contrast */
+  --secondary-color: #7c3aed; /* Vibrant purple */
+  --accent-color: #ec4899; /* Pink accent */
+  --text-color: #111827; /* Near-black for better readability */
+  --text-muted: #4b5563; /* Darker gray for better contrast */
+  --success-color: #059669; /* Darker green for better contrast */
+  --glass-backdrop: blur(12px); /* More subtle blur effect */
+}
+
+/* Improved Typography */
+body {
+  letter-spacing: -0.025em;
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-color);
+}
+
+/* Better card design with subtle hover effects */
+.card {
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced buttons with micro-interactions */
+.btn {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  padding: 0.6rem 1.5rem;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+/* Enhanced navbar */
+.navbar {
+  padding: 1rem 0;
+}
+
+.navbar-brand {
+  font-weight: 800;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+/* Improved search box with visual feedback */
+.search-box {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.search-box .form-control {
+  padding-left: 2.75rem;
+  height: 3.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(209, 213, 219, 0.5);
+}
+
+.search-box .form-control:focus {
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+  border-color: var(--primary-color);
+}
+
+.search-box i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.search-box .form-control:focus + i {
+  color: var(--primary-color);
+}
+
+/* Improved job cards */
+.job-list .card {
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.job-list .card .card-body {
+  padding: 1.5rem;
+}
+
+.job-list .card .card-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.job-list .card .card-subtitle {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Improved tags for skills */
+.tag {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 2rem;
+  background-color: rgba(79, 70, 229, 0.1);
+  color: var(--primary-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  background-color: rgba(79, 70, 229, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Mobile improvements */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 0;
+  }
+  
+  .search-box .form-control {
+    height: 3rem;
+  }
+  
+  .job-list .card .card-body {
+    padding: 1.25rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 1.25rem;
+  }
+  
+  .tag {
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* Improved glass container design */
+.glass-container {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Added subtle animations for page elements */
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered animation delays for list items */
+.job-list .col-md-6:nth-child(1) { animation-delay: 0.1s; }
+.job-list .col-md-6:nth-child(2) { animation-delay: 0.2s; }
+.job-list .col-md-6:nth-child(3) { animation-delay: 0.3s; }
+.job-list .col-md-6:nth-child(4) { animation-delay: 0.4s; }
+.job-list .col-md-6:nth-child(5) { animation-delay: 0.5s; }
+.job-list .col-md-6:nth-child(6) { animation-delay: 0.6s; }
+
+/* Improved footer design */
+footer {
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+footer h5 {
+  font-weight: 700;
+}
+
+/* Text gradient for headings */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+/* Enhanced Job Cards */
+.job-card, .job-list .card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.job-card::before, .job-list .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.job-card:hover::before, .job-list .card:hover::before {
+  opacity: 1;
+}
+
+.job-card:hover, .job-list .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.job-card .card-footer, .job-list .card .card-footer {
+  background: rgba(0, 0, 0, 0.02);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.8rem;
+}
+
+/* Badge styles for job types */
+.badge-glass-primary, .badge-glass-info, .badge-glass-warning, .badge-glass-success {
+  padding: 0.4rem 0.8rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.badge-glass-primary {
+  background-color: rgba(79, 70, 229, 0.1);
+  color: var(--primary-color);
+}
+
+.badge-glass-info {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--info-color);
+}
+
+.badge-glass-warning {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--warning-color);
+}
+
+.badge-glass-success {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success-color);
+}
+
+/* Card icons */
+.job-card .card-text i, .job-list .card .card-text i {
+  width: 20px;
+  opacity: 0.7;
+}
+
+/* Profile page optimizations */
+.profile-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  padding: 2.5rem 0;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url('/static/img/pattern.svg');
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.profile-image {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* CV management section improvements */
+.cv-action-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.cv-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons-container {
+  gap: 5px;
+}
+
+/* CV upload form improvements */
+.cv-upload-form .form-floating {
+  height: 100%;
+}
+
+.cv-upload-form .form-control {
+  height: 100%;
+  padding-top: 1.25rem;
+}
+
+.cv-upload-form .input-group {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Analysis content styling */
+.analysis-content {
+  background-color: rgba(248, 249, 250, 0.5);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 3px solid var(--primary-color);
+}
+
+/* Specific black and white styling for result-content-3 */
+#result-content-3 {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000;
+  border-left: 3px solid #000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile tabs styling */
+#edit-profile-btn, #manage-cvs-btn {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+#edit-profile-btn.active, #manage-cvs-btn.active {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+/* User info card improvements */
+.user-info-item .icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(79, 70, 229, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+}
+
+.stat-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-value {
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+}
+
+/* Responsive improvements for profile page */
+@media (max-width: 768px) {
+  .profile-header {
+    padding: 1.5rem 0;
+    text-align: center;
+  }
+  
+  .profile-image {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1rem;
+  }
+  
+  .cv-action-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .action-buttons-container {
+    justify-content: center;
+  }
+  
+  .profile-form button {
+    margin-top: 1rem;
+  }
+}
+
+/* Fix for column ordering on mobile */
+@media (max-width: 767px) {
+  .order-md-first {
+    order: 1 !important;
+  }
+  
+  .order-md-last {
+    order: 0 !important;
+  }
+}
+
+/* Additional colors and styles */
+.badge-modern-success {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.badge-modern-secondary {
+  background-color: rgba(107, 114, 128, 0.1);
+  color: #4B5563;
+}
+
+/* Badge animations */
+.badge-modern {
+  transition: all 0.3s ease;
+}
+
+.badge-modern:hover {
+  transform: translateY(-2px);
+}
+
+/* Skills badges in profile header */
+.skills-container .badge {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  transition: all 0.3s ease;
+}
+
+/* Profile tab navigation improvements */
+.profile-tabs {
+  margin-bottom: 2rem;
+}
+
+.profile-tabs .btn {
+  position: relative;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-width: 2px;
+}
+
+.profile-tabs .btn.active {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+  transform: translateY(-3px);
+}
+
+.profile-tabs .btn:not(.active):hover {
+  background-color: rgba(79, 70, 229, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Tab content transitions */
+#profile-section, #cvs-section {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#profile-section.hidden, #cvs-section.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  position: absolute;
+}
+
+/* Fix for forms and controls */
+.cv-upload-form {
+  margin-bottom: 0;
+}
+
+.form-floating > .form-control:focus,
+.form-floating > .form-control:not(:placeholder-shown) {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+
+.form-floating > label {
+  padding-top: 0.75rem;
+}
+
+/* Improved appearance for file input */
+input[type="file"].form-control {
+  padding: 0.75rem;
+  line-height: 1.4;
+}
+
+/* Improved CV card appearance */
+.card.glass-container {
+  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+.card.glass-container:hover {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Make the table look better */
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(79, 70, 229, 0.05);
+}
+
+.table td {
+  vertical-align: middle;
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Animation optimizations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Use will-change for better performance on animations */
+.fade-in, 
+.card.hover-lift, 
+.btn-scale,
+.job-card {
+  will-change: transform, opacity;
+}
+
+/* Optimize staggered animations for better performance */
+.stagger-item:nth-child(1) { animation-delay: 0.05s; }
+.stagger-item:nth-child(2) { animation-delay: 0.1s; }
+.stagger-item:nth-child(3) { animation-delay: 0.15s; }
+.stagger-item:nth-child(4) { animation-delay: 0.2s; }
+.stagger-item:nth-child(5) { animation-delay: 0.25s; }
+.stagger-item:nth-child(6) { animation-delay: 0.3s; }
+
+/* Progressive loading animation for page content */
+.content-loading {
+  animation: none !important;
+  background: linear-gradient(90deg, #f0f0f0, #f8f8f8, #f0f0f0);
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s infinite;
+  border-radius: 0.25rem;
+}
+
+@keyframes loading-shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 100% 0; }
+}
+
+/* Optimized page initialization animation */
+.page-load-animation {
+  animation: pageLoad 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes pageLoad {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+/* Optimize button hover animations */
+.btn {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              box-shadow 0.2s ease,
+              background 0.2s ease !important;
+  will-change: transform, box-shadow;
+}
+
+/* Optimized animations for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .fade-in,
+  .stagger-item,
+  .card.hover-lift,
+  .btn-scale,
+  .hover-lift,
+  .job-card {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+}
+
+/* Hardware acceleration for smooth animations */
+.hardware-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Improve page transitions and component renders */
+.component-enter {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.component-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Improved loader animation */
+.smooth-loader {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--primary-color);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  animation: rotation 1s linear infinite;
+  will-change: transform;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add debounce classes */
+.debounce-animation {
+  animation-play-state: paused;
+  animation-delay: calc(var(--debounce, 0) * 1ms);
+  animation-play-state: running;
+}
+
+/* Add progressive loading of content with elegant fades */
+.progressive-item {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
+  animation-delay: calc(var(--order, 0) * 100ms);
+  will-change: opacity, transform;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optimize tab switching for better performance */
+.tab-content-fade {
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Page transition animations for smooth navigation */
+.page-loading {
+  opacity: 0; 
+  animation: quickFadeIn 0.15s ease-out forwards;
+}
+
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(3px);
+  z-index: 9999;
+  opacity: 0;
+  animation: fadeInOut 0.3s ease-in-out forwards;
+  pointer-events: none;
+}
+
+.page-transitioning-out {
+  opacity: 0.9;
+  transition: opacity 0.12s ease-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  50% { opacity: 0.3; }
+  100% { opacity: 0; }
+}
+
+/* Content visibility optimization */
+.content-visible {
+  animation: contentFadeIn 0.2s ease-out;
+}
+
+@keyframes contentFadeIn {
+  from { opacity: 0.8; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Preloaded image styles */
+img[data-src] {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Optimize with content-visibility for large sections */
+.optimize-visibility {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* Prefetched link hover effect */
+a:not(.no-prefetch):hover {
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+/* Preconnect hint for critical resources */
+.preconnect-hint {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Instant-appear elements that shouldn't animate */
+.instant-appear {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Prevent flashes during transitions */
+.no-transition {
+  transition: none !important;
+}
+
+/* Optimized animation container */
+.animation-container {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Path-specific fixes for job pages */
+.page-content {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Jobs page needs special treatment - disable content animations and transitions */
+body[class*="job"] .content-visible {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Fix animations flickering */
+body.stable-rendering * {
+  transition-property: opacity, transform !important;
+  transition-duration: 0.2s !important;
+  transition-timing-function: ease-out !important;
+  animation-duration: 0.2s !important;
+}
+
+body.animations-complete .animated,
+body.animations-complete [data-animate],
+body.animations-complete [data-aos],
+body.animations-complete .fade-in {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Prevent AOS animations from conflicting with our optimizations on home page */
+body[class*="home"] [data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Ensure stable display of all elements during initialization */
+.animated, 
+[data-animate], 
+[data-animated="true"],
+.fade-in {
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+}
+
+/* Force stability for any elements with animation attributes */
+[data-animated="true"] {
+  opacity: 1 !important;
+  transform: none !important;
+  animation-name: none !important;
+}
+
+/* RESUME ANALYSIS FIXES - Ensure proper display in profile page */
+.analysis-result-row,
+.analysis-content,
+.cv-analysis-card,
+.cv-analysis-markdown {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+}
+
+.analysis-result-row td {
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+/* Fix markdown content display */
+.cv-analysis-markdown h1,
+.cv-analysis-markdown h2,
+.cv-analysis-markdown h3,
+.cv-analysis-markdown h4,
+.cv-analysis-markdown h5,
+.cv-analysis-markdown h6 {
+  margin-top: 1.2rem !important;
+  margin-bottom: 1rem !important;
+  line-height: 1.4 !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+}
+
+.cv-analysis-markdown h1 {
+  font-size: 1.5rem !important;
+  padding-bottom: 0.5em !important;
+  border-bottom: 1px solid #eaecef !important;
+}
+
+.cv-analysis-markdown h2 {
+  font-size: 1.3rem !important;
+  padding-bottom: 0.4em !important;
+  border-bottom: 1px solid #eaecef !important;
+  color: #444 !important;
+}
+
+.cv-analysis-markdown h3 {
+  font-size: 1.1rem !important;
+  color: #555 !important;
+}
+
+.cv-analysis-markdown p,
+.cv-analysis-markdown ul,
+.cv-analysis-markdown ol {
+  margin-bottom: 1rem !important;
+  line-height: 1.6 !important;
+  color: #333 !important;
+}
+
+.cv-analysis-markdown ul,
+.cv-analysis-markdown ol {
+  padding-left: 1.5rem !important;
+}
+
+.cv-analysis-markdown li {
+  margin-bottom: 0.4rem !important;
+  padding-left: 0.3rem !important;
+}
+
+.cv-analysis-markdown strong {
+  font-weight: 600 !important;
+  color: #333 !important;
+}
+
+.cv-analysis-markdown a {
+  color: #0066cc !important;
+  text-decoration: none !important;
+  border-bottom: 1px dotted #0066cc !important;
+}
+
+.cv-analysis-markdown a:hover {
+  text-decoration: none !important;
+  border-bottom: 1px solid #0066cc !important;
+}
+
+.cv-analysis-markdown blockquote {
+  border-left: 4px solid #ddd !important;
+  padding: 0 1rem !important;
+  color: #555 !important;
+  margin: 0 0 1rem !important;
+}
+
+/* Ensure proper display in table */
+.table-responsive {
+  overflow: visible !important;
+}
+
+.table .analysis-result-row {
+  display: table-row !important;
+}
+
+.card.cv-analysis-card {
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* Allow content to expand properly */
+.markdown-body {
+  overflow: visible !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+/* CV ANALYSIS STRONGER FIXES */
+.analysis-result-row {
+    display: table-row !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.analysis-content {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+}
+
+/* Ensure card takes full width */
+.cv-analysis-card {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0.5rem !important;
+    overflow: hidden !important;
+}
+
+/* Fix table issues that might constrain width */
+.table, 
+.table tr,
+.table td,
+.table th {
+    max-width: none !important;
+}
+
+/* Allow table cells to expand beyond their normal constraints */
+.table .analysis-result-row td {
+    display: table-cell !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+}
+
+/* Ensure markdown content displays correctly */
+.markdown-body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    word-break: break-word !important;
+    padding: 16px !important;
+}
+
+.cv-analysis-markdown {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+}
+
+/* Override any conflicting styles */
+.table-responsive {
+    overflow: visible !important;
+}
+
+/* Override any hidden overflow settings */
+.card-body.markdown-body {
+    overflow: visible !important;
+    max-width: 100% !important;
+}
+
+/* PROFILE PAGE ENHANCEMENTS */
+.profile-print-container {
+    position: relative;
+    z-index: 100;
+}
+
+/* Print button styling */
+.print-analysis-btn {
+    background-color: #fff;
+    color: #0d6efd;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.print-analysis-btn:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* CV Analysis Print Styling */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    .cv-analysis-card,
+    .cv-analysis-card * {
+        visibility: visible;
+    }
+    
+    .cv-analysis-card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+    
+    .card-header,
+    .close-analysis-btn,
+    .print-analysis-btn {
+        display: none !important;
+    }
+}
+
+/* Softer card header for CV analysis */
+.cv-analysis-header {
+    background-color: #f8f9fa !important;
+    color: #343a40 !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* CV Analysis tab styling */
+.cv-analysis-tabs .nav-link {
+    color: #6c757d !important;
+    border-radius: 0 !important;
+    padding: 0.75rem 1.25rem !important;
+    font-weight: 500 !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    background-color: transparent !important;
+}
+
+.cv-analysis-tabs .nav-link.active {
+    color: #495057 !important;
+    background-color: transparent !important;
+    border-bottom: 2px solid #6c757d !important;
+    font-weight: 600 !important;
+}
+
+.cv-analysis-tabs .nav-link:hover:not(.active) {
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+/* Animation for print button */
+.print-analysis-btn i {
+    transition: all 0.3s ease;
+}
+
+.print-analysis-btn:hover i {
+    transform: translateY(-1px);
+}
+
+/* CV Analysis Card Improvements */
+.cv-analysis-card .card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: none;
+}
+
+.cv-analysis-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Make analysis markdown prettier */
+.cv-analysis-markdown h1,
+.cv-analysis-markdown h2 {
+    color: #333333 !important;
+    border-bottom: 1px solid rgba(51, 51, 51, 0.2) !important;
+}
+
+.cv-analysis-markdown ul li::marker {
+    color: #333333;
+}
+
+.cv-analysis-markdown strong {
+    color: #333333;
+}
+
+.cv-analysis-markdown a {
+    color: #0056b3;
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(0, 86, 179, 0.4);
+    transition: all 0.2s ease;
+}
+
+.cv-analysis-markdown a:hover {
+    border-bottom: 1px solid rgba(0, 86, 179, 0.8);
+}
+
+.cv-analysis-markdown blockquote {
+    border-left: 4px solid #0d6efd;
+    padding-left: 1rem;
+    color: #495057;
+    font-style: italic;
+    margin: 1rem 0;
+}
+
+.cv-analysis-markdown code {
+    color: #d63384;
+}
+
+/* Smooth scroll for CV analysis sections */
+.cv-analysis-markdown {
+    scroll-behavior: smooth;
+}
+
+/* CV analysis buttons improved */
+.analyze-resume-btn {
+    background-color: rgba(13, 110, 253, 0.1);
+    border-color: transparent;
+    color: #0d6efd;
+    transition: all 0.3s ease;
+}
+
+.analyze-resume-btn:hover {
+    background-color: rgba(13, 110, 253, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+}
+
+/* Add rule to prevent hover background color change for result-content elements */
+[id^="result-content-"],
+tr:has([id^="result-content-"]):hover {
+  background-color: transparent !important;
+}
+
+tr:has([id^="result-content-"]) {
+  transition: none !important;
+}

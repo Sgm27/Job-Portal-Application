@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Employer Dashboard - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h1>Employer Dashboard</h1>
+    </div>
+    <div class="col-md-6 text-end">
+        <a href="{% url 'post_job' %}" class="btn btn-primary">Post New Job</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group mb-4">
+            <a href="{% url 'employer_dashboard' %}" class="list-group-item list-group-item-action active">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+            <a href="{% url 'profile' %}" class="list-group-item list-group-item-action">
+                <i class="bi bi-person"></i> Company Profile
+            </a>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Your Job Listings</h5>
+            </div>
+            <div class="card-body">
+                {% if jobs %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Posted</th>
+                                    <th>Status</th>
+                                    <th>Deadline</th>
+                                    <th>Applications</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for job in jobs %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'job_detail' job.id %}">{{ job.title }}</a>
+                                        </td>
+                                        <td>{{ job.created_at|date:"M d, Y" }}</td>
+                                        <td>
+                                            <span class="badge {% if job.status == 'active' %}bg-success{% elif job.status == 'draft' %}bg-warning{% else %}bg-secondary{% endif %}">
+                                                {{ job.get_status_display }}
+                                            </span>
+                                        </td>
+                                        <td>{{ job.application_deadline|date:"M d, Y" }}</td>
+                                        <td>
+                                            <a href="{% url 'applicant_tracking' job.id %}" class="btn btn-sm btn-outline-primary">
+                                                View ({{ job.applications.count }})
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                    Actions
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="{% url 'job_detail' job.id %}">View</a></li>
+                                                    <li><a class="dropdown-item" href="{% url 'edit_job' job.id %}">Edit</a></li>
+                                                    <li><a class="dropdown-item text-danger" href="{% url 'delete_job' job.id %}">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <p class="mb-0">You haven't posted any jobs yet. <a href="{% url 'post_job' %}">Post your first job</a> now!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

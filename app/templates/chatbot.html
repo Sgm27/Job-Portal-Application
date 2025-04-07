@@ -1,0 +1,512 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chatbot Trợ lý{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chatbot.css' %}?v={% now 'U' %}">
+<style>
+    .chat-container {
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background-color: #f8f9fa;
+    }
+    
+    .chat-input-container {
+        padding: 10px;
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+        display: flex;
+    }
+    
+    .message {
+        margin-bottom: 15px;
+        padding: 10px 15px;
+        border-radius: 8px;
+        max-width: 80%;
+    }
+    
+    .user-message {
+        background-color: #dcf8c6;
+        align-self: flex-end;
+        margin-left: auto;
+    }
+    
+    .bot-message {
+        background-color: #eaeaea;
+    }
+
+    .resume-analysis-item {
+        cursor: pointer;
+    }
+
+    .resume-analysis-item:hover {
+        background-color: #f0f8ff;
+    }
+    
+    /* Added styling for resume analysis results */
+    .resume-analysis-results {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .resume-analysis-results .card {
+        margin-bottom: 15px;
+        border: none;
+    }
+    
+    .resume-analysis-results .card-header {
+        font-weight: bold;
+    }
+    
+    .resume-analysis-results .list-group-item {
+        border-left: none;
+        border-right: none;
+    }
+    
+    .resume-analysis-results .list-group-item:first-child {
+        border-top: none;
+    }
+    
+    .analysis-processing {
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-chat-dots-fill me-2"></i>Chatbot Trợ lý</h4>
+            </div>
+            <div class="card-body">
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages"></div>
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" class="form-control me-2" placeholder="Nhập tin nhắn...">
+                        <button type="button" id="send-button" class="btn btn-primary">
+                            <i class="bi bi-send-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <button type="button" id="clear-chat-button" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-trash me-1"></i>Xóa cuộc trò chuyện
+                    </button>
+                </div>
+                
+                <div class="mt-4">
+                    <h5>Gợi ý hỏi chatbot:</h5>
+                    <div class="suggestion-pills">
+                        <span class="badge bg-light text-dark suggestion-pill">Tìm công việc Frontend Developer ở Hà Nội</span>
+                        <span class="badge bg-light text-dark suggestion-pill">Chuẩn bị phỏng vấn như thế nào?</span>
+                        <span class="badge bg-light text-dark suggestion-pill">Phân tích CV của tôi</span>
+                        <span class="badge bg-light text-dark suggestion-pill">Kỹ năng cần có cho DevOps Engineer?</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CV Upload Section -->
+<div class="cv-upload-container">
+    <h5>Chọn CV để phân tích</h5>
+    <div class="cv-list-container">
+        <!-- List of existing CVs -->
+        {% if resumes %}
+            {% for resume in resumes %}
+            <div class="cv-option">
+                <input type="radio" name="cv_selection" id="cv{{ resume.id }}" value="{{ resume.title }}" data-resume-id="{{ resume.id }}">
+                <label for="cv{{ resume.id }}">{{ resume.title }} {% if resume.is_primary %}(Chính){% endif %} ({{ resume.uploaded_at|date:"d/m/Y" }})</label>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Bạn chưa có CV nào. Vui lòng tải lên CV mới.</p>
+        {% endif %}
+    </div>
+    
+    <div class="mt-3">
+        <button type="button" id="cv-select-button" class="btn btn-primary">Chọn</button>
+        <span id="file-name-display"></span>
+    </div>
+    
+    <div class="mt-3">
+        <p><small>*Bạn cũng có thể nhập thêm thông tin về lĩnh vực công việc mong muốn để nhận phân tích phù hợp hơn.</small></p>
+        <p><small>Ví dụ: "Phân tích CV cho vị trí Python Developer" hoặc "Phân tích CV cho ngành IT".</small></p>
+    </div>
+    
+    <!-- Upload new CV option -->
+    <div class="mt-3">
+        <p>Hoặc tải lên CV mới:</p>
+        <form id="cv-upload-form" enctype="multipart/form-data">
+            <input type="file" id="cv-file-input" name="cv_file" accept=".pdf,.doc,.docx" style="display: none;">
+            <button type="button" id="cv-upload-button" class="btn btn-secondary">Tải lên CV mới</button>
+            <span id="upload-file-name"></span>
+        </form>
+    </div>
+    
+    <div class="mt-3">
+        <button type="button" id="cv-analyze-button" class="btn btn-success">Phân tích CV</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Marked.js for Markdown rendering -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- Load chatbot JavaScript files in correct order -->
+<script src="{% static 'js/chatbot-resume-analyzer.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/chatbot.js' %}?v={% now 'U' %}"></script>
+<script>
+    // Global variables for conversation context
+    window.currentConversationId = null;
+    
+    // Initialize conversation when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chatMessages');
+        const clearChatButton = document.getElementById('clear-chat-button');
+        
+        // Define the function to handle resume selection before use
+        if (typeof window.selectResumeForAnalysis !== 'function') {
+            // Only define if it doesn't already exist
+            window.selectResumeForAnalysis = function(resumeId, conversationId) {
+                console.log('selectResumeForAnalysis called:', resumeId, conversationId);
+                
+                // Show loading indicator
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'message bot-message loading-message';
+                loadingDiv.innerHTML = `
+                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span>Đang phân tích CV... Quá trình này có thể mất vài phút, vui lòng chờ.</span>
+                `;
+                chatMessages.appendChild(loadingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Send request to server
+                fetch('/chatbot/api/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCsrfToken()
+                    },
+                    body: JSON.stringify({
+                        resume_id: resumeId,
+                        conversation_id: conversationId || window.currentConversationId
+                    })
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Analysis response received:', data);
+                    
+                    // Remove loading indicator
+                    const loadingMessage = document.querySelector('.loading-message');
+                    if (loadingMessage) {
+                        loadingMessage.remove();
+                    }
+                    
+                    // Update conversation ID if provided
+                    if (data.conversation_id) {
+                        window.currentConversationId = data.conversation_id;
+                    }
+                    
+                    // Display the analysis results
+                    if (data.is_markdown || data.is_html) {
+                        appendHTMLMessage('bot', data.message);
+                    } else {
+                        appendMessage('bot', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error analyzing resume:', error);
+                    
+                    // Remove loading indicator
+                    const loadingMessage = document.querySelector('.loading-message');
+                    if (loadingMessage) {
+                        loadingMessage.remove();
+                    }
+                    
+                    // Display error message
+                    appendMessage('bot', 'Có lỗi xảy ra khi phân tích CV. Vui lòng kiểm tra đường dẫn đến file PDF và thử lại sau.');
+                });
+            };
+        }
+        
+        // Global resume selection button click handler
+        document.body.addEventListener('click', function(event) {
+            // Check if clicked element or its parent has the resume-select-btn class
+            const button = event.target.closest('.resume-select-btn');
+            if (button) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                console.log('Resume select button clicked:', button);
+                const resumeItem = button.closest('.resume-item');
+                if (!resumeItem) {
+                    console.error('Could not find parent resume-item');
+                    return;
+                }
+                
+                const resumeId = resumeItem.dataset.id;
+                console.log('Resume ID:', resumeId);
+                
+                if (!resumeId) {
+                    console.error('No resume ID found on button');
+                    return;
+                }
+                
+                // Call the resume analysis function
+                if (typeof window.selectResumeForAnalysis === 'function') {
+                    window.selectResumeForAnalysis(resumeId, window.currentConversationId);
+                } else {
+                    console.error('selectResumeForAnalysis function not found');
+                }
+            }
+        });
+        
+        // Load chat history when page loads
+        loadChatHistory();
+        
+        // Send message when send button is clicked
+        sendButton.addEventListener('click', sendMessage);
+        
+        // Send message when Enter key is pressed
+        chatInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Clear chat history
+        clearChatButton.addEventListener('click', clearChatHistory);
+        
+        // Add click event to suggestion pills
+        document.querySelectorAll('.suggestion-pill').forEach(pill => {
+            pill.addEventListener('click', function() {
+                chatInput.value = this.textContent;
+                chatInput.focus();
+            });
+        });
+        
+        // Function to send message to server
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message === '') return;
+            
+            // Add user message to chat
+            appendMessage('user', message);
+            
+            // Clear input
+            chatInput.value = '';
+            
+            // Show loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message bot-message loading-message';
+            loadingDiv.innerHTML = `
+                <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span>Đang suy nghĩ...</span>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Send message to server
+            fetch('/chatbot/api/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCsrfToken()
+                },
+                body: JSON.stringify({
+                    message: message,
+                    conversation_id: currentConversationId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove loading indicator
+                const loadingMessage = document.querySelector('.loading-message');
+                if (loadingMessage) {
+                    loadingMessage.remove();
+                }
+                
+                // Update conversation ID
+                currentConversationId = data.conversation_id;
+                // Make conversation ID available globally for other functions
+                window.currentConversationId = currentConversationId;
+                
+                // Add bot response to chat
+                if (data.is_html) {
+                    appendHTMLMessage('bot', data.message);
+                } else {
+                    appendMessage('bot', data.message);
+                }
+                
+                // Initialize any resume analysis items that were dynamically added
+                setupResumeAnalysisItems();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Remove loading indicator
+                const loadingMessage = document.querySelector('.loading-message');
+                if (loadingMessage) {
+                    loadingMessage.remove();
+                }
+                
+                // Show error message
+                appendMessage('bot', 'Xin lỗi, đã xảy ra lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại sau.');
+            });
+        }
+        
+        // Function to append message to chat
+        function appendMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + (role === 'user' ? 'user-message' : 'bot-message');
+            messageDiv.textContent = content;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Function to append HTML message to chat
+        function appendHTMLMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + (role === 'user' ? 'user-message' : 'bot-message');
+            messageDiv.innerHTML = content;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Execute any scripts in the HTML message
+            const scripts = messageDiv.querySelectorAll('script');
+            scripts.forEach(script => {
+                const newScript = document.createElement('script');
+                Array.from(script.attributes).forEach(attr => {
+                    newScript.setAttribute(attr.name, attr.value);
+                });
+                newScript.appendChild(document.createTextNode(script.innerHTML));
+                script.parentNode.replaceChild(newScript, script);
+            });
+        }
+        
+        // Function to load chat history
+        function loadChatHistory() {
+            fetch('/chatbot/api/history/')
+                .then(response => response.json())
+                .then(data => {
+                    // Update conversation ID
+                    currentConversationId = data.conversation_id;
+                    // Make it available globally
+                    window.currentConversationId = currentConversationId;
+                    
+                    // Clear chat messages
+                    chatMessages.innerHTML = '';
+                    
+                    // Add messages to chat
+                    data.messages.forEach(message => {
+                        if (message.content.includes('<') && message.content.includes('>')) {
+                            appendHTMLMessage(message.role, message.content);
+                        } else {
+                            appendMessage(message.role, message.content);
+                        }
+                    });
+                    
+                    // Initialize any resume analysis items that were loaded
+                    setupResumeAnalysisItems();
+                })
+                .catch(error => {
+                    console.error('Error loading chat history:', error);
+                });
+        }
+        
+        // Function to clear chat history
+        function clearChatHistory() {
+            if (!confirm('Bạn có chắc chắn muốn xóa toàn bộ cuộc trò chuyện này?')) return;
+            
+            fetch('/chatbot/api/clear/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCsrfToken()
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Clear chat messages
+                    chatMessages.innerHTML = '';
+                    
+                    // Add welcome message
+                    appendMessage('bot', 'Xin chào! Tôi là trợ lý AI của Job Portal. Tôi có thể giúp bạn tìm kiếm việc làm, chuẩn bị CV, phỏng vấn và tư vấn nghề nghiệp. Bạn cần hỗ trợ gì?');
+                }
+            })
+            .catch(error => {
+                console.error('Error clearing chat history:', error);
+            });
+        }
+        
+        // Helper function for CSRF token
+        function getCsrfToken() {
+            const name = 'csrftoken';
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Function to setup resume analysis items
+        function setupResumeAnalysisItems() {
+            document.querySelectorAll('.resume-analysis-item').forEach(item => {
+                item.removeEventListener('click', resumeItemClickHandler); // Remove to prevent duplicates
+                item.addEventListener('click', resumeItemClickHandler);
+            });
+        }
+        
+        function resumeItemClickHandler() {
+            const resumeId = this.dataset.resumeId;
+            const conversationId = this.dataset.conversationId || currentConversationId;
+            if (typeof analyzeResume === 'function') {
+                analyzeResume(resumeId, conversationId);
+            } else {
+                console.error('analyzeResume function not found. Make sure resume-analyzer.js is loaded properly.');
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,571 @@
+/* Responsive styles for Modern Glass Design */
+
+/* Small screens and mobile devices */
+@media (max-width: 768px) {
+  /* Mobile styles */
+  body {
+    background-attachment: scroll; /* Fix for mobile devices */
+  }
+  
+  /* Glass container adjustments */
+  .glass-container {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  /* Navbar adjustments */
+  .navbar {
+    padding: 0.6rem 1rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+  
+  .navbar-collapse {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    -webkit-backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    margin-top: 0.5rem;
+    box-shadow: var(--glass-shadow);
+    position: relative;
+    z-index: 1040; /* Added z-index to ensure proper layering */
+  }
+  
+  /* Ensure dropdowns appear above other elements */
+  .dropdown-menu {
+    position: absolute;
+    z-index: 1050;
+  }
+  
+  /* Make sure user menu is always accessible */
+  .nav-item.dropdown {
+    position: static; /* Changed from relative to avoid containment issues on mobile */
+  }
+  
+  .navbar-nav .dropdown-menu {
+    position: absolute;
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+  }
+  
+  /* Special fix for applicant tracking table dropdowns */
+  .table-responsive .dropdown {
+    position: static;
+  }
+  
+  .table-responsive .dropdown-menu {
+    position: fixed;
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 300px;
+    max-height: 60vh;
+    overflow-y: auto;
+    z-index: 1100 !important;
+  }
+  
+  /* Disable hover effects on mobile */
+  .glass-container:hover, 
+  .card:hover,
+  .btn:hover,
+  .pagination .page-item .page-link:hover {
+    transform: none;
+    box-shadow: var(--glass-shadow);
+  }
+  
+  /* Hero section and jumbotron */
+  .jumbotron {
+    padding: 2rem 1rem;
+  }
+  
+  .display-4 {
+    font-size: 1.8rem;
+  }
+  
+  /* Search box adjustments */
+  .search-box .form-control {
+    padding: 0.5rem 2.25rem;
+  }
+  
+  /* Card adjustments */
+  .card {
+    margin-bottom: 16px;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+  }
+  
+  /* Adjust job list view */
+  .job-list .card-body {
+    padding: 1rem;
+  }
+  
+  .job-list .card-title {
+    font-size: 1.1rem;
+  }
+  
+  /* Buttons on mobile */
+  .btn {
+    padding: 0.45rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Mobile floating action button */
+  .floating-action-btn {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .floating-action-btn:hover {
+    transform: none;
+  }
+  
+  /* Tags on mobile */
+  .tag {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
+    margin: 0.1rem;
+  }
+  
+  /* Modern badges on mobile */
+  .badge-modern {
+    padding: 0.3em 0.6em;
+    font-size: 0.7rem;
+  }
+  
+  /* Profile page adjustments */
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profile-header {
+    padding: 2rem 0;
+  }
+  
+  /* Pagination */
+  .pagination .page-item .page-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Hide social share text on mobile */
+  .social-share-text {
+    display: none;
+  }
+  
+  /* Back to top button size */
+  .back-to-top {
+    width: 40px;
+    height: 40px;
+    right: 15px;
+    bottom: 15px;
+  }
+
+  /* Form elements */
+  .form-control {
+    font-size: 16px; /* Prevents iOS zoom on input */
+  }
+  
+  /* Alerts */
+  .alert {
+    padding: 0.75rem;
+  }
+  
+  /* Tables on mobile */
+  .table td, .table th {
+    padding: 0.75rem;
+  }
+  
+  /* Footer */
+  footer {
+    padding: 1.5rem 0 1rem;
+  }
+  
+  footer h5 {
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+  
+  footer h5::after {
+    width: 40px;
+  }
+  
+  /* Fix for modal on mobile */
+  .modal-dialog {
+    margin: 0.5rem;
+    max-width: calc(100% - 1rem);
+  }
+  
+  /* Animation delays */
+  .fade-in:nth-child(n+3) {
+    animation-delay: 0 !important;
+  }
+  
+  /* Hide some elements on mobile */
+  .hide-mobile {
+    display: none !important;
+  }
+  
+  /* Improve touch targets */
+  .dropdown-item, 
+  .navbar .nav-link,
+  .list-group-item {
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+  }
+  
+  /* Stacked form layout */
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .form-row > .form-group {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablet styles */
+  .container {
+    max-width: 95%;
+  }
+  
+  /* Glass effect adjustments */
+  .glass-container {
+    padding: 20px;
+  }
+  
+  .jumbotron {
+    padding: 3rem 2rem;
+  }
+  
+  /* Job list layout */
+  .job-list .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Card hover effects - reduce transform */
+  .card:hover {
+    transform: translateY(-3px);
+  }
+  
+  /* Buttons on tablet */
+  .btn {
+    padding: 0.45rem 1.2rem;
+  }
+  
+  /* Dashboard layout */
+  .list-group-item {
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Form layout */
+  .col-form-label {
+    font-size: 0.9rem;
+  }
+  
+  /* Fix for backdrop-filter on some tablets */
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .glass-container,
+    .card,
+    .navbar,
+    .dropdown-menu,
+    .list-group-item {
+      background-color: rgba(255, 255, 255, 0.85);
+    }
+  }
+  
+  /* Improved navbar for tablets */
+  .navbar-expand-lg .navbar-nav {
+    flex-wrap: wrap;
+  }
+  
+  /* Better table display */
+  .table td, .table th {
+    padding: 0.85rem;
+  }
+  
+  /* Optimize floating action button */
+  .floating-action-btn {
+    width: 55px;
+    height: 55px;
+  }
+  
+  /* Search box placement */
+  .search-box {
+    width: 100%;
+    max-width: 350px;
+  }
+  
+  /* Fix for applicant tracking dropdown in tablets */
+  .table-responsive .dropdown-menu {
+    z-index: 1100 !important;
+    position: absolute;
+  }
+}
+
+/* Medium screens */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .container {
+    max-width: 90%;
+  }
+  
+  /* Job cards grid */
+  .job-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  
+  /* Enhanced menu spacing */
+  .navbar-nav .nav-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Better table display */
+  .table-responsive {
+    overflow-x: visible;
+  }
+  
+  /* Search box placement */
+  .search-box {
+    width: 400px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1441px) {
+  .container {
+    max-width: 1320px;
+  }
+  
+  /* Enhanced reading width for job descriptions */
+  .job-description-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* Better readability on large screens */
+  body {
+    font-size: 1.05rem;
+  }
+  
+  /* Job grid with 4 columns */
+  .job-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  /* Improved padding */
+  .section-padding {
+    padding: 5rem 0;
+  }
+  
+  /* Larger glass containers */
+  .glass-container {
+    padding: 28px;
+  }
+  
+  /* Larger back to top button */
+  .back-to-top {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  /* Enhanced search box */
+  .search-box {
+    width: 450px;
+  }
+  
+  /* Larger profile image */
+  .profile-image {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .glass-container,
+  .card,
+  .navbar,
+  .dropdown-menu,
+  .badge,
+  .alert,
+  .list-group-item,
+  .pagination .page-link,
+  .social-share,
+  .back-to-top,
+  .btn-glass,
+  .floating-action-btn {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .navbar .nav-link,
+  .navbar-brand {
+    color: var(--dark-color) !important;
+  }
+}
+
+/* Fix for applicant tracking dropdown in all screen sizes */
+.table-responsive {
+  position: static;
+}
+
+.table-responsive .dropdown {
+  position: relative;
+}
+
+.table-responsive .dropdown-menu {
+  position: absolute;
+  z-index: 1100;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Additional fix to ensure dropdown menus appear above table */
+.dropdown-menu.show {
+  display: block !important;
+}
+
+/* Dark mode preferences - for future implementation */
+@media (prefers-color-scheme: dark) {
+  /* These styles will apply if the user has enabled dark mode in their OS */
+  /* Only apply if explicitly enabled through class or attribute */
+  .dark-mode-enabled {
+    --glass-bg: rgba(18, 18, 18, 0.3);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    background: linear-gradient(135deg, #1e293b 0%, #312e81 100%);
+    color: #f8f9fa;
+  }
+  
+  .dark-mode-enabled .card,
+  .dark-mode-enabled .navbar,
+  .dark-mode-enabled .glass-container {
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+  }
+  
+  .dark-mode-enabled .card-header,
+  .dark-mode-enabled .list-group-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--glass-border);
+  }
+  
+  .dark-mode-enabled .text-dark {
+    color: #f1f1f1 !important;
+  }
+  
+  .dark-mode-enabled .text-muted {
+    color: #adb5bd !important;
+  }
+  
+  .dark-mode-enabled .btn-glass {
+    color: #f8f9fa;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .card:hover,
+  .glass-container:hover,
+  .btn:hover {
+    transform: none !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  header, footer, .no-print, .back-to-top, .social-share, .floating-action-btn {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    background: #fff !important;
+    color: #000;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Remove all glass effects for print */
+  .glass-container,
+  .card,
+  .navbar,
+  .dropdown-menu,
+  .badge,
+  .alert,
+  .list-group-item,
+  .pagination .page-link {
+    background: #fff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  /* Ensure all content is visible */
+  .collapse {
+    display: block !important;
+    height: auto !important;
+  }
+  
+  /* Improve print table layout */
+  .table td, .table th {
+    background-color: transparent !important;
+  }
+  
+  /* Page breaks */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  
+  img {
+    max-width: 100% !important;
+  }
+  
+  /* Print URLs after links */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+  }
+  
+  /* Don't print URLs for internal links */
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after {
+    content: "";
+  }
+}

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_attrs %}
+class="homepage-special instant-page" data-page="home"
+{% endblock %}
+
+{% block main_content %}
+<div class="container my-5">
+    <div class="row mb-5 page-transition">
+        <div class="col-lg-10 mx-auto text-center">
+            <div class="glass-container jumbotron rounded-lg shadow fade-in position-relative overflow-hidden">
+                <h1 class="display-4 fw-bold">Find Your Next Career</h1>
+                <p class="lead">Discover opportunities that match your skills and aspirations.</p>
+                <hr class="my-4">
+                <p>Thousands of jobs updated daily. Start your job search now!</p>
+                <div class="mt-4">
+                    <a class="btn btn-primary btn-lg me-2 btn-scale" href="{% url 'jobs:job_list' %}" role="button">Browse Jobs</a>
+                    {% if user.is_authenticated and user.user_type == 'employer' %}
+                        <a class="btn btn-outline-primary btn-lg btn-scale" href="{% url 'jobs:job_create' %}" role="button">Post a Job</a>
+                    {% elif not user.is_authenticated %}
+                        <a class="btn btn-outline-primary btn-lg btn-scale" href="{% url 'account_signup' %}?account_type=employer" role="button">Post a Job</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional sections with animations -->
+    <div class="row mb-5 page-transition">
+        <div class="col-md-4 fade-in" style="animation-delay: 0.2s;">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-search display-4 mb-3 text-primary"></i>
+                    <h3 class="card-title">Find Jobs</h3>
+                    <p class="card-text">Search through thousands of job listings to find your perfect match.</p>
+                    <a href="{% url 'jobs:job_list' %}" class="btn btn-outline-primary btn-scale">Search Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 fade-in" style="animation-delay: 0.4s;">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-file-earmark-text display-4 mb-3 text-primary"></i>
+                    <h3 class="card-title">Apply Online</h3>
+                    <p class="card-text">Submit your applications with ease and track your application status.</p>
+                    {% if user.is_authenticated and user.user_type == 'job_seeker' %}
+                        <a href="{% url 'my_applications' %}" class="btn btn-outline-primary btn-scale">My Applications</a>
+                    {% else %}
+                        <a href="{% url 'account_signup' %}?account_type=job_seeker" class="btn btn-outline-primary btn-scale">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 fade-in" style="animation-delay: 0.6s;">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-building display-4 mb-3 text-primary"></i>
+                    <h3 class="card-title">For Employers</h3>
+                    <p class="card-text">Post job openings and find qualified candidates for your company.</p>
+                    {% if user.is_authenticated and user.user_type == 'employer' %}
+                        <a href="{% url 'jobs:job_create' %}" class="btn btn-outline-primary btn-scale">Post a Job</a>
+                    {% else %}
+                        <a href="{% url 'account_signup' %}?account_type=employer" class="btn btn-outline-primary btn-scale">Get Started</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-5 page-transition">
+        <div class="col-lg-12 fade-in" style="animation-delay: 0.8s;">
+            <div class="glass-container p-4 rounded-lg shadow">
+                <h2 class="mb-4 text-center">Why Choose Our Job Portal?</h2>
+                <div class="row text-center">
+                    <div class="col-md-3 mb-4">
+                        <div class="feature-box">
+                            <i class="bi bi-lightning-charge display-5 text-primary mb-3"></i>
+                            <h4>Fast & Easy</h4>
+                            <p>Quick job search and application process</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="feature-box">
+                            <i class="bi bi-bullseye display-5 text-primary mb-3"></i>
+                            <h4>Targeted Matching</h4>
+                            <p>Find jobs that match your skills</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="feature-box">
+                            <i class="bi bi-shield-check display-5 text-primary mb-3"></i>
+                            <h4>Verified Employers</h4>
+                            <p>Apply with confidence to legitimate openings</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="feature-box">
+                            <i class="bi bi-graph-up display-5 text-primary mb-3"></i>
+                            <h4>Career Growth</h4>
+                            <p>Resources to help advance your career</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

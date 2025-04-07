@@ -1,0 +1,96 @@
+/* Enhanced styles for chatbot job search results */
+
+.job-search-results {
+    background: #f8f9fb;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.job-search-results .result-header {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+.job-search-results .result-header h5 {
+    font-weight: 600;
+    color: #3a3a3a;
+    margin-bottom: 5px;
+}
+
+.job-search-results .job-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
+    border-left: 3px solid #4285f4;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.job-search-results .job-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.job-search-results .job-title {
+    margin-bottom: 10px;
+}
+
+.job-search-results .job-link {
+    color: #4285f4;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+.job-search-results .job-link:hover {
+    text-decoration: underline;
+}
+
+.job-search-results .job-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 10px 0;
+    color: #555;
+    font-size: 0.9em;
+}
+
+.job-search-results .job-detail-item {
+    margin-bottom: 5px;
+}
+
+.job-search-results .job-actions {
+    margin-top: 12px;
+}
+
+.search-alternative-notice {
+    background-color: #fff4e5;
+    border-left: 3px solid #ff9800;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.search-alternative-notice p {
+    margin: 0;
+    color: #554;
+}
+
+.no-jobs-found {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.all-jobs-link {
+    color: #4285f4;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.all-jobs-link:hover {
+    text-decoration: underline;
+}

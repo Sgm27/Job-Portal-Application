@@ -1,0 +1,372 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Job Portal{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <i class="bi bi-person-plus-fill"></i>
+        </div>
+        <div class="auth-card-content">
+            <h2 class="auth-title text-center">Create Account</h2>
+            <p class="auth-subtitle text-center">Join our job portal community</p>
+            
+            <!-- Social Login Buttons -->
+            <div class="social-login-container">
+                <div class="social-login-divider">
+                    <span>Sign up with</span>
+                </div>
+                <div class="social-login-buttons">
+                    <a href="/auth/google/login/" class="btn social-btn google-btn">
+                        <i class="bi bi-google"></i> Google
+                    </a>
+                </div>
+                <div class="social-login-divider">
+                    <span>Or</span>
+                </div>
+            </div>
+            
+            <form method="post" class="auth-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_username" class="form-label">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        {{ form.email }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password1" class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        {{ form.password1 }}
+                    </div>
+                    <div class="password-strength-meter mt-2">
+                        <div class="strength-bar"></div>
+                        <span class="strength-text">Password strength</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password2" class="form-label">Confirm Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                        {{ form.password2 }}
+                    </div>
+                </div>
+                
+                <div class="form-group user-type-group">
+                    <label for="id_user_type" class="form-label">I am a:</label>
+                    <div class="user-type-selector">
+                        {{ form.user_type }}
+                    </div>
+                </div>
+                
+                <div class="form-check mt-3">
+                    <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                    <label class="form-check-label" for="terms">I agree to the <a href="#" class="terms-link">Terms & Conditions</a></label>
+                </div>
+                
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-person-check me-2"></i>Create Account
+                    </button>
+                </div>
+            </form>
+            
+            <div class="text-center mt-4">
+                <p class="login-prompt">Already have an account? <a href="{% url 'login' %}" class="auth-link">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+    }
+
+    .auth-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 20px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 450px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        transition: transform 0.3s ease;
+    }
+    
+    .auth-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .auth-logo {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 3rem;
+        color: #3a7bd5;
+    }
+    
+    .auth-card-content {
+        padding: 1.5rem 2.5rem 2.5rem;
+    }
+
+    .auth-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .auth-subtitle {
+        color: #34495e;
+        margin-bottom: 2rem;
+    }
+
+    /* Social Login Styles */
+    .social-login-container {
+        margin-bottom: 1.5rem;
+    }
+    
+    .social-login-divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 1rem 0;
+    }
+    
+    .social-login-divider::before,
+    .social-login-divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid rgba(52, 73, 94, 0.2);
+    }
+    
+    .social-login-divider span {
+        padding: 0 10px;
+        color: #34495e;
+        font-size: 0.85rem;
+    }
+    
+    .social-login-buttons {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .social-btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 10px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        width: 60%;
+        gap: 8px;
+        color: white;
+    }
+    
+    .google-btn {
+        background-color: #DB4437;
+        border: none;
+    }
+    
+    .google-btn:hover {
+        background-color: #c53929;
+        color: white;
+    }
+
+    .auth-form .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .auth-form .form-label {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .auth-form .input-group {
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .auth-form .input-group:focus-within {
+        box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.3);
+        border-color: rgba(58, 123, 213, 0.6);
+    }
+
+    .auth-form .input-group-text {
+        background: rgba(255, 255, 255, 0.3);
+        color: #3a7bd5;
+        border: none;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+
+    .auth-form .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        padding: 0.75rem 1rem;
+        color: #2c3e50;
+        font-size: 1rem;
+    }
+    
+    .auth-form .form-control::placeholder {
+        color: rgba(52, 73, 94, 0.7);
+    }
+    
+    .password-strength-meter {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .strength-bar {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+        position: relative;
+    }
+    
+    .strength-bar::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 0%;
+        background: #3a7bd5;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+    
+    .strength-text {
+        font-size: 0.75rem;
+        color: #34495e;
+    }
+    
+    .user-type-selector select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 10px;
+        color: #2c3e50;
+        font-size: 1rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 16px 12px;
+    }
+    
+    .user-type-selector select:focus {
+        border-color: rgba(58, 123, 213, 0.6);
+        box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.3);
+        outline: none;
+    }
+    
+    .user-type-selector select option {
+        background-color: #fff;
+        color: #2c3e50;
+        padding: 0.5rem;
+    }
+    
+    .form-check-label {
+        color: #34495e;
+        font-size: 0.9rem;
+    }
+    
+    .terms-link {
+        color: #3a7bd5;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .terms-link:hover {
+        color: #00d2ff;
+        text-decoration: underline;
+    }
+    
+    .form-check-input {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-color: rgba(58, 123, 213, 0.4);
+    }
+    
+    .form-check-input:checked {
+        background-color: #3a7bd5;
+        border-color: #3a7bd5;
+    }
+
+    .auth-form .btn-primary {
+        background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+        border: none;
+        padding: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(58, 123, 213, 0.35);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+    }
+
+    .auth-form .btn-primary:hover {
+        background: linear-gradient(135deg, #3a7bd5 0%, #3a9efd 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(58, 123, 213, 0.4);
+    }
+    
+    .auth-form .btn-primary:active {
+        transform: translateY(0);
+    }
+    
+    .login-prompt {
+        color: #34495e;
+        font-size: 0.95rem;
+    }
+
+    .auth-link {
+        color: #3a7bd5;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+    .auth-link:hover {
+        color: #00d2ff;
+        text-decoration: underline;
+    }
+    
+    @media (max-width: 576px) {
+        .auth-card-content {
+            padding: 1.5rem 1.5rem 2rem;
+        }
+    }
+</style>
+{% endblock %}

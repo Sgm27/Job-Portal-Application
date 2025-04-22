@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
                       window.location.pathname === '/home/' || 
                       window.location.pathname === '/index.html';
     
+    // Check if we're on the jobs page
+    const isJobsPage = window.location.pathname.includes('/jobs/');
+    
     if (isHomePage && window.homePageFullyInitialized) {
         console.log('Jobs.js - Home page already initialized, skipping all animations');
         return;
@@ -40,7 +43,36 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    // Show all job cards immediately without animation on home page
+    // Special handling for jobs page - enable animations
+    if (isJobsPage) {
+        // Enable animations for job cards
+        const jobCards = document.querySelectorAll('.card-animated');
+        if (jobCards.length > 0) {
+            setTimeout(() => {
+                jobCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('card-visible');
+                    }, index * 100);
+                });
+            }, 200);
+        }
+        
+        // Add page transition effects
+        document.querySelectorAll('.page-transition').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100);
+        });
+        
+        return;
+    }
+    
+    // Default behavior for other pages - show job cards without animation
     const jobCards = document.querySelectorAll('.job-card, .card');
     jobCards.forEach(card => {
         card.style.opacity = '1';
@@ -170,23 +202,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to remove any duplicate job cards
 function removeDuplicateJobCards() {
-    const jobList = document.querySelector('.job-list');
-    if (!jobList) return;
-    
-    // Find all job cards
-    const jobCards = jobList.querySelectorAll('.card[data-job-id]');
-    const processedIds = new Set();
+    const jobCardMap = new Map();
+    const jobCards = document.querySelectorAll('[data-job-id]');
     
     jobCards.forEach(card => {
         const jobId = card.getAttribute('data-job-id');
+        
         if (jobId) {
-            // If we've already seen this job ID or it's already in our global tracking
-            if (processedIds.has(jobId) || window.loadedJobIds.has(jobId)) {
-                console.log('Removing duplicate job card with ID:', jobId);
-                card.parentNode.removeChild(card);
+            if (window.loadedJobIds.has(jobId) || jobCardMap.has(jobId)) {
+                // Remove the duplicate card
+                card.parentElement.removeChild(card);
             } else {
-                processedIds.add(jobId);
+                // Keep track of the card
                 window.loadedJobIds.add(jobId);
+                jobCardMap.set(jobId, card);
             }
         }
     });

@@ -408,41 +408,23 @@ class ChatGPTHelper:
             
             logger.info(f"Calling ask_gpt with model={model}, temp={temperature}, max_tokens={max_tokens}")
             
-            # Định nghĩa system prompt cho vai trò trợ lý tìm việc
-            system_prompt = """Bạn là một trợ lý AI tìm việc thông minh, chuyên hỗ trợ người dùng trong quá trình tìm kiếm việc làm, phân tích CV, chuẩn bị phỏng vấn và phát triển sự nghiệp. 
+            # System prompt updated to focus on information accuracy for technology and career development
+            system_prompt = """Bạn là một trợ lý AI thông minh, chuyên cung cấp thông tin chính xác và cập nhật về công nghệ, phát triển nghề nghiệp, và kỹ năng chuyên môn.
 
-Khi người dùng tìm kiếm việc làm theo địa điểm, hãy đặc biệt chú ý đến các địa điểm có nhiều từ như "Hà Nội", "Hồ Chí Minh", "Đà Nẵng". Đảm bảo hiểu đúng toàn bộ tên địa điểm, không chỉ một phần.
+Khi trả lời về công nghệ, hãy:
+- Cung cấp thông tin mới nhất và chính xác
+- So sánh khách quan các công nghệ, framework, ngôn ngữ lập trình
+- Giải thích rõ ràng, dễ hiểu các khái niệm kỹ thuật
+- Đưa ra ví dụ thực tế khi cần thiết
+- Cung cấp tài nguyên học tập nếu phù hợp
 
-Chỉ trả lời các câu hỏi liên quan đến công việc và từ chối lịch sự các câu hỏi khác. Sau mỗi câu trả lời, hãy đề xuất 1-2 câu hỏi tiếp theo liên quan."""
+Trả lời ngắn gọn, súc tích, dễ đọc, ưu tiên dùng cách trình bày dạng gạch đầu dòng."""
             
-            # Định nghĩa few-shot examples để chatbot học cách trả lời
-            few_shot_examples = [
-                {"role": "user", "content": "Làm thế nào để cải thiện CV của tôi?"},
-                {"role": "assistant", "content": "Để cải thiện CV, bạn nên:\n- Tùy chỉnh CV theo từng công việc ứng tuyển\n- Nhấn mạnh thành tựu cụ thể bằng số liệu\n- Sử dụng từ khóa từ mô tả công việc\n- Giữ định dạng đơn giản, dễ đọc\n- Đảm bảo không có lỗi chính tả\n\nBạn muốn biết thêm về cách viết phần tóm tắt chuyên môn ấn tượng hoặc cách trình bày kinh nghiệm làm việc hiệu quả không?"},
-                
-                {"role": "user", "content": "Thời tiết hôm nay thế nào?"},
-                {"role": "assistant", "content": "Xin lỗi, tôi chỉ có thể trả lời các câu hỏi liên quan đến công việc và nghề nghiệp. Bạn có thể hỏi tôi về việc tìm kiếm việc làm, cải thiện CV, hoặc chuẩn bị phỏng vấn không?"},
-                
-                {"role": "user", "content": "Tìm việc web ở Hà Nội"},
-                {"role": "assistant", "content": "Tôi đang tìm kiếm các công việc web developer tại Hà Nội cho bạn. Đây là một số vị trí phù hợp tại Hà Nội:\n\n1. Frontend Developer - Công ty ABC\n2. Web Designer - Công ty XYZ\n3. Fullstack Developer - Công ty DEF\n\nBạn muốn tìm hiểu thêm về mức lương trung bình cho vị trí web developer tại Hà Nội hoặc các kỹ năng cần thiết để cạnh tranh trong lĩnh vực web tại thị trường Hà Nội không?"},
-                
-                {"role": "user", "content": "Tôi muốn tìm việc Java ở Hồ Chí Minh"},
-                {"role": "assistant", "content": "Tôi đang tìm các công việc Java tại Hồ Chí Minh cho bạn. Dưới đây là một số vị trí phù hợp:\n\n1. Java Developer - Công ty MNO\n2. Java Backend Engineer - Công ty PQR\n3. Java Fullstack Developer - Công ty STU\n\nBạn có muốn biết thêm về các yêu cầu kỹ năng phổ biến cho vị trí Java Developer tại Hồ Chí Minh hoặc mức lương hiện tại của thị trường không?"},
-                
-                {"role": "user", "content": "Top 3 câu hỏi phỏng vấn developer thường gặp là gì?"},
-                {"role": "assistant", "content": "Top 3 câu hỏi phỏng vấn developer thường gặp:\n1. Hãy kể về một dự án khó khăn bạn đã hoàn thành và cách bạn giải quyết các thách thức.\n2. Làm thế nào bạn giữ cho kiến thức kỹ thuật của mình luôn cập nhật?\n3. Bạn xử lý phản hồi và sửa đổi code như thế nào?\n\nBạn muốn biết cách trả lời hiệu quả những câu hỏi này hoặc cần thêm câu hỏi phỏng vấn khác không?"}
-            ]
-            
-            # Tạo messages array với system prompt, few-shot examples và câu hỏi hiện tại
+            # Tạo messages array với system prompt và câu hỏi hiện tại
             messages = [
-                {"role": "system", "content": system_prompt}
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt}
             ]
-            
-            # Thêm few-shot examples
-            messages.extend(few_shot_examples)
-            
-            # Thêm câu hỏi hiện tại của người dùng
-            messages.append({"role": "user", "content": prompt})
             
             # Use the client-based approach instead of the deprecated module-level functions
             try:

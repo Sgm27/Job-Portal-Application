@@ -22653,3 +22653,375 @@ INFO 2025-04-22 08:41:11,880 basehttp "GET /static/js/chat-widget.js?v=174528607
 INFO 2025-04-22 08:41:11,882 basehttp "GET /static/js/jobs.js?v=1745286071 HTTP/1.1" 200 17598
 INFO 2025-04-22 08:41:11,884 basehttp "GET /static/js/main.js?v=1745286071 HTTP/1.1" 200 26268
 INFO 2025-04-22 08:41:33,425 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 15:31:08,632 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 15:31:12,548 basehttp "GET / HTTP/1.1" 200 32197
+INFO 2025-04-22 15:31:12,750 basehttp "GET /static/css/main.css?v=1745310672 HTTP/1.1" 200 33483
+INFO 2025-04-22 15:31:12,758 basehttp "GET /static/js/chat-widget.js?v=1745310672 HTTP/1.1" 200 10432
+INFO 2025-04-22 15:31:12,758 basehttp "GET /static/css/animations.css?v=1745310672 HTTP/1.1" 200 4605
+INFO 2025-04-22 15:31:12,764 basehttp "GET /static/css/chat-widget.css?v=1745310672 HTTP/1.1" 200 8934
+INFO 2025-04-22 15:31:12,764 basehttp "GET /static/css/responsive.css?v=1745310672 HTTP/1.1" 200 11359
+INFO 2025-04-22 15:31:12,766 basehttp "GET /static/css/enhancements.css?v=1745310672 HTTP/1.1" 200 37013
+INFO 2025-04-22 15:31:12,772 basehttp "GET /static/js/main.js?v=1745310672 HTTP/1.1" 200 26268
+INFO 2025-04-22 15:31:14,709 basehttp "GET /chatbot/api/history/ HTTP/1.1" 200 240238
+INFO 2025-04-22 15:31:19,014 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 368
+INFO 2025-04-22 15:45:24,037 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 15:45:29,600 basehttp "GET / HTTP/1.1" 200 32192
+INFO 2025-04-22 15:45:29,847 basehttp "GET /static/css/animations.css?v=1745311529 HTTP/1.1" 200 4605
+INFO 2025-04-22 15:45:29,853 basehttp "GET /static/css/main.css?v=1745311529 HTTP/1.1" 200 33483
+INFO 2025-04-22 15:45:29,871 basehttp "GET /static/css/responsive.css?v=1745311529 HTTP/1.1" 200 11359
+INFO 2025-04-22 15:45:29,874 basehttp "GET /static/css/chat-widget.css?v=1745311529 HTTP/1.1" 200 8934
+INFO 2025-04-22 15:45:29,877 basehttp "GET /static/css/enhancements.css?v=1745311529 HTTP/1.1" 200 37013
+INFO 2025-04-22 15:45:29,878 basehttp "GET /static/js/chat-widget.js?v=1745311529 HTTP/1.1" 200 10432
+INFO 2025-04-22 15:45:29,895 basehttp "GET /static/js/main.js?v=1745311529 HTTP/1.1" 200 26268
+WARNING 2025-04-22 15:45:30,449 log Not Found: /favicon.ico
+WARNING 2025-04-22 15:45:30,449 basehttp "GET /favicon.ico HTTP/1.1" 404 3283
+INFO 2025-04-22 15:45:32,287 basehttp "GET /chatbot/api/history/ HTTP/1.1" 200 240734
+INFO 2025-04-22 15:45:57,610 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 243
+INFO 2025-04-22 15:46:12,659 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 1127
+INFO 2025-04-22 15:48:07,929 basehttp "GET /accounts/profile/ HTTP/1.1" 200 55032
+INFO 2025-04-22 15:48:08,014 basehttp "GET /static/css/main.css?v=1745311687 HTTP/1.1" 200 33483
+INFO 2025-04-22 15:48:08,020 basehttp "GET /static/css/responsive.css?v=1745311687 HTTP/1.1" 200 11359
+INFO 2025-04-22 15:48:08,021 basehttp "GET /static/css/enhancements.css?v=1745311687 HTTP/1.1" 200 37013
+INFO 2025-04-22 15:48:08,021 basehttp "GET /static/css/chat-widget.css?v=1745311687 HTTP/1.1" 200 8934
+INFO 2025-04-22 15:48:08,021 basehttp "GET /static/css/animations.css?v=1745311687 HTTP/1.1" 200 4605
+INFO 2025-04-22 15:48:08,034 basehttp "GET /static/js/main.js?v=1745311687 HTTP/1.1" 200 26268
+INFO 2025-04-22 15:48:08,040 basehttp "GET /static/js/profile.js?v=1745311687 HTTP/1.1" 200 7296
+INFO 2025-04-22 15:48:08,047 basehttp "GET /static/js/chat-widget.js?v=1745311687 HTTP/1.1" 200 10432
+INFO 2025-04-22 15:48:08,084 basehttp "GET /static/js/profile_resume_analyzer.js?v=1745311687 HTTP/1.1" 200 46451
+WARNING 2025-04-22 15:48:08,127 basehttp "GET /static/img/pattern.svg HTTP/1.1" 404 1859
+INFO 2025-04-22 15:48:29,160 basehttp "POST /chatbot/api/analyze-resume/ HTTP/1.1" 200 8343
+INFO 2025-04-22 15:49:55,282 basehttp "POST /chatbot/api/analyze-resume/ HTTP/1.1" 200 8049
+INFO 2025-04-22 15:50:28,256 basehttp "GET / HTTP/1.1" 200 32197
+INFO 2025-04-22 15:50:28,334 basehttp "GET /static/css/main.css?v=1745311828 HTTP/1.1" 200 33483
+INFO 2025-04-22 15:50:28,354 basehttp "GET /static/css/responsive.css?v=1745311828 HTTP/1.1" 200 11359
+INFO 2025-04-22 15:50:28,354 basehttp "GET /static/css/chat-widget.css?v=1745311828 HTTP/1.1" 200 8934
+INFO 2025-04-22 15:50:28,357 basehttp "GET /static/css/animations.css?v=1745311828 HTTP/1.1" 200 4605
+INFO 2025-04-22 15:50:28,358 basehttp "GET /static/css/enhancements.css?v=1745311828 HTTP/1.1" 200 37013
+INFO 2025-04-22 15:50:28,393 basehttp "GET /static/js/chat-widget.js?v=1745311828 HTTP/1.1" 200 10432
+INFO 2025-04-22 15:50:28,399 basehttp "GET /static/js/main.js?v=1745311828 HTTP/1.1" 200 26268
+INFO 2025-04-22 15:50:31,725 basehttp "GET /jobs/209/ HTTP/1.1" 200 34243
+INFO 2025-04-22 15:50:31,805 basehttp "GET /static/css/animations.css?v=1745311831 HTTP/1.1" 200 4605
+INFO 2025-04-22 15:50:31,810 basehttp "GET /static/css/responsive.css?v=1745311831 HTTP/1.1" 200 11359
+INFO 2025-04-22 15:50:31,812 basehttp "GET /static/css/main.css?v=1745311831 HTTP/1.1" 200 33483
+INFO 2025-04-22 15:50:31,812 basehttp "GET /static/css/chat-widget.css?v=1745311831 HTTP/1.1" 200 8934
+INFO 2025-04-22 15:50:31,816 basehttp "GET /static/css/enhancements.css?v=1745311831 HTTP/1.1" 200 37013
+INFO 2025-04-22 15:50:31,834 basehttp "GET /static/js/chat-widget.js?v=1745311831 HTTP/1.1" 200 10432
+INFO 2025-04-22 15:50:31,836 basehttp "GET /static/js/jobs.js?v=1745311831 HTTP/1.1" 200 17598
+INFO 2025-04-22 15:50:31,836 basehttp "GET /static/js/main.js?v=1745311831 HTTP/1.1" 200 26268
+INFO 2025-04-22 15:51:50,599 basehttp "GET /jobs/notifications/ HTTP/1.1" 200 19213
+INFO 2025-04-22 15:51:50,657 basehttp "GET /static/css/main.css?v=1745311910 HTTP/1.1" 200 33483
+INFO 2025-04-22 15:51:50,667 basehttp "GET /static/css/animations.css?v=1745311910 HTTP/1.1" 200 4605
+INFO 2025-04-22 15:51:50,667 basehttp "GET /static/css/chat-widget.css?v=1745311910 HTTP/1.1" 200 8934
+INFO 2025-04-22 15:51:50,669 basehttp "GET /static/css/responsive.css?v=1745311910 HTTP/1.1" 200 11359
+INFO 2025-04-22 15:51:50,669 basehttp "GET /static/css/enhancements.css?v=1745311910 HTTP/1.1" 200 37013
+INFO 2025-04-22 15:51:50,708 basehttp "GET /static/js/main.js?v=1745311910 HTTP/1.1" 200 26268
+INFO 2025-04-22 15:51:50,708 basehttp "GET /static/js/chat-widget.js?v=1745311910 HTTP/1.1" 200 10432
+INFO 2025-04-22 15:51:50,708 basehttp "GET /static/js/jobs.js?v=1745311910 HTTP/1.1" 200 17598
+INFO 2025-04-22 15:51:54,508 basehttp "GET / HTTP/1.1" 200 32197
+INFO 2025-04-22 15:51:54,589 basehttp "GET /static/css/main.css?v=1745311914 HTTP/1.1" 200 33483
+INFO 2025-04-22 15:51:54,604 basehttp "GET /static/css/animations.css?v=1745311914 HTTP/1.1" 200 4605
+INFO 2025-04-22 15:51:54,604 basehttp "GET /static/css/responsive.css?v=1745311914 HTTP/1.1" 200 11359
+INFO 2025-04-22 15:51:54,604 basehttp "GET /static/css/chat-widget.css?v=1745311914 HTTP/1.1" 200 8934
+INFO 2025-04-22 15:51:54,605 basehttp "GET /static/css/enhancements.css?v=1745311914 HTTP/1.1" 200 37013
+INFO 2025-04-22 15:51:54,617 basehttp "GET /static/js/chat-widget.js?v=1745311914 HTTP/1.1" 200 10432
+INFO 2025-04-22 15:51:54,617 basehttp "GET /static/js/main.js?v=1745311914 HTTP/1.1" 200 26268
+INFO 2025-04-22 21:54:42,725 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 21:54:48,090 basehttp "GET / HTTP/1.1" 200 32202
+INFO 2025-04-22 21:54:48,271 basehttp "GET /static/css/main.css?v=1745333688 HTTP/1.1" 200 33483
+INFO 2025-04-22 21:54:48,276 basehttp "GET /static/css/animations.css?v=1745333688 HTTP/1.1" 200 4605
+INFO 2025-04-22 21:54:48,276 basehttp "GET /static/js/chat-widget.js?v=1745333688 HTTP/1.1" 200 10432
+INFO 2025-04-22 21:54:48,285 basehttp "GET /static/css/responsive.css?v=1745333688 HTTP/1.1" 200 11359
+INFO 2025-04-22 21:54:48,285 basehttp "GET /static/css/chat-widget.css?v=1745333688 HTTP/1.1" 200 8934
+INFO 2025-04-22 21:54:48,287 basehttp "GET /static/css/enhancements.css?v=1745333688 HTTP/1.1" 200 37013
+INFO 2025-04-22 21:54:48,291 basehttp "GET /static/js/main.js?v=1745333688 HTTP/1.1" 200 26268
+WARNING 2025-04-22 21:54:48,628 log Not Found: /favicon.ico
+WARNING 2025-04-22 21:54:48,629 basehttp "GET /favicon.ico HTTP/1.1" 404 3283
+INFO 2025-04-22 21:54:50,250 basehttp "GET /chatbot/api/history/ HTTP/1.1" 200 242379
+INFO 2025-04-22 21:54:57,311 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 253
+INFO 2025-04-22 21:56:28,036 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 21:56:29,531 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:02:52,371 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:02:54,824 basehttp "GET / HTTP/1.1" 200 32202
+INFO 2025-04-22 22:02:55,013 basehttp "GET /static/css/responsive.css?v=1745334174 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:02:55,015 basehttp "GET /static/js/chat-widget.js?v=1745334174 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:02:55,021 basehttp "GET /static/css/main.css?v=1745334174 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:02:55,039 basehttp "GET /static/css/animations.css?v=1745334174 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:02:55,040 basehttp "GET /static/css/chat-widget.css?v=1745334174 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:02:55,042 basehttp "GET /static/css/enhancements.css?v=1745334174 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:02:55,048 basehttp "GET /static/js/main.js?v=1745334174 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:02:56,437 basehttp "GET /chatbot/api/history/ HTTP/1.1" 200 242760
+INFO 2025-04-22 22:03:03,287 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 260
+INFO 2025-04-22 22:04:17,593 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:04:19,018 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:05:12,122 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:05:15,448 basehttp "GET / HTTP/1.1" 200 32202
+INFO 2025-04-22 22:05:15,650 basehttp "GET /static/css/chat-widget.css?v=1745334315 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:05:15,654 basehttp "GET /static/js/chat-widget.js?v=1745334315 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:05:15,654 basehttp "GET /static/css/responsive.css?v=1745334315 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:05:15,655 basehttp "GET /static/css/animations.css?v=1745334315 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:05:15,657 basehttp "GET /static/css/enhancements.css?v=1745334315 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:05:15,658 basehttp "GET /static/css/main.css?v=1745334315 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:05:15,659 basehttp "GET /static/js/main.js?v=1745334315 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:05:16,552 basehttp "GET /chatbot/api/history/ HTTP/1.1" 200 243148
+INFO 2025-04-22 22:05:23,712 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 263
+INFO 2025-04-22 22:05:30,874 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 9424
+INFO 2025-04-22 22:05:57,056 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 12237
+INFO 2025-04-22 22:09:49,828 autoreload D:\Web\BTL-Web\chatbot\db_agent.py changed, reloading.
+INFO 2025-04-22 22:09:51,295 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:10:17,009 autoreload D:\Web\BTL-Web\chatbot\db_agent.py changed, reloading.
+INFO 2025-04-22 22:10:18,407 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:14:10,493 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:14:12,028 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:14:19,389 autoreload D:\Web\BTL-Web\chatbot\__init__.py changed, reloading.
+INFO 2025-04-22 22:14:20,776 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:14:47,548 autoreload D:\Web\BTL-Web\chatbot\chatgpt_helper.py changed, reloading.
+INFO 2025-04-22 22:14:49,023 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:15:09,318 autoreload D:\Web\BTL-Web\chatbot\web_search_tools.py changed, reloading.
+INFO 2025-04-22 22:15:10,822 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:15:24,743 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:15:26,380 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:15:43,529 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:15:45,039 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:15:54,694 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:15:56,192 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:16:06,822 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:16:08,316 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:16:11,518 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:16:12,891 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:16:28,845 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:16:30,397 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:16:43,381 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:16:44,843 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:16:48,016 autoreload D:\Web\BTL-Web\chatbot\views.py changed, reloading.
+INFO 2025-04-22 22:16:49,399 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:20:03,852 autoreload D:\Web\BTL-Web\chatbot\chatgpt_helper.py changed, reloading.
+INFO 2025-04-22 22:20:05,386 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:20:07,672 basehttp "GET / HTTP/1.1" 200 32202
+INFO 2025-04-22 22:20:07,858 basehttp "GET /static/css/main.css?v=1745335207 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:20:07,865 basehttp "GET /static/css/responsive.css?v=1745335207 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:20:07,865 basehttp "GET /static/css/chat-widget.css?v=1745335207 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:20:07,868 basehttp "GET /static/js/chat-widget.js?v=1745335207 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:20:07,877 basehttp "GET /static/css/enhancements.css?v=1745335207 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:20:07,884 basehttp "GET /static/css/animations.css?v=1745335207 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:20:07,885 basehttp "GET /static/js/main.js?v=1745335207 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:20:09,588 basehttp "GET /chatbot/api/history/ HTTP/1.1" 200 265599
+INFO 2025-04-22 22:20:26,420 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 3697
+INFO 2025-04-22 22:21:06,670 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 4792
+INFO 2025-04-22 22:21:25,488 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 11584
+INFO 2025-04-22 22:24:28,667 autoreload D:\Web\BTL-Web\chatbot\web_search_tools.py changed, reloading.
+INFO 2025-04-22 22:24:30,154 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:25:34,764 autoreload D:\Web\BTL-Web\chatbot\web_search_tools.py changed, reloading.
+INFO 2025-04-22 22:25:36,279 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:26:58,535 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 11784
+INFO 2025-04-22 22:27:20,915 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 11648
+INFO 2025-04-22 22:30:25,892 autoreload D:\Web\BTL-Web\chatbot\web_search_tools.py changed, reloading.
+INFO 2025-04-22 22:30:27,477 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:30:55,383 autoreload D:\Web\BTL-Web\chatbot\web_search_tools.py changed, reloading.
+INFO 2025-04-22 22:30:57,138 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:31:18,370 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 3553
+INFO 2025-04-22 22:31:41,548 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 8812
+INFO 2025-04-22 22:32:54,587 autoreload D:\Web\BTL-Web\chatbot\web_search_tools.py changed, reloading.
+INFO 2025-04-22 22:32:56,364 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 22:33:11,182 basehttp "GET / HTTP/1.1" 200 32202
+INFO 2025-04-22 22:33:11,418 basehttp "GET /static/css/chat-widget.css?v=1745335991 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:33:11,420 basehttp "GET /static/js/chat-widget.js?v=1745335991 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:33:11,424 basehttp "GET /static/css/animations.css?v=1745335991 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:33:11,427 basehttp "GET /static/css/main.css?v=1745335991 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:33:11,430 basehttp "GET /static/css/responsive.css?v=1745335991 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:33:11,431 basehttp "GET /static/css/enhancements.css?v=1745335991 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:33:11,432 basehttp "GET /static/js/main.js?v=1745335991 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:33:12,891 basehttp "GET /chatbot/api/history/ HTTP/1.1" 200 322498
+INFO 2025-04-22 22:33:41,322 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 7953
+INFO 2025-04-22 22:34:04,087 basehttp "POST /chatbot/api/send/ HTTP/1.1" 200 5600
+INFO 2025-04-22 22:34:13,716 basehttp "GET /jobs/195/ HTTP/1.1" 200 33004
+INFO 2025-04-22 22:34:13,763 basehttp "GET /static/css/main.css?v=1745336053 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:34:13,777 basehttp "GET /static/css/enhancements.css?v=1745336053 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:34:13,796 basehttp "GET /static/css/responsive.css?v=1745336053 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:34:13,802 basehttp "GET /static/css/chat-widget.css?v=1745336053 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:34:13,804 basehttp "GET /static/css/animations.css?v=1745336053 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:34:13,817 basehttp "GET /static/js/main.js?v=1745336053 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:34:13,823 basehttp "GET /static/js/jobs.js?v=1745336053 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:34:13,825 basehttp "GET /static/js/chat-widget.js?v=1745336053 HTTP/1.1" 200 10432
+WARNING 2025-04-22 22:34:14,433 log Not Found: /favicon.ico
+WARNING 2025-04-22 22:34:14,434 basehttp "GET /favicon.ico HTTP/1.1" 404 3283
+INFO 2025-04-22 22:34:18,870 basehttp "GET /jobs/notifications/ HTTP/1.1" 200 19213
+INFO 2025-04-22 22:34:18,938 basehttp "GET /static/css/main.css?v=1745336058 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:34:18,939 basehttp "GET /static/css/responsive.css?v=1745336058 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:34:18,939 basehttp "GET /static/css/chat-widget.css?v=1745336058 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:34:18,941 basehttp "GET /static/css/animations.css?v=1745336058 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:34:18,941 basehttp "GET /static/css/enhancements.css?v=1745336058 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:34:18,959 basehttp "GET /static/js/main.js?v=1745336058 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:34:18,971 basehttp "GET /static/js/chat-widget.js?v=1745336058 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:34:18,971 basehttp "GET /static/js/jobs.js?v=1745336058 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:34:20,945 basehttp "GET /jobs/ HTTP/1.1" 200 61763
+INFO 2025-04-22 22:34:21,002 basehttp "GET /static/css/main.css?v=1745336060 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:34:21,004 basehttp "GET /static/css/animations.css?v=1745336060 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:34:21,004 basehttp "GET /static/css/chat-widget.css?v=1745336060 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:34:21,004 basehttp "GET /static/css/responsive.css?v=1745336060 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:34:21,008 basehttp "GET /static/css/enhancements.css?v=1745336060 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:34:21,012 basehttp "GET /static/js/main.js?v=1745336060 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:34:21,013 basehttp "GET /static/js/jobs.js?v=1745336060 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:34:21,015 basehttp "GET /static/js/chat-widget.js?v=1745336060 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:34:21,173 basehttp "GET /jobs/my-applications/ HTTP/1.1" 200 20829
+INFO 2025-04-22 22:34:21,213 basehttp "GET /static/css/animations.css?v=1745336061 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:34:21,214 basehttp "GET /static/css/chat-widget.css?v=1745336061 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:34:21,214 basehttp "GET /static/css/responsive.css?v=1745336061 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:34:21,215 basehttp "GET /static/css/main.css?v=1745336061 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:34:21,215 basehttp "GET /static/css/enhancements.css?v=1745336061 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:34:21,225 basehttp "GET /static/js/chat-widget.js?v=1745336061 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:34:21,226 basehttp "GET /static/js/jobs.js?v=1745336061 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:34:21,226 basehttp "GET /static/js/main.js?v=1745336061 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:34:24,037 basehttp "GET /accounts/profile/ HTTP/1.1" 200 55032
+INFO 2025-04-22 22:34:24,076 basehttp "GET /static/css/animations.css?v=1745336064 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:34:24,076 basehttp "GET /static/css/responsive.css?v=1745336064 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:34:24,076 basehttp "GET /static/css/main.css?v=1745336064 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:34:24,076 basehttp "GET /static/css/chat-widget.css?v=1745336064 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:34:24,076 basehttp "GET /static/css/enhancements.css?v=1745336064 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:34:24,099 basehttp "GET /static/js/main.js?v=1745336064 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:34:24,100 basehttp "GET /static/js/profile.js?v=1745336064 HTTP/1.1" 200 7296
+INFO 2025-04-22 22:34:24,101 basehttp "GET /static/js/chat-widget.js?v=1745336064 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:34:24,103 basehttp "GET /static/js/profile_resume_analyzer.js?v=1745336064 HTTP/1.1" 200 46451
+WARNING 2025-04-22 22:34:24,117 basehttp "GET /static/img/pattern.svg HTTP/1.1" 404 1859
+INFO 2025-04-22 22:34:52,230 basehttp "GET /jobs/ HTTP/1.1" 200 61763
+INFO 2025-04-22 22:34:52,269 basehttp "GET /static/css/main.css?v=1745336092 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:34:52,277 basehttp "GET /static/css/animations.css?v=1745336092 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:34:52,278 basehttp "GET /static/css/chat-widget.css?v=1745336092 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:34:52,278 basehttp "GET /static/css/responsive.css?v=1745336092 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:34:52,280 basehttp "GET /static/css/enhancements.css?v=1745336092 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:34:52,328 basehttp "GET /static/js/jobs.js?v=1745336092 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:34:52,328 basehttp "GET /static/js/main.js?v=1745336092 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:34:52,328 basehttp "GET /static/js/chat-widget.js?v=1745336092 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:34:54,495 basehttp "GET /jobs/210/apply/ HTTP/1.1" 200 18296
+INFO 2025-04-22 22:34:54,548 basehttp "GET /static/css/main.css?v=1745336094 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:34:54,548 basehttp "GET /static/css/responsive.css?v=1745336094 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:34:54,548 basehttp "GET /static/css/chat-widget.css?v=1745336094 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:34:54,548 basehttp "GET /static/css/enhancements.css?v=1745336094 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:34:54,548 basehttp "GET /static/css/animations.css?v=1745336094 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:34:54,558 basehttp "GET /static/js/jobs.js?v=1745336094 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:34:54,558 basehttp "GET /static/js/main.js?v=1745336094 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:34:54,563 basehttp "GET /static/js/chat-widget.js?v=1745336094 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:02,619 basehttp "POST /jobs/210/apply/ HTTP/1.1" 302 0
+INFO 2025-04-22 22:35:02,668 basehttp "GET /jobs/210/ HTTP/1.1" 200 34677
+INFO 2025-04-22 22:35:02,730 basehttp "GET /static/css/animations.css?v=1745336102 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:02,730 basehttp "GET /static/css/chat-widget.css?v=1745336102 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:02,730 basehttp "GET /static/css/responsive.css?v=1745336102 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:02,737 basehttp "GET /static/css/main.css?v=1745336102 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:02,737 basehttp "GET /static/css/enhancements.css?v=1745336102 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:02,797 basehttp "GET /static/js/chat-widget.js?v=1745336102 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:02,797 basehttp "GET /static/js/jobs.js?v=1745336102 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:35:02,797 basehttp "GET /static/js/main.js?v=1745336102 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:06,590 basehttp "GET /jobs/210/ HTTP/1.1" 200 32441
+INFO 2025-04-22 22:35:06,634 basehttp "GET /static/css/main.css?v=1745336106 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:06,643 basehttp "GET /static/css/animations.css?v=1745336106 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:06,643 basehttp "GET /static/js/jobs.js?v=1745336106 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:35:06,644 basehttp "GET /static/css/chat-widget.css?v=1745336106 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:06,644 basehttp "GET /static/css/responsive.css?v=1745336106 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:06,644 basehttp "GET /static/js/main.js?v=1745336106 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:06,645 basehttp "GET /static/css/enhancements.css?v=1745336106 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:06,649 basehttp "GET /static/js/chat-widget.js?v=1745336106 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:08,318 basehttp "GET /accounts/login/ HTTP/1.1" 200 21191
+INFO 2025-04-22 22:35:08,347 basehttp "GET /static/css/main.css?v=1745336108 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:08,355 basehttp "GET /static/css/chat-widget.css?v=1745336108 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:08,355 basehttp "GET /static/js/auth.js?v=1745336108 HTTP/1.1" 200 9946
+INFO 2025-04-22 22:35:08,355 basehttp "GET /static/css/responsive.css?v=1745336108 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:08,356 basehttp "GET /static/css/animations.css?v=1745336108 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:08,356 basehttp "GET /static/js/main.js?v=1745336108 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:08,357 basehttp "GET /static/css/enhancements.css?v=1745336108 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:08,359 basehttp "GET /static/js/chat-widget.js?v=1745336108 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:11,805 basehttp - Broken pipe from ('127.0.0.1', 52464)
+INFO 2025-04-22 22:35:12,230 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-04-22 22:35:12,244 basehttp "GET /accounts/profile/ HTTP/1.1" 200 42522
+INFO 2025-04-22 22:35:12,283 basehttp "GET /static/css/responsive.css?v=1745336112 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:12,283 basehttp "GET /static/css/animations.css?v=1745336112 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:12,283 basehttp "GET /static/css/main.css?v=1745336112 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:12,284 basehttp "GET /static/css/chat-widget.css?v=1745336112 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:12,284 basehttp "GET /static/css/enhancements.css?v=1745336112 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:12,290 basehttp "GET /static/js/chat-widget.js?v=1745336112 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:12,290 basehttp "GET /static/js/profile.js?v=1745336112 HTTP/1.1" 200 7296
+INFO 2025-04-22 22:35:12,291 basehttp "GET /static/js/main.js?v=1745336112 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:12,291 basehttp "GET /static/js/profile_resume_analyzer.js?v=1745336112 HTTP/1.1" 200 46451
+INFO 2025-04-22 22:35:12,295 basehttp "GET /media/profile_pics/viettel_icon.jpg HTTP/1.1" 200 90172
+WARNING 2025-04-22 22:35:12,302 basehttp "GET /static/img/pattern.svg HTTP/1.1" 404 1859
+INFO 2025-04-22 22:35:14,590 basehttp "GET /jobs/notifications/ HTTP/1.1" 200 23074
+INFO 2025-04-22 22:35:14,626 basehttp "GET /static/css/animations.css?v=1745336114 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:14,626 basehttp "GET /static/css/responsive.css?v=1745336114 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:14,627 basehttp "GET /static/css/chat-widget.css?v=1745336114 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:14,627 basehttp "GET /static/js/main.js?v=1745336114 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:14,627 basehttp "GET /static/css/main.css?v=1745336114 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:14,627 basehttp "GET /static/css/enhancements.css?v=1745336114 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:14,630 basehttp "GET /static/js/chat-widget.js?v=1745336114 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:14,630 basehttp "GET /static/js/jobs.js?v=1745336114 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:35:16,344 basehttp "GET /jobs/210/applications/ HTTP/1.1" 200 82986
+INFO 2025-04-22 22:35:16,382 basehttp "GET /static/css/main.css?v=1745336116 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:16,407 basehttp "GET /static/css/animations.css?v=1745336116 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:16,407 basehttp "GET /static/css/responsive.css?v=1745336116 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:16,407 basehttp "GET /static/css/chat-widget.css?v=1745336116 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:16,407 basehttp "GET /static/js/main.js?v=1745336116 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:16,410 basehttp "GET /static/css/enhancements.css?v=1745336116 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:16,413 basehttp "GET /static/js/chat-widget.js?v=1745336116 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:16,413 basehttp "GET /static/js/jobs.js?v=1745336116 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:35:16,428 basehttp "GET /media/profile_pics/Ng%C3%B4_%C4%90%E1%BB%A9c_S%C6%A1n-B22DCCN693.png HTTP/1.1" 200 659496
+INFO 2025-04-22 22:35:26,030 basehttp "POST /jobs/210/applications/ HTTP/1.1" 302 0
+INFO 2025-04-22 22:35:26,064 basehttp "GET /jobs/210/applications/ HTTP/1.1" 200 84178
+INFO 2025-04-22 22:35:26,110 basehttp "GET /static/css/animations.css?v=1745336126 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:26,110 basehttp "GET /static/css/responsive.css?v=1745336126 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:26,110 basehttp "GET /static/css/chat-widget.css?v=1745336126 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:26,110 basehttp "GET /static/js/main.js?v=1745336126 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:26,113 basehttp "GET /static/css/main.css?v=1745336126 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:26,113 basehttp "GET /static/css/enhancements.css?v=1745336126 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:26,114 basehttp "GET /static/js/chat-widget.js?v=1745336126 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:26,114 basehttp "GET /static/js/jobs.js?v=1745336126 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:35:36,126 basehttp "GET /jobs/notifications/ HTTP/1.1" 200 23074
+INFO 2025-04-22 22:35:36,159 basehttp "GET /static/css/main.css?v=1745336136 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:36,168 basehttp "GET /static/css/responsive.css?v=1745336136 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:36,169 basehttp "GET /static/css/animations.css?v=1745336136 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:36,170 basehttp "GET /static/css/chat-widget.css?v=1745336136 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:36,170 basehttp "GET /static/js/main.js?v=1745336136 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:36,170 basehttp "GET /static/js/jobs.js?v=1745336136 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:35:36,170 basehttp "GET /static/css/enhancements.css?v=1745336136 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:36,170 basehttp "GET /static/js/chat-widget.js?v=1745336136 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:37,407 basehttp "GET /jobs/dashboard/ HTTP/1.1" 200 57213
+INFO 2025-04-22 22:35:37,458 basehttp "GET /static/css/animations.css?v=1745336137 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:37,459 basehttp "GET /static/css/responsive.css?v=1745336137 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:37,459 basehttp "GET /static/css/chat-widget.css?v=1745336137 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:37,459 basehttp "GET /static/js/main.js?v=1745336137 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:37,459 basehttp "GET /static/css/enhancements.css?v=1745336137 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:37,459 basehttp "GET /static/css/main.css?v=1745336137 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:37,461 basehttp "GET /static/js/jobs.js?v=1745336137 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:35:37,461 basehttp "GET /static/js/chat-widget.js?v=1745336137 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:37,461 basehttp "GET /static/js/dashboard.js?v=1745336137 HTTP/1.1" 200 12582
+INFO 2025-04-22 22:35:43,312 basehttp "GET /jobs/notifications/ HTTP/1.1" 200 22713
+INFO 2025-04-22 22:35:43,368 basehttp "GET /static/css/main.css?v=1745336143 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:43,375 basehttp "GET /static/css/responsive.css?v=1745336143 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:43,376 basehttp "GET /static/css/chat-widget.css?v=1745336143 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:43,377 basehttp "GET /static/css/animations.css?v=1745336143 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:43,377 basehttp "GET /static/css/enhancements.css?v=1745336143 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:43,455 basehttp "GET /static/js/chat-widget.js?v=1745336143 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:43,456 basehttp "GET /static/js/jobs.js?v=1745336143 HTTP/1.1" 200 17598
+INFO 2025-04-22 22:35:43,456 basehttp "GET /static/js/main.js?v=1745336143 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:45,076 basehttp "GET / HTTP/1.1" 200 32202
+INFO 2025-04-22 22:35:45,139 basehttp "GET /static/css/main.css?v=1745336145 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:45,152 basehttp "GET /static/css/chat-widget.css?v=1745336145 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:45,153 basehttp "GET /static/css/responsive.css?v=1745336145 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:45,153 basehttp "GET /static/css/animations.css?v=1745336145 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:45,154 basehttp "GET /static/css/enhancements.css?v=1745336145 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:45,173 basehttp "GET /static/js/main.js?v=1745336145 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:45,173 basehttp "GET /static/js/chat-widget.js?v=1745336145 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:47,680 basehttp "GET / HTTP/1.1" 200 32202
+INFO 2025-04-22 22:35:47,751 basehttp "GET /static/css/chat-widget.css?v=1745336147 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:47,753 basehttp "GET /static/css/animations.css?v=1745336147 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:47,753 basehttp "GET /static/css/responsive.css?v=1745336147 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:47,753 basehttp "GET /static/css/enhancements.css?v=1745336147 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:47,755 basehttp "GET /static/css/main.css?v=1745336147 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:47,770 basehttp "GET /static/js/main.js?v=1745336147 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:47,770 basehttp "GET /static/js/chat-widget.js?v=1745336147 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:35:48,395 basehttp "GET / HTTP/1.1" 200 32202
+INFO 2025-04-22 22:35:48,453 basehttp "GET /static/css/chat-widget.css?v=1745336148 HTTP/1.1" 200 8934
+INFO 2025-04-22 22:35:48,453 basehttp "GET /static/css/animations.css?v=1745336148 HTTP/1.1" 200 4605
+INFO 2025-04-22 22:35:48,453 basehttp "GET /static/css/responsive.css?v=1745336148 HTTP/1.1" 200 11359
+INFO 2025-04-22 22:35:48,453 basehttp "GET /static/css/main.css?v=1745336148 HTTP/1.1" 200 33483
+INFO 2025-04-22 22:35:48,454 basehttp "GET /static/css/enhancements.css?v=1745336148 HTTP/1.1" 200 37013
+INFO 2025-04-22 22:35:48,462 basehttp "GET /static/js/main.js?v=1745336148 HTTP/1.1" 200 26268
+INFO 2025-04-22 22:35:48,462 basehttp "GET /static/js/chat-widget.js?v=1745336148 HTTP/1.1" 200 10432
+INFO 2025-04-22 22:36:00,005 autoreload D:\Web\BTL-Web\chatbot\web_search_tools.py changed, reloading.
+INFO 2025-04-22 22:36:01,535 autoreload Watching for file changes with StatReloader

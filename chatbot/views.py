@@ -22,6 +22,8 @@ from .db_agent import JobDatabaseAgent, CVAnalysisAgent
 from accounts.models import Resume
 # Import CV analyzer module
 from app.services.cv_analyzer import analyze_cv_file, extract_skills, analyze_text
+# Import web search tools
+from .web_search_tools import WebSearchTools
 
 # Cấu hình logger
 logger = logging.getLogger(__name__)
@@ -33,6 +35,37 @@ resume_analysis_status = {}
 def chatbot_view(request):
     """Render trang chatbot."""
     return render(request, 'chatbot.html')
+
+def extract_json_from_response(response:str) -> dict:
+    """
+    Attempts to extract a JSON object from a string response using regex.
+    
+    Args:
+        response: The string potentially containing a JSON object.
+        
+    Returns:
+        A dictionary if a valid JSON object is found, otherwise None or raises an error.
+    """
+    # Regex to find JSON object (handles nested structures)
+    # It looks for patterns starting with { and ending with }
+    # Note: This regex might be too simple for complex nested JSON within other text.
+    # A more robust approach might involve finding the first '{' and matching braces.
+    match = re.search(r'\{[\s\S]*\}', response)
+    
+    if match:
+        json_str = match.group(0)
+        try:
+            # Attempt to parse the extracted string as JSON
+            parsed_json = json.loads(json_str)
+            return parsed_json
+        except json.JSONDecodeError as e:
+            logger.warning(f"Failed to decode JSON extracted from response: {e}")
+            logger.warning(f"Extracted string: {json_str}")
+            # Optionally, you could return None or raise a custom exception here
+            return None # Or raise ValueError("Invalid JSON found in response")
+    else:
+        logger.warning("No JSON object found in the response string.")
+        return None # No JSON found
 
 @csrf_exempt
 @login_required
@@ -92,9 +125,11 @@ def chatbot_api(request):
                 if not analysis_result.get('success', False):
                     assistant_message = analysis_result.get('error', 'Lỗi không xác định khi phân tích CV')
                     is_html = False
+                    is_markdown = False
                 else:
                     assistant_message = analysis_result.get('analysis')
                     is_html = True
+                    is_markdown = True
                 
                 # Save response
                 Message.objects.create(
@@ -107,13 +142,14 @@ def chatbot_api(request):
                     'message': assistant_message,
                     'conversation_id': conversation.id,
                     'is_html': is_html,
-                    'is_markdown': True,
+                    'is_markdown': is_markdown,
                     'is_resume_analysis': True
                 })
             except Exception as e:
                 logger.error(f"Error in CV analysis: {str(e)}")
                 assistant_message = f"Lỗi khi phân tích CV: {str(e)}"
                 is_html = False
+                is_markdown = False
                 
                 # Save error response
                 Message.objects.create(
@@ -125,7 +161,8 @@ def chatbot_api(request):
                 return JsonResponse({
                     'message': assistant_message,
                     'conversation_id': conversation.id,
-                    'is_html': is_html
+                    'is_html': is_html,
+                    'is_markdown': is_markdown
                 })
         
         # Step 2: Kiểm tra xem người dùng có đang yêu cầu phân tích CV không
@@ -141,6 +178,7 @@ def chatbot_api(request):
                     # Không có CV hoặc có lỗi
                     assistant_message = resumes_result.get('error', 'Bạn chưa tải lên CV nào. Vui lòng tải CV trước khi phân tích.')
                     is_html = False
+                    is_markdown = False
                 else:
                     # Có danh sách CV, hiển thị để người dùng chọn
                     resumes = resumes_result.get('resumes', [])
@@ -171,6 +209,7 @@ def chatbot_api(request):
                     
                     assistant_message = resume_list_html
                     is_html = True
+                    is_markdown = False
                 
                 # Save response
                 Message.objects.create(
@@ -183,12 +222,14 @@ def chatbot_api(request):
                     'message': assistant_message,
                     'conversation_id': conversation.id,
                     'is_html': is_html,
+                    'is_markdown': is_markdown,
                     'is_resume_selection': True
                 })
             except Exception as e:
                 logger.error(f"Error in CV list retrieval: {str(e)}")
                 assistant_message = f"Lỗi khi lấy danh sách CV: {str(e)}"
                 is_html = False
+                is_markdown = False
                 
                 # Save error response
                 Message.objects.create(
@@ -200,248 +241,103 @@ def chatbot_api(request):
                 return JsonResponse({
                     'message': assistant_message,
                     'conversation_id': conversation.id,
-                    'is_html': is_html
+                    'is_html': is_html,
+                    'is_markdown': is_markdown
                 })
         
-        # Step 3: First check if this is an educational query that should NOT trigger job search
-        is_educational_query = JobDatabaseAgent.is_educational_query(user_message)
+        # Step 3: Use AI to determine the intent of the user's message
+        intent_prompt = f"""
+        Phân tích tin nhắn sau của người dùng và xác định đây là loại yêu cầu nào:
         
-        # Step 4: If not an educational query, then check for job search intent
-        if not is_educational_query:
-            try:
-                is_job_query, query_type, query_value = JobDatabaseAgent.detect_job_query_intent(user_message)
-            except Exception as e:
-                logger.error(f"Error in job intent detection: {str(e)}")
-                is_job_query = False
-        else:
-            # Educational query shouldn't trigger job search
-            logger.info(f"Educational query detected: {user_message[:50]}...")
-            is_job_query = False
+        "{user_message}"
         
-        # Step 5: If direct detection fails and it's not an educational query, try using ChatGPT to analyze
-        if not is_job_query and not is_educational_query:
-            try:
-                # Create a prompt to extract job search intent
-                analysis_prompt = f"""
-                Bạn là một trợ lý AI chuyên phân tích ngữ cảnh và ý định của người dùng. Hãy phân tích tin nhắn sau và xác định xem người dùng có đang tìm kiếm thông tin liên quan đến công việc và nghề nghiệp không:
-
-                "{user_message}"
-
-                Phân tích kỹ lưỡng ngữ cảnh và ý định của người dùng:
-                
-                1. Nếu người dùng đang TÌM KIẾM VIỆC LÀM, họ thường sẽ:
-                   - Hỏi trực tiếp về các vị trí công việc cụ thể
-                   - Muốn danh sách công việc ở một địa điểm
-                   - Tìm kiếm công việc với một kỹ năng cụ thể
-                   - Sử dụng từ ngữ như "tìm việc", "công việc ở đâu", "việc làm nào"
-                
-                2. Nếu người dùng đang HỎI VỀ PHÁT TRIỂN KỸ NĂNG NGHỀ NGHIỆP, họ thường sẽ:
-                   - Hỏi về cách học một kỹ năng liên quan đến công việc (lập trình, thiết kế, marketing, v.v.)
-                   - Muốn cải thiện kiến thức trong một lĩnh vực chuyên môn
-                   - Tìm kiếm lộ trình học tập cho nghề nghiệp cụ thể
-                   - Hỏi về kỹ năng cần thiết cho một công việc
-                   
-                   => Đây VẪN LÀ câu hỏi LIÊN QUAN ĐẾN CÔNG VIỆC và NGHỀ NGHIỆP, nên cần được trả lời.
-                
-                3. Nếu người dùng đang HỎI CÂU HỎI KHÔNG LIÊN QUAN ĐẾN CÔNG VIỆC, họ thường sẽ:
-                   - Hỏi về chủ đề cá nhân (sức khỏe, mối quan hệ, v.v.)
-                   - Hỏi về giải trí (phim, âm nhạc, trò chơi, v.v.)
-                   - Hỏi về các chủ đề chung không liên quan đến công việc
-                
-                Ví dụ LIÊN QUAN ĐẾN CÔNG VIỆC:
-                - "Tôi muốn cải thiện kỹ năng AI của mình" → LIÊN QUAN đến công việc
-                - "Làm thế nào để học tốt Python?" → LIÊN QUAN đến công việc
-                - "Tôi muốn học thiết kế web" → LIÊN QUAN đến công việc
-                - "Cần lộ trình học web development" → LIÊN QUAN đến công việc
-                - "Tìm việc AI ở Hà Nội" → LIÊN QUAN đến công việc
-                
-                Phân tích ngữ nghĩa sâu hơn, không chỉ dựa vào từ khóa đơn lẻ. Xem xét liệu câu hỏi có liên quan đến:
-                - Kỹ năng nghề nghiệp
-                - Phát triển chuyên môn
-                - Lộ trình học tập cho công việc
-                - Nhu cầu thị trường lao động
-                
-                Nếu có, hãy coi đó là câu hỏi liên quan đến công việc.
-
-                Trả về dạng JSON:
-                
-                Nếu là câu hỏi liên quan đến công việc (bao gồm cả tìm việc và phát triển kỹ năng nghề nghiệp):
-                {{
-                    "is_job_related": true,
-                    "is_job_search": true/false,
-                    "search_type": "title/location/skill", // chỉ điền nếu is_job_search=true
-                    "search_term": "term_extracted", // chỉ điền nếu is_job_search=true
-                    "confidence": 0.XX
-                }}
-                
-                Nếu KHÔNG liên quan đến công việc:
-                {{
-                    "is_job_related": false,
-                    "confidence": 0.XX
-                }}
-                
-                Chỉ trả về JSON, không có giải thích thêm.
-                """
-                
-                # Call ChatGPT to analyze the intent
-                analysis_response = chatgpt_helper.ask_gpt(analysis_prompt)
-                logger.debug(f"Analysis response: {analysis_response}")
-                
-                try:
-                    # Try to parse the JSON response
-                    analysis_result = json.loads(analysis_response)
-                    if analysis_result.get('is_job_related', False):
-                        # Determine if this is a job search or career development question
-                        is_job_related = True
-                        confidence = analysis_result.get('confidence', 0)
-                        
-                        # Check if this is specifically a job search query
-                        if analysis_result.get('is_job_search', False) and confidence >= 0.6:
-                            is_job_query = True
-                            query_type = analysis_result.get('search_type', 'title')
-                            query_value = analysis_result.get('search_term', '')
-                            
-                            # Log the extracted intent for debugging
-                            logger.debug(f"ChatGPT extracted job search intent: {query_type}='{query_value}' with confidence {confidence}")
-                        else:
-                            # Job-related but not a job search - handle as career/skill development
-                            is_job_query = False
-                            logger.debug(f"ChatGPT detected career development question (confidence: {confidence})")
-                            
-                            # Treat this as a special type of educational query that is job-related
-                            is_educational_query = True
-                    else:
-                        # Not job-related at all
-                        is_job_related = False
-                        is_job_query = False
-                        confidence = analysis_result.get('confidence', 0)
-                        logger.debug(f"ChatGPT determined this is NOT job-related (confidence: {confidence})")
-                        
-                        # If not job-related with high confidence, give a polite refusal
-                        if confidence >= 0.7:
-                            assistant_message = "Xin lỗi, tôi chỉ có thể trả lời các câu hỏi liên quan đến công việc và nghề nghiệp. Bạn có thể hỏi tôi về việc cải thiện CV, chuẩn bị phỏng vấn, phát triển kỹ năng chuyên môn, hoặc tìm kiếm cơ hội việc làm."
-                            
-                            # Save response
-                            Message.objects.create(
-                                conversation=conversation,
-                                role='assistant',
-                                content=assistant_message
-                            )
-                            
-                            return JsonResponse({
-                                'message': assistant_message,
-                                'conversation_id': conversation.id,
-                                'is_html': False
-                            })
-                except json.JSONDecodeError as e:
-                    # If parsing fails, continue with normal processing
-                    logger.warning(f"Failed to parse ChatGPT analysis: {str(e)}")
-                    logger.warning(f"Raw response: {analysis_response}")
-                    pass
-            except Exception as e:
-                logger.error(f"Error in ChatGPT analysis: {str(e)}")
-                is_job_query = False
+        Chọn một trong các loại sau và trả về chỉ một từ khóa:
+        1. "job_search" - nếu người dùng đang tìm kiếm công việc cụ thể
+        2. "web_search" - nếu người dùng đang hỏi về công nghệ web, xu hướng, thông tin kỹ thuật
+        3. "general" - các câu hỏi chung khác về nghề nghiệp, phát triển kỹ năng
         
-        if is_job_query:
+        Chỉ trả về đúng một từ: "job_search", "web_search" hoặc "general"
+        """
+        
+        intent_response = chatgpt_helper.ask_gpt(intent_prompt).strip().lower()
+        
+        # Step 4: Process based on the detected intent
+        if intent_response == "job_search":
             try:
-                # Use the database agent to query jobs
-                if query_type == 'title':
-                    jobs = JobDatabaseAgent.query_jobs_by_title(query_value)
-                elif query_type == 'location':
-                    jobs = JobDatabaseAgent.query_jobs_by_location(query_value)
-                elif query_type == 'skills':
-                    jobs = JobDatabaseAgent.query_jobs_by_skills(query_value)
-                else:
-                    jobs = []
+                # Use the job_search tool
+                job_search_result = WebSearchTools.job_search(user_message)
                 
-                # If no jobs found with the first query, try alternative search terms
-                if not jobs and query_value:
-                    try:
-                        # Ask ChatGPT for alternative search terms
-                        alternatives_prompt = f"""
-                        Đề xuất 3 từ khóa tìm kiếm thay thế cho "{query_value}" để tìm công việc IT.
-                        Chỉ liệt kê các từ khóa, cách nhau bằng dấu phẩy, không có giải thích.
-                        """
-                        alternatives_response = chatgpt_helper.ask_gpt(alternatives_prompt)
-                        
-                        # Try each alternative
-                        for alt_term in alternatives_response.split(','):
-                            alt_term = alt_term.strip()
-                            if alt_term and alt_term != query_value:
-                                try:
-                                    alt_jobs = JobDatabaseAgent.query_jobs_by_title(alt_term)
-                                    if alt_jobs:
-                                        # Add an explanation about the alternative search
-                                        alternative_explanation = f"""
-                                        <div class="search-alternative-notice">
-                                            <p>Tôi không tìm thấy công việc nào cho từ khóa '{query_value}', 
-                                            nhưng đây là kết quả cho '{alt_term}':</p>
-                                        </div>
-                                        """
-                                        formatted_jobs = JobDatabaseAgent.format_job_results(alt_jobs, query_type, alt_term)
-                                        assistant_message = alternative_explanation + formatted_jobs
-                                        is_html = True
-                                        break
-                                except Exception as e:
-                                    logger.error(f"Error in alternative search for '{alt_term}': {str(e)}")
-                        else:
-                            # If no results with alternatives either, format the original empty result
-                            assistant_message = JobDatabaseAgent.format_job_results(jobs, query_type, query_value)
-                            is_html = True
-                    except Exception as e:
-                        logger.error(f"Error in alternatives search: {str(e)}")
-                        # Fallback to normal formatting
-                        assistant_message = JobDatabaseAgent.format_job_results(jobs, query_type, query_value)
-                        is_html = True
-                else:
-                    # Format the response with HTML
-                    assistant_message = JobDatabaseAgent.format_job_results(jobs, query_type, query_value)
+                if job_search_result.get('success', False):
+                    assistant_message = job_search_result.get('formatted_results', '')
                     is_html = True
+                    is_markdown = False
+                else:
+                    # Fallback to standard response if job search fails
+                    error = job_search_result.get('error', 'Unknown error')
+                    logger.error(f"Job search failed: {error}")
+                    assistant_message = chatgpt_helper.ask_gpt(user_message)
+                    is_html = False
+                    is_markdown = True
             except Exception as e:
-                logger.error(f"Error in job query processing: {str(e)}")
+                logger.error(f"Error in job search processing: {str(e)}")
                 # Fallback to standard ChatGPT response
                 assistant_message = chatgpt_helper.ask_gpt(user_message)
                 is_html = False
-        else:
+                is_markdown = True
+        
+        elif intent_response == "web_search":
             try:
-                # For educational queries, add a special prompt to get better responses
-                if is_educational_query:
-                    enhanced_prompt = f"""
-                    Bạn là một trợ lý phát triển nghề nghiệp và kỹ năng chuyên môn, chuyên cung cấp hướng dẫn cá nhân hóa về học tập và phát triển kỹ năng trong lĩnh vực công nghệ thông tin và các ngành nghề khác. Người dùng đang hỏi:
-                    
-                    "{user_message}"
-                    
-                    Hãy phân tích câu hỏi để xác định:
-                    1. Lĩnh vực chuyên môn cụ thể mà người dùng quan tâm (Web, AI, lập trình, thiết kế, v.v.)
-                    2. Mục tiêu phát triển nghề nghiệp của họ (cải thiện kỹ năng hiện tại, học kỹ năng mới, v.v.)
-                    3. Mức độ hiểu biết hiện tại (người mới, trung cấp, nâng cao)
-                    
-                    Dựa trên phân tích, hãy cung cấp một phản hồi cá nhân hóa bao gồm:
-                    
-                    • Tổng quan ngắn gọn về lĩnh vực/kỹ năng và tầm quan trọng của nó trên thị trường lao động
-                    • Lộ trình học tập cụ thể và phù hợp với mục tiêu nghề nghiệp
-                    • Tài nguyên học tập chất lượng (khóa học, sách, website, v.v.)
-                    • Phương pháp thực hành hiệu quả và dự án thực tế để xây dựng portfolio
-                    • Các kỹ năng bổ sung cần thiết để nâng cao cơ hội việc làm
-                    
-                    Nếu câu hỏi liên quan đến phát triển web, hãy cung cấp:
-                    • Các công nghệ và framework hiện đại và được ưa chuộng nhất
-                    • Lộ trình phát triển từ cơ bản đến nâng cao
-                    • Các dự án thực tế để xây dựng portfolio
-                    • Kỹ năng cần thiết để làm việc trong các công ty công nghệ
-                    
-                    Trả lời bằng tiếng Việt, sử dụng định dạng bullet points để dễ đọc. Cung cấp thông tin thực tế, cập nhật và hữu ích với lộ trình rõ ràng.
-                    """
-                    assistant_message = chatgpt_helper.ask_gpt(enhanced_prompt)
+                # Use the web_search tool for technology queries
+                web_search_result = WebSearchTools.web_search(user_message)
+                
+                if web_search_result.get('success', False):
+                    assistant_message = web_search_result.get('results', '')
+                    is_html = False
+                    is_markdown = web_search_result.get('is_markdown', False)
                 else:
-                    # Standard GPT processing for normal queries
+                    # Fallback to standard response if web search fails
+                    error = web_search_result.get('error', 'Unknown error')
+                    logger.error(f"Web search failed: {error}")
                     assistant_message = chatgpt_helper.ask_gpt(user_message)
-                    
-                is_html = False
+                    is_html = False
+                    is_markdown = False
             except Exception as e:
-                logger.error(f"Error in standard GPT processing: {str(e)}")
+                logger.error(f"Error in web search processing: {str(e)}")
+                assistant_message = chatgpt_helper.ask_gpt(user_message)
+                is_html = False
+                is_markdown = False
+        
+        else:  # "general" or any other response
+            try:
+                # For educational/career development/general queries
+                enhanced_prompt = f"""
+                Bạn là một trợ lý phát triển nghề nghiệp và kỹ năng chuyên môn, chuyên cung cấp hướng dẫn cá nhân hóa về học tập và phát triển kỹ năng trong lĩnh vực công nghệ thông tin và các ngành nghề khác. Người dùng đang hỏi:
+                
+                "{user_message}"
+                
+                Hãy phân tích câu hỏi để xác định:
+                1. Lĩnh vực chuyên môn cụ thể mà người dùng quan tâm (Web, AI, lập trình, thiết kế, v.v.)
+                2. Mục tiêu phát triển nghề nghiệp của họ (cải thiện kỹ năng hiện tại, học kỹ năng mới, v.v.)
+                3. Mức độ hiểu biết hiện tại (người mới, trung cấp, nâng cao)
+                
+                Dựa trên phân tích, hãy cung cấp một phản hồi cá nhân hóa bao gồm:
+                
+                • Tổng quan ngắn gọn về lĩnh vực/kỹ năng và tầm quan trọng của nó trên thị trường lao động
+                • Lộ trình học tập cụ thể và phù hợp với mục tiêu nghề nghiệp
+                • Tài nguyên học tập chất lượng (khóa học, sách, website, v.v.)
+                • Phương pháp thực hành hiệu quả và dự án thực tế để xây dựng portfolio
+                • Các kỹ năng bổ sung cần thiết để nâng cao cơ hội việc làm
+                
+                Trả lời bằng tiếng Việt, sử dụng định dạng markdown để dễ đọc. Cung cấp thông tin thực tế, cập nhật và hữu ích với lộ trình rõ ràng.
+                """
+                assistant_message = chatgpt_helper.ask_gpt(enhanced_prompt)
+                is_html = False
+                is_markdown = True
+            except Exception as e:
+                logger.error(f"Error in general query processing: {str(e)}")
                 assistant_message = f"Xin lỗi, tôi không thể xử lý yêu cầu của bạn lúc này. Vui lòng thử lại sau."
                 is_html = False
+                is_markdown = False
         
         # Save response
         Message.objects.create(
@@ -450,11 +346,14 @@ def chatbot_api(request):
             content=assistant_message
         )
         
-        return JsonResponse({
+        response_data = {
             'message': assistant_message,
             'conversation_id': conversation.id,
-            'is_html': is_html
-        })
+            'is_html': is_html,
+            'is_markdown': is_markdown if 'is_markdown' in locals() else False
+        }
+        
+        return JsonResponse(response_data)
         
     except json.JSONDecodeError:
         logger.error("Invalid JSON data received")

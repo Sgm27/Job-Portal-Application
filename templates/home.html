@@ -2,12 +2,31 @@
 {% load static %}
 
 {% block body_attrs %}
-class="homepage-special instant-page" data-page="home"
+class="homepage-special instant-page" data-page="home" data-animations-disabled="true"
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home-critical.css' %}?v={% now 'U' %}">
+<style>
+    /* Inline critical CSS for fastest possible application */
+    body.homepage-special * {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    .page-transition {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        animation: none !important;
+    }
+</style>
 {% endblock %}
 
 {% block main_content %}
 <div class="container my-5">
-    <div class="row mb-5 page-transition">
+    <div class="row mb-5 page-transition" data-animated="true">
         <div class="col-lg-10 mx-auto text-center">
             <div class="glass-container jumbotron rounded-lg shadow position-relative overflow-hidden">
                 <h1 class="display-4 fw-bold">Find Your Next Career</h1>
@@ -27,9 +46,9 @@ class="homepage-special instant-page" data-page="home"
     </div>
 
     <!-- Additional sections with animations -->
-    <div class="row mb-5 page-transition">
+    <div class="row mb-5 page-transition" data-animated="true">
         <div class="col-md-4">
-            <div class="card h-100">
+            <div class="card h-100" data-animated="true">
                 <div class="card-body text-center">
                     <i class="bi bi-search display-4 mb-3 text-primary"></i>
                     <h3 class="card-title">Find Jobs</h3>
@@ -39,7 +58,7 @@ class="homepage-special instant-page" data-page="home"
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card h-100">
+            <div class="card h-100" data-animated="true">
                 <div class="card-body text-center">
                     <i class="bi bi-file-earmark-text display-4 mb-3 text-primary"></i>
                     <h3 class="card-title">Apply Online</h3>
@@ -53,7 +72,7 @@ class="homepage-special instant-page" data-page="home"
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card h-100">
+            <div class="card h-100" data-animated="true">
                 <div class="card-body text-center">
                     <i class="bi bi-building display-4 mb-3 text-primary"></i>
                     <h3 class="card-title">For Employers</h3>
@@ -68,34 +87,34 @@ class="homepage-special instant-page" data-page="home"
         </div>
     </div>
     
-    <div class="row mb-5 page-transition">
+    <div class="row mb-5 page-transition" data-animated="true">
         <div class="col-lg-12">
             <div class="glass-container p-4 rounded-lg shadow">
                 <h2 class="mb-4 text-center">Why Choose Our Job Portal?</h2>
                 <div class="row text-center">
                     <div class="col-md-3 mb-4">
-                        <div class="feature-box">
+                        <div class="feature-box" data-animated="true">
                             <i class="bi bi-lightning-charge display-5 text-primary mb-3"></i>
                             <h4>Fast & Easy</h4>
                             <p>Quick job search and application process</p>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
-                        <div class="feature-box">
+                        <div class="feature-box" data-animated="true">
                             <i class="bi bi-bullseye display-5 text-primary mb-3"></i>
                             <h4>Targeted Matching</h4>
                             <p>Find jobs that match your skills</p>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
-                        <div class="feature-box">
+                        <div class="feature-box" data-animated="true">
                             <i class="bi bi-shield-check display-5 text-primary mb-3"></i>
                             <h4>Verified Employers</h4>
                             <p>Apply with confidence to legitimate openings</p>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
-                        <div class="feature-box">
+                        <div class="feature-box" data-animated="true">
                             <i class="bi bi-graph-up display-5 text-primary mb-3"></i>
                             <h4>Career Growth</h4>
                             <p>Resources to help advance your career</p>
@@ -106,4 +125,44 @@ class="homepage-special instant-page" data-page="home"
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // One-time initialization to ensure animations never run
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mark document as having animations disabled
+        document.documentElement.dataset.animationsDisabled = 'true';
+        
+        // Force all elements into their final state immediately
+        const animatableElements = document.querySelectorAll('.page-transition, .card, .fade-in, .fade-in-up, [data-aos], .animated, .animation');
+        animatableElements.forEach(el => {
+            // Mark as already animated
+            el.dataset.animated = "true";
+            el.dataset.animating = "true";
+            
+            // Apply final visual state directly
+            el.style.opacity = "1";
+            el.style.visibility = "visible";
+            el.style.transform = "none";
+            el.classList.add('card-visible', 'loaded', 'visible');
+            
+            // Remove animation-related attributes
+            if (el.hasAttribute('data-aos')) {
+                el.removeAttribute('data-aos');
+            }
+        });
+        
+        // Disable any potential animation triggers
+        if (window.AOS) {
+            // Make sure AOS is disabled on homepage
+            console.log('Home page: Explicitly disabling AOS');
+            document.querySelectorAll('[data-aos]').forEach(el => {
+                el.removeAttribute('data-aos');
+            });
+        }
+        
+        console.log('Home page: All animations disabled and elements forced to final state');
+    });
+</script>
 {% endblock %} 

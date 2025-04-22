@@ -3,6 +3,10 @@
 
 {% block title %}Việc Làm - Job Portal{% endblock %}
 
+{% block body_attrs %}
+class="jobs-page page-transition" data-page="jobs"
+{% endblock %}
+
 {% block content %}
 <div class="row page-transition">
     <!-- Filters Sidebar with Glass Effect -->
@@ -39,10 +43,10 @@
                     
                     <!-- Các nút tìm kiếm và xóa bộ lọc -->
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary" id="searchButton">
+                        <button type="submit" class="btn btn-primary btn-scale" id="searchButton">
                             <i class="bi bi-search me-2"></i>Tìm kiếm
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" id="clearFiltersButton">
+                        <button type="button" class="btn btn-outline-secondary btn-scale" id="clearFiltersButton">
                             <i class="bi bi-x-circle me-2"></i>Xóa bộ lọc
                         </button>
                     </div>
@@ -52,7 +56,7 @@
     </div>
 
     <!-- Jobs List with Glass Effect -->
-    <div class="col-md-9">
+    <div class="col-md-9 page-transition">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="fw-bold mb-0">Việc Làm Hiện Có</h1>
             <div class="text-muted">
@@ -184,13 +188,13 @@
                     {% endif %}
                 </div>
             {% else %}
-                <div class="text-center py-5">
+                <div class="text-center py-5 page-transition">
                     <div class="mb-4">
                         <i class="bi bi-search display-1 text-muted"></i>
                     </div>
                     <h3 class="text-muted mb-4">Không tìm thấy công việc phù hợp</h3>
                     <p class="lead mb-4">Hãy thử điều chỉnh bộ lọc tìm kiếm hoặc xem tất cả các công việc.</p>
-                    <a href="{% url 'job_list' %}" class="btn btn-primary">
+                    <a href="{% url 'job_list' %}" class="btn btn-primary btn-scale">
                         <i class="bi bi-arrow-repeat me-2"></i>Xem tất cả công việc
                     </a>
                 </div>
@@ -205,6 +209,16 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Để ngăn khởi tạo nhiều lần - đã thêm biến flag trong jobs.js
         console.log('Job list page initialized');
+        
+        // Kích hoạt hiệu ứng cho các card
+        const jobCards = document.querySelectorAll('.card-animated');
+        setTimeout(() => {
+            jobCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('card-visible');
+                }, index * 100);
+            });
+        }, 300);
         
         // Xử lý skeleton loading khi chuyển trang hoặc tìm kiếm
         const paginationLinks = document.querySelectorAll('.pagination-link');
@@ -249,48 +263,40 @@
             window.history.replaceState({}, '', newUrl);
         };
         
-        // Gọi hàm dọn URL khi trang tải
-        cleanSearchUrl();
-        
-        // Xử lý nút "xóa bộ lọc"
+        // Xử lý form tìm kiếm
+        const jobSearchForm = document.getElementById('jobSearchForm');
         const clearFiltersButton = document.getElementById('clearFiltersButton');
-        if (clearFiltersButton) {
-            clearFiltersButton.addEventListener('click', function() {
-                const searchForm = document.getElementById('jobSearchForm');
-                if (searchForm) {
-                    // Reset tất cả các trường trong form
-                    const formInputs = searchForm.querySelectorAll('input, select');
-                    formInputs.forEach(input => {
-                        if (input.type === 'text' || input.tagName === 'SELECT') {
-                            input.value = '';
-                        }
-                    });
-                    
-                    // Thêm hiệu ứng loading
-                    const jobListContainer = document.querySelector('.job-list-container');
-                    if (jobListContainer) {
-                        jobListContainer.style.opacity = '0.6';
-                        jobListContainer.style.transition = 'opacity 0.3s ease';
-                    }
-                    
-                    // Chuyển hướng về trang danh sách công việc không có bộ lọc
-                    window.location.href = '{% url "job_list" %}';
+        
+        if (jobSearchForm) {
+            // Clean URL mỗi khi load trang
+            cleanSearchUrl();
+            
+            // Xử lý khi submit form
+            jobSearchForm.addEventListener('submit', function(e) {
+                if (skeletonLoading && jobListContainer) {
+                    jobListContainer.style.display = 'none';
+                    skeletonLoading.style.display = 'block';
                 }
             });
-        }
-        
-        // Fallback để đảm bảo job cards luôn hiển thị ngay cả khi jobs.js không tải được
-        setTimeout(function() {
-            const jobCards = document.querySelectorAll('.card-animated:not(.card-visible)');
-            if (jobCards.length > 0) {
-                console.log('Fallback: Making job cards visible');
-                jobCards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('card-visible');
-                    }, index * 50);
+            
+            // Xử lý nút clear filters
+            if (clearFiltersButton) {
+                clearFiltersButton.addEventListener('click', function() {
+                    // Reset các trường form
+                    const inputs = jobSearchForm.querySelectorAll('input, select');
+                    inputs.forEach(input => {
+                        input.value = '';
+                    });
+                    
+                    // Submit form
+                    if (skeletonLoading && jobListContainer) {
+                        jobListContainer.style.display = 'none';
+                        skeletonLoading.style.display = 'block';
+                    }
+                    jobSearchForm.submit();
                 });
             }
-        }, 1000); // Chờ 1 giây sau khi trang tải xong để kiểm tra
+        }
     });
 </script>
 {% endblock %}

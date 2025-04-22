@@ -16,17 +16,37 @@
         // Set global flag immediately
         window.homePageFullyInitialized = true;
         
-        // Set styles in <head> before DOM is ready to prevent flash
+        // CRITICAL FIX: Set document flag to prevent any animation initialization on home page
+        document.documentElement.dataset.animationsDisabled = 'true';
+        
+        // Set styles in <head> before DOM is ready to prevent flash and disable ALL animations
         const style = document.createElement('style');
+        style.setAttribute('data-critical', 'true');
         style.innerHTML = `
-            body.homepage-special, body.homepage-special * {
-                animation-play-state: paused !important;
+            /* Complete animation disabler for homepage */
+            body.homepage-special * {
+                animation: none !important;
                 transition: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+                animation-duration: 0ms !important;
+                animation-delay: 0ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0ms !important;
             }
+            
+            /* Ensure all page transitions are visible immediately */
             .page-transition {
                 opacity: 1 !important;
                 transform: translateY(0) !important;
                 animation: none !important;
+            }
+            
+            /* Disable AOS animations on homepage */
+            [data-aos] {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
             }
         `;
         document.head.appendChild(style);
@@ -44,8 +64,43 @@ document.addEventListener('DOMContentLoaded', function() {
                        window.location.pathname === '/home/' || 
                        window.location.pathname === '/index.html';
 
+    // Only initialize once - prevent multiple runs
+    if (window.mainJsInitialized) {
+        console.log('Main.js already initialized, preventing duplicate initialization');
+        return;
+    }
+    window.mainJsInitialized = true;
+
+    // CRITICAL FIX: For homepage, immediately force all elements to final state
+    if (isHomePage) {
+        // Force immediate display of all elements that might be animated
+        document.querySelectorAll('.page-transition, .card, .fade-in, .fade-in-up, [data-aos]').forEach(el => {
+            // Mark as already animated to prevent any future animations
+            el.dataset.animated = "true";
+            el.dataset.animating = "true";
+            
+            // Apply final visual state directly
+            el.style.opacity = "1";
+            el.style.visibility = "visible";
+            el.style.transform = "none";
+            el.classList.add('card-visible', 'loaded', 'visible');
+            
+            // Remove animation-related attributes
+            if (el.hasAttribute('data-aos')) {
+                el.removeAttribute('data-aos');
+            }
+        });
+    }
+
     // Function containing UI enhancements
     function runUIEnhancements(isOnHomePage) {
+        // Prevent multiple runs of UI enhancements
+        if (window.uiEnhancementsInitialized) {
+            console.log('UI enhancements already initialized, skipping');
+            return;
+        }
+        window.uiEnhancementsInitialized = true;
+        
         // Check if enhanceFormElements exists before calling it
         if (typeof enhanceFormElements === 'function') {
             enhanceFormElements();
@@ -53,35 +108,28 @@ document.addEventListener('DOMContentLoaded', function() {
             console.warn('enhanceFormElements function not found. Skipping form enhancements.');
         }
         
-        // For home page, unlock animations only after everything is ready
+        // For home page, completely skip animations and just set final state
         if (isOnHomePage) {
-            // Disable any animations initially
-            const pageTransitions = document.querySelectorAll('.page-transition');
-            pageTransitions.forEach(el => {
-                el.style.opacity = "1";
-                el.style.transform = "translateY(0)";
-            });
+            // Skip all animation setup for homepage
+            console.log('Home page detected: Skipping all animation setup');
+            
+            // Only run non-animation related functions
+            enhanceDropdowns();
+            
+            // Skip animation-related functions completely for home page
+            return;
         }
         
+        // Only run these for non-homepage
         setupLazyLoading(isOnHomePage);
         addSmoothScrolling();
         setupCardAnimations(isOnHomePage);
         enhanceDropdowns();
         optimizeImageLoading(isOnHomePage);
         
-        // Only setup parallax on larger screens
-        if (window.innerWidth >= 992) {
+        // Only setup parallax on larger screens and not on homepage
+        if (!isOnHomePage && window.innerWidth >= 992) {
             setupParallaxEffects();
-        }
-        
-        // If on home page, remove the animation blocking style now that everything is set up
-        if (isOnHomePage) {
-            setTimeout(() => {
-                const homepageStyleElement = document.querySelector('style[data-homepage-style]');
-                if (homepageStyleElement) {
-                    homepageStyleElement.remove();
-                }
-            }, 50);
         }
     }
 
@@ -108,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Run UI enhancements
     if (isHomePage) {
-        console.log('Home page: Running UI enhancements synchronously.');
+        console.log('Home page: Running UI enhancements synchronously, with animations disabled.');
         runUIEnhancements(true);
     } else {
         console.log('Non-home page: Running UI enhancements with slight delay.');
@@ -116,8 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // We can keep a very small delay or 0. The sessionStorage check is removed for simplicity.
         setTimeout(() => runUIEnhancements(false), 50);
     }
-    
-    // Note: Removed the original call to lazyLoadOperations()
 });
 
 // Initialize Bootstrap components that need JavaScript
@@ -418,14 +464,16 @@ function smoothFadeOut(element) {
 
 // Setup card animations and hover effects - optimized for performance
 function setupCardAnimations(isOnHomePage) {
-    // For home page, skip staggered animations entirely
+    // Skip if already initialized to prevent duplicate animations
+    if (window.cardAnimationsInitialized) {
+        console.log('Card animations already initialized, skipping');
+        return;
+    }
+    window.cardAnimationsInitialized = true;
+    
+    // For homepage, completely skip animations to prevent any possibility of multiple loads
     if (isOnHomePage) {
-        document.querySelectorAll('.card:not(.stagger-item):not(.card-appear)').forEach((card) => {
-            card.classList.add('loaded');
-            // Apply styles directly to avoid flickering
-            card.style.opacity = "1";
-            card.style.transform = "translateY(0)";
-        });
+        console.log('Home page detected: Skipping all card animations');
         return;
     }
     
@@ -518,17 +566,19 @@ function enhanceDropdowns() {
 
 // Set up lazy loading for images and content
 function setupLazyLoading(isOnHomePage) {
-    // For home page, immediately make all images visible
+    // For home page, don't use Intersection Observer animations at all
     if (isOnHomePage) {
         document.querySelectorAll('img[data-src]').forEach(img => {
-            // Pre-load images for home page immediately
-            img.src = img.getAttribute('data-src');
-            img.classList.add('loaded');
-            img.removeAttribute('data-src');
+            if (img.dataset.src) {
+                // Pre-load images for home page immediately
+                img.src = img.dataset.src;
+                img.classList.add('loaded');
+                img.removeAttribute('data-src');
+            }
         });
         
         // Make fade-in elements visible immediately
-        document.querySelectorAll('.fade-in-up').forEach(element => {
+        document.querySelectorAll('.fade-in-up, .fade-in').forEach(element => {
             element.classList.add('visible');
             element.style.opacity = "1";
             element.style.transform = "translateY(0)";
@@ -629,8 +679,15 @@ function optimizeImageLoading(isOnHomePage) {
     }
 }
 
-// Setup parallax effects for applicable sections
+// Setup parallax effects for applicable sections - completely skip for homepage
 function setupParallaxEffects() {
+    // Skip entirely for homepage
+    if (window.location.pathname === '/' || 
+        window.location.pathname === '/home/' || 
+        window.location.pathname === '/index.html') {
+        return;
+    }
+    
     // Only apply on larger screens to avoid performance issues on mobile
     const parallaxSections = document.querySelectorAll('.profile-header, .jumbotron, [data-parallax="true"]');
     

@@ -339,14 +339,40 @@
     <script>
         // Initialize AOS library with optimized settings
         document.addEventListener('DOMContentLoaded', function() {
+            // Skip if we've already initialized
+            if (window.aosInitialized) {
+                console.log('AOS already initialized, skipping duplicate initialization');
+                return;
+            }
+            window.aosInitialized = true;
+            
             // Check if we're on home page
             const isHomePage = document.body.classList.contains('homepage-special');
             
+            // CRITICAL FIX: Check for document-level animation disabling flag
+            const animationsDisabled = document.documentElement.dataset.animationsDisabled === 'true';
+            
             if (window.AOS) {
+                // Completely disable AOS throughout the site if animations are disabled by flag
+                if (animationsDisabled) {
+                    console.log('Animations are completely disabled by document flag');
+                    // Force AOS elements to final state
+                    document.querySelectorAll('[data-aos]').forEach(el => {
+                        el.removeAttribute('data-aos');
+                        el.style.transform = 'none';
+                        el.style.opacity = '1';
+                    });
+                }
                 // Disable AOS completely on home page
-                if (isHomePage) {
+                else if (isHomePage) {
                     // Don't initialize AOS on homepage to prevent flicker
                     console.log('Home page detected: AOS animations disabled');
+                    // Force AOS elements to final state
+                    document.querySelectorAll('[data-aos]').forEach(el => {
+                        el.removeAttribute('data-aos');
+                        el.style.transform = 'none';
+                        el.style.opacity = '1';
+                    });
                 } else {
                     // Only initialize AOS on non-home pages
                     AOS.init({

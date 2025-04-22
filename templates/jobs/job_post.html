@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Post a Job - Job Portal{% endblock %}
+{% block title %}Đăng Tin Tuyển Dụng - Job Portal{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -8,14 +8,14 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Post a New Job</h4>
+                    <h4 class="mb-0">Đăng Tin Tuyển Dụng Mới</h4>
                 </div>
                 <div class="card-body">
                     <form method="post">
                         {% csrf_token %}
                         
                         <div class="mb-3">
-                            <label for="id_title" class="form-label">Job Title</label>
+                            <label for="id_title" class="form-label">Vị trí tuyển dụng</label>
                             {{ form.title }}
                             {% if form.title.errors %}
                                 <div class="text-danger">{{ form.title.errors }}</div>
@@ -23,7 +23,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="id_description" class="form-label">Job Description</label>
+                            <label for="id_description" class="form-label">Mô tả công việc</label>
                             {{ form.description }}
                             {% if form.description.errors %}
                                 <div class="text-danger">{{ form.description.errors }}</div>
@@ -31,7 +31,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="id_requirements" class="form-label">Requirements</label>
+                            <label for="id_requirements" class="form-label">Yêu cầu</label>
                             {{ form.requirements }}
                             {% if form.requirements.errors %}
                                 <div class="text-danger">{{ form.requirements.errors }}</div>
@@ -40,31 +40,45 @@
                         
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="id_location" class="form-label">Location</label>
+                                <label for="id_location" class="form-label">Địa điểm</label>
                                 {{ form.location }}
                                 {% if form.location.errors %}
                                     <div class="text-danger">{{ form.location.errors }}</div>
                                 {% endif %}
                             </div>
                             <div class="col-md-6">
-                                <label for="id_salary" class="form-label">Salary (Optional)</label>
-                                {{ form.salary }}
-                                {% if form.salary.errors %}
-                                    <div class="text-danger">{{ form.salary.errors }}</div>
-                                {% endif %}
+                                <label for="id_salary" class="form-label">Mức lương</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="id_min_salary" class="form-label small">Tối thiểu</label>
+                                        {{ form.min_salary }}
+                                        {% if form.min_salary.errors %}
+                                            <div class="text-danger">{{ form.min_salary.errors }}</div>
+                                        {% endif %}
+                                        <small class="form-text text-muted">{{ form.min_salary.help_text }}</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_max_salary" class="form-label small">Tối đa</label>
+                                        {{ form.max_salary }}
+                                        {% if form.max_salary.errors %}
+                                            <div class="text-danger">{{ form.max_salary.errors }}</div>
+                                        {% endif %}
+                                        <small class="form-text text-muted">{{ form.max_salary.help_text }}</small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="id_job_type" class="form-label">Job Type</label>
+                                <label for="id_job_type" class="form-label">Loại công việc</label>
                                 {{ form.job_type }}
                                 {% if form.job_type.errors %}
                                     <div class="text-danger">{{ form.job_type.errors }}</div>
                                 {% endif %}
                             </div>
                             <div class="col-md-6">
-                                <label for="id_application_deadline" class="form-label">Application Deadline</label>
+                                <label for="id_application_deadline" class="form-label">Hạn nộp đơn</label>
                                 {{ form.application_deadline }}
                                 {% if form.application_deadline.errors %}
                                     <div class="text-danger">{{ form.application_deadline.errors }}</div>
@@ -73,19 +87,19 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="id_status" class="form-label">Job Status</label>
+                            <label for="id_status" class="form-label">Trạng thái đăng tin</label>
                             {{ form.status }}
                             {% if form.status.errors %}
                                 <div class="text-danger">{{ form.status.errors }}</div>
                             {% endif %}
                             <div class="form-text text-muted">
-                                Set to "Draft" if you're not ready to publish yet.
+                                Chọn "Bản nháp" nếu bạn chưa sẵn sàng đăng tin.
                             </div>
                         </div>
                         
                         <div class="d-flex justify-content-between mt-4">
-                            <a href="{% url 'employer_dashboard' %}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Post Job</button>
+                            <a href="{% url 'employer_dashboard' %}" class="btn btn-secondary">Hủy</a>
+                            <button type="submit" class="btn btn-primary">Đăng tin</button>
                         </div>
                     </form>
                 </div>

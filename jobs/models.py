@@ -90,7 +90,8 @@ class Job(models.Model):
     description = models.TextField()
     requirements = models.TextField()
     location = models.CharField(max_length=100, choices=VIETNAM_LOCATIONS)
-    salary = models.CharField(max_length=50, null=True, blank=True, help_text='Mức lương theo tháng (VNĐ)')
+    min_salary = models.IntegerField(null=True, blank=True, help_text='Mức lương tối thiểu theo tháng (VNĐ)')
+    max_salary = models.IntegerField(null=True, blank=True, help_text='Mức lương tối đa theo tháng (VNĐ)')
     job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default='full_time')
     employer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='jobs')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -102,6 +103,16 @@ class Job(models.Model):
     
     def __str__(self):
         return self.title
+    
+    @property
+    def salary(self):
+        if self.min_salary and self.max_salary:
+            return f"{self.min_salary:,} - {self.max_salary:,} VNĐ"
+        elif self.min_salary:
+            return f"Từ {self.min_salary:,} VNĐ"
+        elif self.max_salary:
+            return f"Đến {self.max_salary:,} VNĐ"
+        return None
     
     @property
     def is_expired(self):

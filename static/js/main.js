@@ -11,21 +11,80 @@
                        window.location.pathname === '/index.html';
     
     if (isHomePage) {
-        console.log('Home page mode - disabling animations and multiple loading');
+        console.log('Home page mode - applying immediate optimizations');
         
         // Set global flag immediately
         window.homePageFullyInitialized = true;
         
-        // Apply critical styling immediately
+        // Set styles in <head> before DOM is ready to prevent flash
+        const style = document.createElement('style');
+        style.innerHTML = `
+            body.homepage-special, body.homepage-special * {
+                animation-play-state: paused !important;
+                transition: none !important;
+            }
+            .page-transition {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+                animation: none !important;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Apply critical styling immediately 
         document.documentElement.style.opacity = "1";
         document.documentElement.style.visibility = "visible";
-        document.body.style.opacity = "1";
-        document.body.style.visibility = "visible";
     }
 })();
 
 // Main JavaScript file for common functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Check if we're on home page (moved here)
+    const isHomePage = window.location.pathname === '/' || 
+                       window.location.pathname === '/home/' || 
+                       window.location.pathname === '/index.html';
+
+    // Function containing UI enhancements
+    function runUIEnhancements(isOnHomePage) {
+        // Check if enhanceFormElements exists before calling it
+        if (typeof enhanceFormElements === 'function') {
+            enhanceFormElements();
+        } else {
+            console.warn('enhanceFormElements function not found. Skipping form enhancements.');
+        }
+        
+        // For home page, unlock animations only after everything is ready
+        if (isOnHomePage) {
+            // Disable any animations initially
+            const pageTransitions = document.querySelectorAll('.page-transition');
+            pageTransitions.forEach(el => {
+                el.style.opacity = "1";
+                el.style.transform = "translateY(0)";
+            });
+        }
+        
+        setupLazyLoading(isOnHomePage);
+        addSmoothScrolling();
+        setupCardAnimations(isOnHomePage);
+        enhanceDropdowns();
+        optimizeImageLoading(isOnHomePage);
+        
+        // Only setup parallax on larger screens
+        if (window.innerWidth >= 992) {
+            setupParallaxEffects();
+        }
+        
+        // If on home page, remove the animation blocking style now that everything is set up
+        if (isOnHomePage) {
+            setTimeout(() => {
+                const homepageStyleElement = document.querySelector('style[data-homepage-style]');
+                if (homepageStyleElement) {
+                    homepageStyleElement.remove();
+                }
+            }, 50);
+        }
+    }
+
     // Initialize any Bootstrap components
     initializeBootstrapComponents();
     
@@ -44,14 +103,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fix modal backdrop issues
     fixModalBackdropIssue();
     
-    // Enhanced UI features
-    enhanceFormElements();
-    
-    // Only run heavy operations if in viewport 
-    lazyLoadOperations();
-    
     // Fix browser caching issues and back navigation
-    fixBrowserCacheHandling();
+    fixBrowserCacheHandling(); // Run this before enhancements potentially modifying content
+
+    // Run UI enhancements
+    if (isHomePage) {
+        console.log('Home page: Running UI enhancements synchronously.');
+        runUIEnhancements(true);
+    } else {
+        console.log('Non-home page: Running UI enhancements with slight delay.');
+        // Use setTimeout for non-home pages to potentially improve perceived initial load
+        // We can keep a very small delay or 0. The sessionStorage check is removed for simplicity.
+        setTimeout(() => runUIEnhancements(false), 50);
+    }
+    
+    // Note: Removed the original call to lazyLoadOperations()
 });
 
 // Initialize Bootstrap components that need JavaScript
@@ -350,200 +416,32 @@ function smoothFadeOut(element) {
     }, 500);
 }
 
-// Lazily apply enhanced form elements and effects
-function lazyLoadOperations() {
-    // Only apply these operations if the user is actually interacting with the page
-    // This improves initial page load performance
-    const lazyOperationsStarted = sessionStorage.getItem('lazyOperationsStarted');
-    
-    if (!lazyOperationsStarted) {
-        setTimeout(() => {
-            enhanceFormElements();
-            setupLazyLoading();
-            addSmoothScrolling();
-            setupCardAnimations();
-            enhanceDropdowns();
-            optimizeImageLoading();
-            
-            // Only setup parallax on larger screens
-            if (window.innerWidth >= 992) {
-                setupParallaxEffects();
-            }
-            
-            sessionStorage.setItem('lazyOperationsStarted', 'true');
-        }, 100); // Wait for initial render to complete
-    } else {
-        // On subsequent page loads, run immediately but in the background
-        setTimeout(() => {
-            enhanceFormElements();
-            setupLazyLoading();
-            addSmoothScrolling();
-            setupCardAnimations();
-            enhanceDropdowns();
-            optimizeImageLoading();
-            
-            // Only setup parallax on larger screens
-            if (window.innerWidth >= 992) {
-                setupParallaxEffects();
-            }
-        }, 0);
-    }
-}
-
-// Apply enhanced animations and interactivity to form elements
-function enhanceFormElements() {
-    // Add floating label effect to inputs
-    const formControls = document.querySelectorAll('.form-control, .form-select');
-    formControls.forEach(input => {
-        // Add focus animation
-        input.addEventListener('focus', function() {
-            this.classList.add('focused');
-            // Add highlight to parent form-group if it exists
-            const formGroup = this.closest('.form-group, .mb-3');
-            if (formGroup) {
-                formGroup.classList.add('focused');
-            }
-        });
-        
-        input.addEventListener('blur', function() {
-            this.classList.remove('focused');
-            // Remove highlight from parent form-group
-            const formGroup = this.closest('.form-group, .mb-3');
-            if (formGroup) {
-                formGroup.classList.remove('focused');
-            }
-        });
-    });
-    
-    // Enhance buttons with feedback on click - prioritize only buttons in view
-    const buttons = document.querySelectorAll('.btn:not([type="submit"])');
-    buttons.forEach(button => {
-        if (isElementInViewport(button)) {
-            button.addEventListener('click', function(e) {
-                // Create ripple effect
-                const ripple = document.createElement('span');
-                ripple.classList.add('btn-ripple');
-                this.appendChild(ripple);
-                
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                ripple.style.left = `${x}px`;
-                ripple.style.top = `${y}px`;
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
-        }
-    });
-}
-
-// Set up lazy loading for images and content
-function setupLazyLoading() {
-    // Check if IntersectionObserver is supported
-    if ('IntersectionObserver' in window) {
-        const imgObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    const src = img.getAttribute('data-src');
-                    
-                    if (src) {
-                        img.src = src;
-                        img.classList.add('img-smooth-load');
-                        
-                        img.onload = function() {
-                            img.classList.add('loaded');
-                            // Remove the data-src to avoid loading the image again
-                            img.removeAttribute('data-src');
-                        };
-                        
-                        observer.unobserve(img);
-                    }
-                }
-            });
-        }, {
-            rootMargin: '50px 0px',
-            threshold: 0.1
-        });
-        
-        // Target all images with data-src attribute
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imgObserver.observe(img);
-        });
-        
-        // Also setup animation for elements with fade-in-up class
-        const animationObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    animationObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            rootMargin: '0px',
-            threshold: 0.1
-        });
-        
-        document.querySelectorAll('.fade-in-up').forEach(element => {
-            animationObserver.observe(element);
-        });
-    } else {
-        // Fallback for browsers that don't support IntersectionObserver
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            img.src = img.getAttribute('data-src');
-            img.removeAttribute('data-src');
-        });
-        
-        document.querySelectorAll('.fade-in-up').forEach(element => {
-            element.classList.add('visible');
-        });
-    }
-}
-
-// Add smooth scrolling to anchor links
-function addSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                // Calculate header height for offset
-                const headerHeight = document.querySelector('header').offsetHeight + 20;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // Update URL hash after scrolling
-                history.pushState(null, null, targetId);
-            }
-        });
-    });
-}
-
 // Setup card animations and hover effects - optimized for performance
-function setupCardAnimations() {
-    // Add stagger-item class only to visible cards to avoid performance issues
+function setupCardAnimations(isOnHomePage) {
+    // For home page, skip staggered animations entirely
+    if (isOnHomePage) {
+        document.querySelectorAll('.card:not(.stagger-item):not(.card-appear)').forEach((card) => {
+            card.classList.add('loaded');
+            // Apply styles directly to avoid flickering
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+        });
+        return;
+    }
+    
+    // For other pages, continue with modified animations
     document.querySelectorAll('.card:not(.stagger-item):not(.card-appear)').forEach((card, index) => {
         // Only apply to cards in the viewport for better performance
         if (isElementInViewport(card)) {
             card.classList.add('stagger-item');
             card.classList.add(`stagger-delay-${(index % 3) + 1}`);
             
-            // Mark as loaded after a short delay to trigger animation
+            // Apply with delay on other pages for stagger effect
             setTimeout(() => {
                 card.classList.add('loaded');
             }, 50 * (index % 3));
         } else {
-            // Skip animation for off-screen elements
+            // Skip animation for off-screen elements (mark as loaded immediately)
             card.classList.add('loaded');
         }
     });
@@ -618,24 +516,117 @@ function enhanceDropdowns() {
     });
 }
 
+// Set up lazy loading for images and content
+function setupLazyLoading(isOnHomePage) {
+    // For home page, immediately make all images visible
+    if (isOnHomePage) {
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            // Pre-load images for home page immediately
+            img.src = img.getAttribute('data-src');
+            img.classList.add('loaded');
+            img.removeAttribute('data-src');
+        });
+        
+        // Make fade-in elements visible immediately
+        document.querySelectorAll('.fade-in-up').forEach(element => {
+            element.classList.add('visible');
+            element.style.opacity = "1";
+            element.style.transform = "translateY(0)";
+        });
+        
+        // Exit early for home page
+        return;
+    }
+    
+    // For other pages, proceed with lazy loading via Intersection Observer
+    // Check if IntersectionObserver is supported
+    if ('IntersectionObserver' in window) {
+        // --- Image Lazy Loading (Keep Observer) ---
+        const imgObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    const src = img.getAttribute('data-src');
+                    
+                    if (src) {
+                        img.src = src;
+                        img.classList.add('img-smooth-load');
+                        
+                        img.onload = function() {
+                            img.classList.add('loaded');
+                            // Remove the data-src to avoid loading the image again
+                            img.removeAttribute('data-src');
+                        };
+                        
+                        observer.unobserve(img);
+                    }
+                }
+            });
+        }, {
+            rootMargin: '50px 0px',
+            threshold: 0.1
+        });
+        
+        // Target all images with data-src attribute
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            imgObserver.observe(img);
+        });
+
+        // --- Element Fade-In Animation ---
+        const animationObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+        
+        document.querySelectorAll('.fade-in-up').forEach(element => {
+            animationObserver.observe(element);
+        });
+    } else {
+        // Fallback for browsers that don't support IntersectionObserver
+        // Make images visible
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            img.src = img.getAttribute('data-src');
+            img.removeAttribute('data-src');
+        });
+        // Make fade-in elements visible
+        document.querySelectorAll('.fade-in-up').forEach(element => {
+            element.classList.add('visible');
+        });
+    }
+}
+
 // Optimize image loading for better performance
-function optimizeImageLoading() {
+function optimizeImageLoading(isOnHomePage) {
     // Add loading="lazy" attribute to all images that don't have it
     document.querySelectorAll('img:not([loading])').forEach(img => {
         img.setAttribute('loading', 'lazy');
     });
     
-    // Add fade-in effect to all images
-    document.querySelectorAll('img').forEach(img => {
-        if (!img.complete) {
-            img.style.opacity = '0';
-            img.style.transition = 'opacity 0.5s ease';
-            
-            img.addEventListener('load', function() {
-                this.style.opacity = '1';
-            });
-        }
-    });
+    // Add fade-in effect to all images, unless on home page
+    if (!isOnHomePage) {
+        console.log('Non-home page: Applying image fade-in effect.');
+        document.querySelectorAll('img').forEach(img => {
+            if (!img.complete) { // Only apply to images not already loaded
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 0.5s ease';
+                
+                img.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                }, { once: true }); // Use { once: true } for better performance
+            }
+        });
+    } else {
+        console.log('Home page: Skipping image fade-in effect.');
+        // Optionally, ensure images are visible if somehow hidden by other CSS
+        // document.querySelectorAll('img').forEach(img => { img.style.opacity = '1'; });
+    }
 }
 
 // Setup parallax effects for applicable sections

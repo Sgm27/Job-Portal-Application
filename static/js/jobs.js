@@ -331,7 +331,7 @@ function setupJobApplicationValidation() {
                 coverLetterField.parentNode.insertBefore(errorMessage, coverLetterField.nextSibling);
             }
             
-            errorMessage.textContent = 'Your cover letter should be at least 100 characters long.';
+            errorMessage.textContent = 'Thư giới thiệu của bạn cần có ít nhất 100 ký tự.';
             coverLetterField.focus();
             return false;
         }
@@ -380,7 +380,7 @@ function setupJobSharingAndSaving() {
             // Here you would typically make an AJAX call to save/unsave the job
             // For demonstration, we're just showing a toast notification
             showToast(iconElement.classList.contains('bi-bookmark-fill') ? 
-                'Job saved successfully!' : 'Job removed from saved list');
+                'Đã lưu công việc thành công!' : 'Đã xóa công việc khỏi danh sách đã lưu');
         });
     });
 }
@@ -437,6 +437,6 @@ function shareJob(platform) {
     
     if (shareUrl) {
         window.open(shareUrl, '_blank', 'width=600,height=400');
-        showToast(`Shared on ${platform}`);
+        showToast(`Đã chia sẻ trên ${platform}`);
     }
 }

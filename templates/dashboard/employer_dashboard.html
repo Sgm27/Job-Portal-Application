@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}Employer Dashboard - Job Portal{% endblock %}
+{% block title %}Bảng Điều Khiển Nhà Tuyển Dụng - Job Portal{% endblock %}
 
 {% block content %}
 <div class="row mb-4">
     <div class="col-md-6">
-        <h1>Employer Dashboard</h1>
+        <h1>Bảng Điều Khiển Nhà Tuyển Dụng</h1>
     </div>
     <div class="col-md-6 text-end">
-        <a href="{% url 'post_job' %}" class="btn btn-primary">Post New Job</a>
+        <a href="{% url 'post_job' %}" class="btn btn-primary">Đăng Tuyển Việc Làm Mới</a>
     </div>
 </div>
 
@@ -16,10 +16,10 @@
     <div class="col-md-3">
         <div class="list-group mb-4">
             <a href="{% url 'employer_dashboard' %}" class="list-group-item list-group-item-action active">
-                <i class="bi bi-speedometer2"></i> Dashboard
+                <i class="bi bi-speedometer2"></i> Bảng Điều Khiển
             </a>
             <a href="{% url 'profile' %}" class="list-group-item list-group-item-action">
-                <i class="bi bi-person"></i> Company Profile
+                <i class="bi bi-person"></i> Hồ Sơ Công Ty
             </a>
         </div>
     </div>
@@ -27,7 +27,7 @@
     <div class="col-md-9">
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Your Job Listings</h5>
+                <h5 class="mb-0">Danh Sách Việc Làm Của Bạn</h5>
             </div>
             <div class="card-body">
                 {% if jobs %}
@@ -35,12 +35,12 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Posted</th>
-                                    <th>Status</th>
-                                    <th>Deadline</th>
-                                    <th>Applications</th>
-                                    <th>Actions</th>
+                                    <th>Tiêu Đề</th>
+                                    <th>Ngày Đăng</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Hạn Nộp</th>
+                                    <th>Ứng Viên</th>
+                                    <th>Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,27 +49,27 @@
                                         <td>
                                             <a href="{% url 'job_detail' job.id %}">{{ job.title }}</a>
                                         </td>
-                                        <td>{{ job.created_at|date:"M d, Y" }}</td>
+                                        <td>{{ job.created_at|date:"d/m/Y" }}</td>
                                         <td>
                                             <span class="badge {% if job.status == 'active' %}bg-success{% elif job.status == 'draft' %}bg-warning{% else %}bg-secondary{% endif %}">
                                                 {{ job.get_status_display }}
                                             </span>
                                         </td>
-                                        <td>{{ job.application_deadline|date:"M d, Y" }}</td>
+                                        <td>{{ job.application_deadline|date:"d/m/Y" }}</td>
                                         <td>
                                             <a href="{% url 'applicant_tracking' job.id %}" class="btn btn-sm btn-outline-primary">
-                                                View ({{ job.applications.count }})
+                                                Xem ({{ job.applications.count }})
                                             </a>
                                         </td>
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                                    Actions
+                                                    Thao Tác
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="{% url 'job_detail' job.id %}">View</a></li>
-                                                    <li><a class="dropdown-item" href="{% url 'edit_job' job.id %}">Edit</a></li>
-                                                    <li><a class="dropdown-item text-danger" href="{% url 'delete_job' job.id %}">Delete</a></li>
+                                                    <li><a class="dropdown-item" href="{% url 'job_detail' job.id %}">Xem</a></li>
+                                                    <li><a class="dropdown-item" href="{% url 'edit_job' job.id %}">Sửa</a></li>
+                                                    <li><a class="dropdown-item text-danger" href="{% url 'delete_job' job.id %}">Xóa</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -80,7 +80,7 @@
                     </div>
                 {% else %}
                     <div class="alert alert-info">
-                        <p class="mb-0">You haven't posted any jobs yet. <a href="{% url 'post_job' %}">Post your first job</a> now!</p>
+                        <p class="mb-0">Bạn chưa đăng tuyển việc làm nào. <a href="{% url 'post_job' %}">Đăng tuyển việc làm đầu tiên</a> ngay!</p>
                     </div>
                 {% endif %}
             </div>

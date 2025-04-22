@@ -33,7 +33,7 @@ def register_view(request):
             backend = get_backends()[0]  # Use the first backend (ModelBackend)
             user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
             login(request, user)
-            messages.success(request, f'Account created for {user.username}!')
+            messages.success(request, f'Tài khoản đã được tạo cho {user.username}!')
             return redirect('profile')
         else:
             for error in form.non_field_errors():
@@ -51,7 +51,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(request, f'Welcome back, {user.username}!')
+                messages.success(request, f'Chào mừng trở lại, {user.username}!')
                 return redirect('profile')
     else:
         form = UserLoginForm()
@@ -59,7 +59,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    messages.info(request, 'You have been logged out.')
+    messages.info(request, 'Bạn đã đăng xuất.')
     return redirect('login')
 
 @login_required
@@ -84,10 +84,10 @@ def profile_view(request):
                     user.company_website = form.cleaned_data['company_website']
             
             user.save()
-            messages.success(request, 'Your profile has been updated!')
+            messages.success(request, 'Hồ sơ của bạn đã được cập nhật!')
             return redirect('profile')
         else:
-            messages.error(request, 'There was an error updating your profile. Please check the form.')
+            messages.error(request, 'Đã xảy ra lỗi khi cập nhật hồ sơ của bạn. Vui lòng kiểm tra biểu mẫu.')
     else:
         form = ProfileUpdateForm(instance=request.user)
     

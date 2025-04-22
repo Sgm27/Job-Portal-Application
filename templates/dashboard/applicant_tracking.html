@@ -183,7 +183,8 @@
         margin-bottom: 5px;
     }
     
-    .tooltip-container:hover .status-tooltip {
+    /* Only show tooltip on hover when button is disabled */
+    .tooltip-container:hover .status-tooltip.show-tooltip {
         display: block;
     }
     
@@ -684,6 +685,7 @@
                 button.classList.add('btn-disabled');
                 button.disabled = true;
                 tooltip.textContent = 'Đã ở trạng thái này';
+                tooltip.classList.add('show-tooltip');
             } else if (!validTransitions[currentStatus].includes(targetStatus)) {
                 button.classList.add('btn-disabled');
                 if (currentStatus === 'rejected') {
@@ -693,6 +695,7 @@
                 } else {
                     tooltip.textContent = `Không thể chuyển từ ${statusMessages[currentStatus]} sang ${statusMessages[targetStatus]}`;
                 }
+                tooltip.classList.add('show-tooltip');
 
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();

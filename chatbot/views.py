@@ -160,7 +160,7 @@ def chatbot_api(request):
                                     <div class="resume-title">{resume['title']} {' (Primary)' if resume.get('is_primary') else ''}</div>
                                     <div class="resume-date">Uploaded: {resume['uploaded_at']}</div>
                                 </div>
-                                <button class="resume-select-btn" onclick="selectResumeForAnalysis('{resume['id']}', '{conversation.id}')">Phân tích</button>
+                                <button class="resume-select-btn">Phân tích</button>
                             </div>
                         """
                     

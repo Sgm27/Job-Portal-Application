@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
-{% block title %}Jobs - Job Portal{% endblock %}
+{% block title %}Việc Làm - Job Portal{% endblock %}
 
 {% block content %}
 <div class="row page-transition">
@@ -53,9 +54,9 @@
     <!-- Jobs List with Glass Effect -->
     <div class="col-md-9">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="fw-bold mb-0">Available Jobs</h1>
+            <h1 class="fw-bold mb-0">Việc Làm Hiện Có</h1>
             <div class="text-muted">
-                Found <span class="fw-bold">{{ jobs.paginator.count }}</span> jobs
+                Tìm thấy <span class="fw-bold">{{ jobs.paginator.count }}</span> việc làm
             </div>
         </div>
         
@@ -101,7 +102,7 @@
                                     </div>
                                     <div class="col-12">
                                         <p class="card-text mb-0">
-                                            <i class="bi bi-clock me-2"></i>Posted {{ job.created_at|timesince }} ago
+                                            <i class="bi bi-clock me-2"></i>Đăng {{ job.created_at|vietnamese_timesince }} trước
                                         </p>
                                     </div>
                                 </div>
@@ -110,7 +111,7 @@
                                 
                                 {% if job.skills.all %}
                                 <div class="mb-3">
-                                    <p class="mb-2 fw-bold text-muted small">Required Skills:</p>
+                                    <p class="mb-2 fw-bold text-muted small">Kỹ năng yêu cầu:</p>
                                     {% for skill in job.skills.all|slice:":4" %}
                                         <span class="badge badge-modern badge-modern-secondary">{{ skill.name }}</span>
                                     {% endfor %}
@@ -122,16 +123,16 @@
                                 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <a href="{% url 'job_detail' job.id %}" class="btn btn-primary">
-                                        <i class="bi bi-eye me-2"></i>View Details
+                                        <i class="bi bi-eye me-2"></i>Xem Chi Tiết
                                     </a>
                                     
                                     {% if user.is_authenticated and user.user_type == 'job_seeker' %}
                                     <a href="{% url 'job_apply' job.id %}" class="btn btn-outline-primary">
-                                        <i class="bi bi-send me-2"></i>Apply Now
+                                        <i class="bi bi-send me-2"></i>Ứng Tuyển Ngay
                                     </a>
                                     {% else %}
                                     <button class="btn btn-outline-primary bookmark-btn" data-job-id="{{ job.id }}">
-                                        <i class="bi bi-bookmark me-2"></i>Save Job
+                                        <i class="bi bi-bookmark me-2"></i>Lưu Việc Làm
                                     </button>
                                     {% endif %}
                                 </div>

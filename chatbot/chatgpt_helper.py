@@ -356,7 +356,7 @@ class ChatGPTHelper:
             )
             
             if response['success']:
-                logger.info("Successfully analyzed CV with GPT-4o")
+                logger.info("Đã phân tích CV thành công với GPT-4o")
                 result = {
                     'success': True,
                     'analysis_markdown': response['response'],
@@ -591,7 +591,7 @@ Chỉ trả lời các câu hỏi liên quan đến công việc và từ chối
                 }
             
             # Trả về kết quả phân tích
-            logger.info("CV analysis completed successfully")
+            logger.info("Quá trình phân tích CV đã hoàn tất thành công")
             return {
                 'success': True,
                 'resume_info': {

@@ -1,31 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Apply for Job - Job Portal{% endblock %}
+{% block title %}Ứng Tuyển Công Việc - Job Portal{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Apply for: {{ job.title }}</h4>
+                <h4 class="mb-0">Ứng tuyển: {{ job.title }}</h4>
             </div>
             <div class="card-body">
                 <div class="mb-4">
-                    <h5>Job Details:</h5>
-                    <p><strong>Company:</strong> {{ job.employer.company_name|default:job.employer.username }}</p>
-                    <p><strong>Location:</strong> {{ job.get_location_display }}</p>
-                    <p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
+                    <h5>Thông tin công việc:</h5>
+                    <p><strong>Công ty:</strong> {{ job.employer.company_name|default:job.employer.username }}</p>
+                    <p><strong>Địa điểm:</strong> {{ job.get_location_display }}</p>
+                    <p><strong>Loại công việc:</strong> {{ job.get_job_type_display }}</p>
                 </div>
                 
                 <div class="alert alert-info">
-                    <p class="mb-0">Please provide a cover letter explaining why you're a good fit for this position.</p>
+                    <p class="mb-0">Vui lòng cung cấp thư giới thiệu giải thích lý do bạn phù hợp với vị trí này.</p>
                 </div>
                 
                 <form method="post">
                     {% csrf_token %}
                     
                     <div class="form-group mb-3">
-                        <label for="id_cover_letter" class="form-label">Cover Letter</label>
+                        <label for="id_cover_letter" class="form-label">Thư giới thiệu</label>
                         {{ form.cover_letter }}
                         {% if form.cover_letter.errors %}
                             <div class="text-danger">
@@ -36,7 +36,7 @@
                     
                     {% if resumes %}
                         <div class="form-group mb-4">
-                            <label class="form-label">Choose CV for Application</label>
+                            <label class="form-label">Chọn CV cho đơn ứng tuyển</label>
                             <div class="list-group">
                                 {% for resume in resumes %}
                                     <label class="list-group-item">
@@ -45,7 +45,7 @@
                                         <span>{{ resume.title }}</span>
                                         <span class="float-end text-muted small">{{ resume.uploaded_at|date:"d/m/Y" }}</span>
                                         {% if resume.is_primary %}
-                                            <span class="badge bg-success ms-2">Primary</span>
+                                            <span class="badge bg-success ms-2">Chính</span>
                                         {% endif %}
                                     </label>
                                 {% endfor %}
@@ -53,27 +53,27 @@
                         </div>
                     {% elif user.resume %}
                         <div class="alert alert-success">
-                            <p class="mb-0">Your resume will be attached from your profile.</p>
+                            <p class="mb-0">CV của bạn sẽ được đính kèm từ hồ sơ của bạn.</p>
                         </div>
                     {% else %}
                         <div class="alert alert-warning">
                             <p class="mb-0">
-                                You don't have a resume uploaded. We recommend 
-                                <a href="{% url 'profile' %}">uploading your resume</a> before applying.
+                                Bạn chưa tải lên CV. Chúng tôi khuyên bạn nên
+                                <a href="{% url 'profile' %}">tải lên CV</a> trước khi ứng tuyển.
                             </p>
                         </div>
                     {% endif %}
                     
                     <div class="d-flex justify-content-between mt-4">
-                        <a href="{% url 'job_detail' job.id %}" class="btn btn-secondary">Cancel</a>
+                        <a href="{% url 'job_detail' job.id %}" class="btn btn-secondary">Hủy</a>
                         <button type="submit" class="btn btn-primary" {% if not has_resume %}disabled{% endif %}>
-                            Submit Application
+                            Gửi đơn ứng tuyển
                         </button>
                     </div>
                     
                     {% if not has_resume %}
                         <div class="text-danger text-center mt-2">
-                            <small>You need to upload a resume before applying</small>
+                            <small>Bạn cần tải lên CV trước khi ứng tuyển</small>
                         </div>
                     {% endif %}
                 </form>

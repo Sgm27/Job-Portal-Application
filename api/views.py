@@ -49,7 +49,7 @@ class JobViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['location', 'job_type', 'status']
     search_fields = ['title', 'description', 'requirements']
-    ordering_fields = ['created_at', 'application_deadline', 'salary']
+    ordering_fields = ['created_at', 'application_deadline', 'min_salary', 'max_salary']
     
     def get_permissions(self):
         """

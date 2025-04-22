@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
-{% block title %}{{ job.title }} - Job Portal{% endblock %}
+{% block title %}{{ job.title }} - {{ job.employer.company_name|default:job.employer.username }} | Job Portal{% endblock %}
 
 {% block content %}
 <div class="container page-transition">
@@ -9,8 +10,8 @@
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'job_list' %}">Jobs</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Trang Chủ</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'job_list' %}">Việc Làm</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ job.title }}</li>
                 </ol>
             </nav>
@@ -48,10 +49,10 @@
                         <!-- Job Timeline -->
                         <div class="d-flex justify-content-between align-items-center text-muted small p-3 bg-light rounded-3">
                             <span>
-                                <i class="bi bi-calendar-check me-1"></i>Posted: {{ job.created_at|date:"F j, Y" }}
+                                <i class="bi bi-calendar-check me-1"></i>Đăng tuyển: {{ job.created_at|date:"F j, Y" }}
                             </span>
                             <span>
-                                <i class="bi bi-calendar-x me-1"></i>Apply Before: {{ job.application_deadline|date:"F j, Y" }}
+                                <i class="bi bi-calendar-x me-1"></i>Hạn nộp hồ sơ: {{ job.application_deadline|date:"F j, Y" }}
                             </span>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
                             <div class="icon-circle bg-primary text-white me-3">
                                 <i class="bi bi-file-text"></i>
                             </div>
-                            <h4 class="fw-bold m-0">Job Description</h4>
+                            <h4 class="fw-bold m-0">Mô Tả Công Việc</h4>
                         </div>
                         <div class="p-3 bg-light rounded-3">
                             {{ job.description|linebreaks }}
@@ -80,7 +81,7 @@
                             <div class="icon-circle bg-primary text-white me-3">
                                 <i class="bi bi-list-check"></i>
                             </div>
-                            <h4 class="fw-bold m-0">Requirements</h4>
+                            <h4 class="fw-bold m-0">Yêu Cầu</h4>
                         </div>
                         <div class="p-3 bg-light rounded-3">
                             {{ job.requirements|linebreaks }}
@@ -94,7 +95,7 @@
                             <div class="icon-circle bg-primary text-white me-3">
                                 <i class="bi bi-gear"></i>
                             </div>
-                            <h4 class="fw-bold m-0">Required Skills</h4>
+                            <h4 class="fw-bold m-0">Kỹ Năng Yêu Cầu</h4>
                         </div>
                         <div class="p-3 bg-light rounded-3">
                             {% for skill in job.skills.all %}
@@ -108,19 +109,19 @@
                     <div class="mt-4 pt-3 border-top">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <span class="fw-bold me-2">Share this job:</span>
-                                <a href="#" class="social-share facebook btn btn-sm btn-outline-primary rounded-circle mx-1" title="Share on Facebook">
+                                <span class="fw-bold me-2">Chia sẻ công việc này:</span>
+                                <a href="#" class="social-share facebook btn btn-sm btn-outline-primary rounded-circle mx-1" title="Chia sẻ trên Facebook">
                                     <i class="bi bi-facebook"></i>
                                 </a>
-                                <a href="#" class="social-share twitter btn btn-sm btn-outline-info rounded-circle mx-1" title="Share on Twitter">
+                                <a href="#" class="social-share twitter btn btn-sm btn-outline-info rounded-circle mx-1" title="Chia sẻ trên Twitter">
                                     <i class="bi bi-twitter"></i>
                                 </a>
-                                <a href="#" class="social-share linkedin btn btn-sm btn-outline-primary rounded-circle mx-1" title="Share on LinkedIn">
+                                <a href="#" class="social-share linkedin btn btn-sm btn-outline-primary rounded-circle mx-1" title="Chia sẻ trên LinkedIn">
                                     <i class="bi bi-linkedin"></i>
                                 </a>
                             </div>
                             <button class="btn btn-outline-primary rounded-pill bookmark-btn" data-job-id="{{ job.id }}">
-                                <i class="bi bi-bookmark me-2"></i>Save Job
+                                <i class="bi bi-bookmark me-2"></i>Lưu Việc Làm
                             </button>
                         </div>
                     </div>
@@ -134,7 +135,7 @@
             <div class="card shadow-sm rounded-3 border-0 mb-4 card-animated" style="animation-delay: 200ms;">
                 <div class="card-header bg-primary text-white py-3">
                     <h5 class="card-title mb-0 fw-bold">
-                        <i class="bi bi-send me-2"></i>Application
+                        <i class="bi bi-send me-2"></i>Ứng Tuyển
                     </h5>
                 </div>
                 <div class="card-body p-4">
@@ -143,39 +144,39 @@
                             {% if job.is_expired or job.status != 'active' %}
                                 <div class="alert alert-warning">
                                     <i class="bi bi-exclamation-triangle me-2"></i>
-                                    This job is no longer accepting applications.
+                                    Công việc này không còn nhận hồ sơ ứng tuyển.
                                 </div>
                             {% elif user_applied %}
                                 <div class="alert alert-success mb-3">
                                     <i class="bi bi-check-circle me-2"></i>
-                                    You have already applied for this job.
+                                    Bạn đã ứng tuyển công việc này.
                                 </div>
                                 <a href="{% url 'my_applications' %}" class="btn btn-outline-primary w-100 rounded-pill">
-                                    <i class="bi bi-file-earmark-text me-2"></i>View Your Application
+                                    <i class="bi bi-file-earmark-text me-2"></i>Xem Hồ Sơ Ứng Tuyển
                                 </a>
                             {% else %}
-                                <p class="mb-3">Ready to apply for this position? Click below to submit your application.</p>
+                                <p class="mb-3">Bạn sẵn sàng ứng tuyển vị trí này? Nhấn nút bên dưới để nộp hồ sơ.</p>
                                 <a href="{% url 'job_apply' job.id %}" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold">
-                                    <i class="bi bi-send me-2"></i>Apply Now
+                                    <i class="bi bi-send me-2"></i>Ứng Tuyển Ngay
                                 </a>
                             {% endif %}
                         {% elif user.user_type == 'employer' %}
                             <div class="alert alert-info">
                                 <i class="bi bi-info-circle me-2"></i>
-                                You are logged in as an employer and cannot apply for jobs.
+                                Bạn đang đăng nhập với tư cách nhà tuyển dụng và không thể ứng tuyển công việc.
                             </div>
                         {% endif %}
                     {% else %}
                         <div class="alert alert-info mb-3">
                             <i class="bi bi-info-circle me-2"></i>
-                            <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> as a job seeker to apply for this job.
+                            <a href="{% url 'login' %}">Đăng nhập</a> hoặc <a href="{% url 'register' %}">Đăng ký</a> làm ứng viên để ứng tuyển công việc này.
                         </div>
                         <div class="d-grid gap-2">
                             <a href="{% url 'login' %}" class="btn btn-primary rounded-pill">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>Login to Apply
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Đăng Nhập Để Ứng Tuyển
                             </a>
                             <a href="{% url 'register' %}" class="btn btn-outline-primary rounded-pill">
-                                <i class="bi bi-person-plus me-2"></i>Register
+                                <i class="bi bi-person-plus me-2"></i>Đăng Ký
                             </a>
                         </div>
                     {% endif %}
@@ -186,7 +187,7 @@
             <div class="card shadow-sm rounded-3 border-0 mb-4 card-animated" style="animation-delay: 300ms;">
                 <div class="card-header bg-primary text-white py-3">
                     <h5 class="card-title mb-0 fw-bold">
-                        <i class="bi bi-building me-2"></i>About the Employer
+                        <i class="bi bi-building me-2"></i>Về Nhà Tuyển Dụng
                     </h5>
                 </div>
                 <div class="card-body p-4">
@@ -205,12 +206,12 @@
                     <div class="d-flex gap-2 mt-3">
                         {% if job.employer.company_website %}
                             <a href="{{ job.employer.company_website }}" class="btn btn-outline-primary rounded-pill btn-sm" target="_blank">
-                                <i class="bi bi-globe me-1"></i>Visit Website
+                                <i class="bi bi-globe me-1"></i>Truy cập Website
                             </a>
                         {% endif %}
                         
                         <a href="{% url 'employer_jobs' job.employer.id %}" class="btn btn-outline-secondary rounded-pill btn-sm">
-                            <i class="bi bi-briefcase me-1"></i>View All Jobs
+                            <i class="bi bi-briefcase me-1"></i>Xem Tất Cả Việc Làm
                         </a>
                     </div>
                 </div>
@@ -220,7 +221,7 @@
             <div class="card shadow-sm rounded-3 border-0 card-animated" style="animation-delay: 400ms;">
                 <div class="card-header bg-primary text-white py-3">
                     <h5 class="card-title mb-0 fw-bold">
-                        <i class="bi bi-briefcase me-2"></i>Similar Jobs
+                        <i class="bi bi-briefcase me-2"></i>Việc Làm Tương Tự
                     </h5>
                 </div>
                 <div class="card-body p-0">
@@ -229,7 +230,7 @@
                             <a href="{% url 'job_detail' similar_job.id %}" class="list-group-item list-group-item-action p-3 border-start-0 border-end-0 similar-job-link">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h6 class="mb-1 fw-bold text-primary">{{ similar_job.title }}</h6>
-                                    <small class="text-muted">{{ similar_job.created_at|timesince }}</small>
+                                    <small class="text-muted">{{ similar_job.created_at|vietnamese_timesince }}</small>
                                 </div>
                                 <p class="mb-1">{{ similar_job.employer.company_name|default:similar_job.employer.username }}</p>
                                 <div class="d-flex align-items-center">
@@ -244,7 +245,7 @@
                         {% empty %}
                             <div class="p-4 text-center">
                                 <i class="bi bi-search display-5 text-muted mb-3"></i>
-                                <p class="text-muted">No similar jobs found at the moment.</p>
+                                <p class="text-muted">Không tìm thấy việc làm tương tự.</p>
                             </div>
                         {% endfor %}
                     </div>
@@ -257,7 +258,7 @@
 <!-- Loading indicator overlay - hiển thị khi đang chuyển trang -->
 <div id="pageLoadingOverlay" style="display: none;">
     <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
+        <span class="visually-hidden">Đang tải...</span>
     </div>
 </div>
 {% endblock %}

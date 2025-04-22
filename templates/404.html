@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Page Not Found - Job Portal{% endblock %}
+{% block title %}Không Tìm Thấy Trang - Job Portal{% endblock %}
 
 {% block content %}
 <div class="container text-center py-5">
@@ -9,11 +9,11 @@
             <div class="card shadow border-0">
                 <div class="card-body p-5">
                     <h1 class="display-1 text-primary">404</h1>
-                    <h2 class="mb-4">Page Not Found</h2>
-                    <p class="lead mb-4">We couldn't find the page you were looking for. It might have been removed, renamed, or doesn't exist.</p>
+                    <h2 class="mb-4">Không Tìm Thấy Trang</h2>
+                    <p class="lead mb-4">Chúng tôi không thể tìm thấy trang bạn yêu cầu. Trang có thể đã bị xóa, đổi tên hoặc không tồn tại.</p>
                     <div class="d-flex justify-content-center gap-3">
-                        <a href="{% url 'home' %}" class="btn btn-primary">Go to Homepage</a>
-                        <a href="{% url 'job_list' %}" class="btn btn-outline-primary">Browse Jobs</a>
+                        <a href="{% url 'home' %}" class="btn btn-primary">Về Trang Chủ</a>
+                        <a href="{% url 'job_list' %}" class="btn btn-outline-primary">Xem Việc Làm</a>
                     </div>
                 </div>
             </div>

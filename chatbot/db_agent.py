@@ -44,7 +44,7 @@ class JobDatabaseAgent:
                 'company': job.employer.company_name or job.employer.username,
                 'location': job.get_location_display(),
                 'job_type': job.get_job_type_display(),
-                'salary': job.salary,
+                'salary_range': f"{job.min_salary:,} - {job.max_salary:,} VNĐ/tháng",
                 'deadline': job.application_deadline.strftime('%d/%m/%Y'),
                 'description': job.description[:150] + '...' if len(job.description) > 150 else job.description,
                 'posted_date': job.created_at.strftime('%d/%m/%Y'),
@@ -133,7 +133,7 @@ class JobDatabaseAgent:
                 'company': job.employer.company_name or job.employer.username,
                 'location': job.get_location_display(),
                 'job_type': job.get_job_type_display(),
-                'salary': job.salary,
+                'salary_range': f"{job.min_salary:,} - {job.max_salary:,} VNĐ/tháng",
                 'deadline': job.application_deadline.strftime('%d/%m/%Y'),
                 'description': job.description[:150] + '...' if len(job.description) > 150 else job.description,
                 'posted_date': job.created_at.strftime('%d/%m/%Y'),
@@ -168,7 +168,7 @@ class JobDatabaseAgent:
                 'company': job.employer.company_name or job.employer.username,
                 'location': job.get_location_display(),
                 'job_type': job.get_job_type_display(),
-                'salary': job.salary,
+                'salary_range': f"{job.min_salary:,} - {job.max_salary:,} VNĐ/tháng",
                 'deadline': job.application_deadline.strftime('%d/%m/%Y'),
                 'description': job.description[:150] + '...' if len(job.description) > 150 else job.description,
                 'posted_date': job.created_at.strftime('%d/%m/%Y'),
@@ -563,10 +563,10 @@ class JobDatabaseAgent:
                         </div>
             """
             
-            if job['salary']:
+            if job['salary_range']:
                 response += f"""
                         <div class="job-detail-item">
-                            <i class="bi bi-cash me-1"></i> {job['salary']}
+                            <i class="bi bi-cash me-1"></i> {job['salary_range']}
                         </div>
                 """
             

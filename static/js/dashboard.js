@@ -6,6 +6,73 @@ document.addEventListener('DOMContentLoaded', function() {
         new bootstrap.Tooltip(tooltip);
     });
 
+    // Fix dropdown menu functionality in the dashboard
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Get the dropdown menu associated with this toggle
+            const dropdownMenu = this.nextElementSibling;
+            
+            // Toggle the 'show' class on the dropdown menu
+            dropdownMenu.classList.toggle('show');
+            
+            // Handle outside clicks to close the dropdown
+            const closeDropdown = function(event) {
+                if (!dropdownMenu.contains(event.target) && event.target !== toggle) {
+                    dropdownMenu.classList.remove('show');
+                    document.removeEventListener('click', closeDropdown);
+                }
+            };
+            
+            // Add event listener to close dropdown when clicking outside
+            setTimeout(() => {
+                document.addEventListener('click', closeDropdown);
+            }, 0);
+        });
+    });
+
+    // Additional fix for table row actions dropdown
+    const tableActionDropdowns = document.querySelectorAll('.table .dropdown .dropdown-toggle');
+    tableActionDropdowns.forEach(actionToggle => {
+        actionToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Close all other dropdowns first
+            document.querySelectorAll('.table .dropdown .dropdown-menu.show').forEach(menu => {
+                if (menu !== this.nextElementSibling) {
+                    menu.classList.remove('show');
+                }
+            });
+            
+            // Toggle this dropdown menu
+            const actionMenu = this.nextElementSibling;
+            actionMenu.classList.toggle('show');
+            
+            // Set correct position if needed
+            if (actionMenu.classList.contains('show')) {
+                const buttonRect = this.getBoundingClientRect();
+                actionMenu.style.position = 'absolute';
+                actionMenu.style.top = `${buttonRect.bottom}px`;
+                actionMenu.style.right = '0';
+                actionMenu.style.left = 'auto';
+            }
+            
+            // Handle clicking outside to close
+            const closeActionDropdown = function(event) {
+                if (!actionMenu.contains(event.target) && event.target !== actionToggle) {
+                    actionMenu.classList.remove('show');
+                    document.removeEventListener('click', closeActionDropdown);
+                }
+            };
+            
+            document.addEventListener('click', closeActionDropdown);
+        });
+    });
+
     // Job status indicators
     const statusBadges = document.querySelectorAll('.badge');
     statusBadges.forEach(badge => {

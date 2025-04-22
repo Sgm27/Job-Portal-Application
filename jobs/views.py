@@ -121,12 +121,12 @@ def job_apply_view(request, job_id):
     
     # Check if deadline has passed
     if job.application_deadline < timezone.now():
-        messages.error(request, 'The application deadline has passed.')
+        messages.error(request, 'Thời hạn nộp đơn đã kết thúc.')
         return redirect('job_detail', job_id=job.id)
     
     # Check if already applied
     if Application.objects.filter(job=job, applicant=request.user).exists():
-        messages.warning(request, 'You have already applied for this job.')
+        messages.warning(request, 'Bạn đã ứng tuyển công việc này.')
         return redirect('job_detail', job_id=job.id)
     
     # Lấy danh sách CV của người dùng
@@ -179,7 +179,7 @@ def job_apply_view(request, job_id):
                 message=notification_message
             )
             
-            messages.success(request, 'Your application has been submitted successfully!')
+            messages.success(request, 'Đơn ứng tuyển của bạn đã được gửi thành công!')
             return redirect('job_detail', job_id=job.id)
     else:
         form = ApplicationForm()
@@ -210,7 +210,7 @@ def post_job_view(request):
             job = form.save(commit=False)
             job.employer = request.user
             job.save()
-            messages.success(request, 'Job posted successfully!')
+            messages.success(request, 'Đăng tuyển công việc thành công!')
             return redirect('employer_dashboard')
     else:
         form = JobForm()
@@ -227,7 +227,7 @@ def edit_job_view(request, job_id, job=None):
         form = JobForm(request.POST, instance=job)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Job updated successfully!')
+            messages.success(request, 'Cập nhật công việc thành công!')
             return redirect('employer_dashboard')
     else:
         form = JobForm(instance=job)
@@ -243,7 +243,7 @@ def delete_job_view(request, job_id, job=None):
     # job được truyền từ decorator
     if request.method == 'POST':
         job.delete()
-        messages.success(request, 'Job deleted successfully!')
+        messages.success(request, 'Xóa công việc thành công!')
         return redirect('employer_dashboard')
     
     context = {
@@ -259,7 +259,7 @@ def applicant_tracking_view(request, job_id, job=None):
     # Check if auto-reject feature should be enabled
     if request.method == 'POST' and 'auto_reject' in request.POST:
         auto_reject_applications(job, applications.filter(status='pending'))
-        messages.success(request, 'Auto-reject process completed. Applications with low scores have been rejected.')
+        messages.success(request, 'Quá trình tự động từ chối hoàn tất. Các đơn ứng tuyển có điểm thấp đã bị từ chối.')
         return redirect('applicant_tracking', job_id=job.id)
     
     # Tính toán số lượng ứng viên theo từng trạng thái
@@ -410,7 +410,7 @@ def update_application_status(request, application_id, application=None):
                     message=notification_message
                 )
             
-            messages.success(request, 'Application status updated successfully!')
+            messages.success(request, 'Cập nhật trạng thái đơn ứng tuyển thành công!')
         else:
             # Invalid transition
             messages.error(request, f'Không thể chuyển trạng thái từ "{dict(Application.STATUS_CHOICES).get(current_status)}" sang "{dict(Application.STATUS_CHOICES).get(new_status)}".')

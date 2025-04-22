@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
-{% block title %}Home - Job Portal{% endblock %}
+{% block title %}Trang Chủ - Job Portal{% endblock %}
 
 {% block content %}
 <!-- Enhanced Hero Section with Glass Effect -->
@@ -15,33 +16,33 @@
     <div class="container position-relative py-5" style="z-index: 1;">
         <div class="row align-items-center">
             <div class="col-lg-7">
-                <h1 class="display-4 fw-bold mb-4 text-gradient">Find Your Dream Job</h1>
-                <p class="lead mb-4">Browse thousands of job listings and find the perfect match for your skills and experience.</p>
-                <p class="mb-4">Whether you're looking for your first job or making a career change, we've got you covered.</p>
+                <h1 class="display-4 fw-bold mb-4 text-gradient">Tìm Công Việc Mơ Ước</h1>
+                <p class="lead mb-4">Duyệt qua hàng nghìn công việc và tìm việc phù hợp với kỹ năng và kinh nghiệm của bạn.</p>
+                <p class="mb-4">Dù bạn đang tìm công việc đầu tiên hay chuyển đổi nghề nghiệp, chúng tôi đều hỗ trợ bạn.</p>
                 
                 <div class="search-box mb-4 position-relative shadow-sm">
                     <form action="{% url 'job_list' %}" method="get" class="d-flex">
                         <i class="bi bi-search position-absolute" style="left: 16px; top: 50%; transform: translateY(-50%);"></i>
-                        <input type="text" name="q" class="form-control form-control-lg rounded-pill py-3 ps-5" placeholder="Job title, keywords, or company">
+                        <input type="text" name="q" class="form-control form-control-lg rounded-pill py-3 ps-5" placeholder="Chức danh, từ khóa hoặc công ty">
                         <button type="submit" class="btn btn-primary px-4 rounded-pill position-absolute end-0" style="top: 4px; right: 4px; bottom: 4px;">
-                            Search
+                            Tìm Kiếm
                         </button>
                     </form>
                 </div>
                 
                 <div class="d-flex flex-wrap gap-3">
                     <a class="btn btn-primary btn-lg rounded-pill shadow-sm" href="{% url 'job_list' %}" role="button">
-                        <i class="bi bi-search me-2"></i>Find Jobs
+                        <i class="bi bi-search me-2"></i>Tìm Việc Làm
                     </a>
                     {% if user.is_authenticated and user.user_type == 'employer' %}
                         <a class="btn btn-outline-primary btn-lg rounded-pill" href="{% url 'post_job' %}" role="button">
-                            <i class="bi bi-plus-circle me-2"></i>Post a Job
+                            <i class="bi bi-plus-circle me-2"></i>Đăng Tuyển
                         </a>
                     {% endif %}
                 </div>
             </div>
             <div class="col-lg-5 d-none d-lg-block text-center">
-                <img src="https://img.freepik.com/free-vector/recruitment-concept-illustration_114360-6966.jpg" alt="Job Search" class="img-fluid rounded-lg shadow-lg" style="max-height: 400px; transform: translateY(-10px);">
+                <img src="https://img.freepik.com/free-vector/recruitment-concept-illustration_114360-6966.jpg" alt="Tìm Việc Làm" class="img-fluid rounded-lg shadow-lg" style="max-height: 400px; transform: translateY(-10px);">
             </div>
         </div>
     </div>
@@ -57,7 +58,7 @@
                         <i class="bi bi-briefcase fs-1 text-primary"></i>
                     </div>
                     <h1 class="display-4 fw-bold text-gradient mb-2">{{ active_jobs_count }}</h1>
-                    <h5 class="card-title text-uppercase">Active Jobs</h5>
+                    <h5 class="card-title text-uppercase">Việc Làm Hiện Có</h5>
                 </div>
             </div>
         </div>
@@ -68,7 +69,7 @@
                         <i class="bi bi-building fs-1 text-success"></i>
                     </div>
                     <h1 class="display-4 fw-bold text-gradient mb-2">{{ employer_count }}</h1>
-                    <h5 class="card-title text-uppercase">Employers</h5>
+                    <h5 class="card-title text-uppercase">Nhà Tuyển Dụng</h5>
                 </div>
             </div>
         </div>
@@ -79,7 +80,7 @@
                         <i class="bi bi-people fs-1 text-info"></i>
                     </div>
                     <h1 class="display-4 fw-bold text-gradient mb-2">{{ job_seeker_count }}</h1>
-                    <h5 class="card-title text-uppercase">Job Seekers</h5>
+                    <h5 class="card-title text-uppercase">Người Tìm Việc</h5>
                 </div>
             </div>
         </div>
@@ -87,8 +88,8 @@
 
     <!-- Section Title -->
     <div class="text-center mb-5">
-        <h2 class="fw-bold">Recent Job Opportunities</h2>
-        <p class="text-muted">Explore the latest opportunities that match your skills</p>
+        <h2 class="fw-bold">Cơ Hội Việc Làm Mới Nhất</h2>
+        <p class="text-muted">Khám phá những cơ hội mới nhất phù hợp với kỹ năng của bạn</p>
     </div>
 
     <!-- Recent Jobs Section -->
@@ -132,18 +133,18 @@
                         {% endif %}
                         
                         <a href="{% url 'job_detail' job.id %}" class="btn btn-sm btn-primary">
-                            <i class="bi bi-eye me-1"></i>View Details
+                            <i class="bi bi-eye me-1"></i>Xem Chi Tiết
                         </a>
                     </div>
                     <div class="card-footer text-muted">
-                        <i class="bi bi-clock me-1"></i>Posted {{ job.created_at|timesince }} ago
+                        <i class="bi bi-clock me-1"></i>Đăng {{ job.created_at|vietnamese_timesince }} trước
                     </div>
                 </div>
             </div>
         {% empty %}
             <div class="col-12">
                 <div class="alert alert-info text-center">
-                    <i class="bi bi-info-circle me-2"></i>No jobs available at the moment.
+                    <i class="bi bi-info-circle me-2"></i>Hiện không có việc làm nào.
                 </div>
             </div>
         {% endfor %}
@@ -152,7 +153,7 @@
     {% if recent_jobs %}
         <div class="text-center mt-5 mb-5">
             <a href="{% url 'job_list' %}" class="btn btn-outline-primary btn-lg px-5">
-                <i class="bi bi-grid me-2"></i>View All Jobs
+                <i class="bi bi-grid me-2"></i>Xem Tất Cả Việc Làm
             </a>
         </div>
     {% endif %}
@@ -160,8 +161,8 @@
     <!-- Features Section -->
     <div class="glass-container p-5 rounded mt-5 mb-5 fade-in">
         <div class="text-center mb-5">
-            <h2 class="fw-bold">Why Choose Us</h2>
-            <p class="text-muted">The best platform to find your dream job or hire top talent</p>
+            <h2 class="fw-bold">Tại Sao Chọn Chúng Tôi</h2>
+            <p class="text-muted">Nền tảng tốt nhất để tìm việc mơ ước hoặc tuyển dụng nhân tài</p>
         </div>
         
         <div class="row g-4">
@@ -170,8 +171,8 @@
                     <div class="mb-3 rounded-circle bg-primary-light p-3 mx-auto" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
                         <i class="bi bi-lightning-charge fs-1 text-primary"></i>
                     </div>
-                    <h4>Fast & Easy</h4>
-                    <p>Find or post jobs quickly with our streamlined platform.</p>
+                    <h4>Nhanh Chóng & Dễ Dàng</h4>
+                    <p>Tìm hoặc đăng việc làm nhanh chóng với nền tảng đơn giản của chúng tôi.</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -179,8 +180,8 @@
                     <div class="mb-3 rounded-circle bg-success-light p-3 mx-auto" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
                         <i class="bi bi-shield-check fs-1 text-success"></i>
                     </div>
-                    <h4>Verified Employers</h4>
-                    <p>All employers on our platform are verified for your security.</p>
+                    <h4>Nhà Tuyển Dụng Đã Xác Thực</h4>
+                    <p>Tất cả nhà tuyển dụng trên nền tảng của chúng tôi đều được xác minh để đảm bảo an toàn.</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -188,8 +189,8 @@
                     <div class="mb-3 rounded-circle bg-info-light p-3 mx-auto" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
                         <i class="bi bi-graph-up fs-1 text-info"></i>
                     </div>
-                    <h4>Career Growth</h4>
-                    <p>Find opportunities that align with your career goals.</p>
+                    <h4>Phát Triển Sự Nghiệp</h4>
+                    <p>Tìm cơ hội phù hợp với mục tiêu sự nghiệp của bạn.</p>
                 </div>
             </div>
         </div>
@@ -199,7 +200,7 @@
 
 {% block extra_js %}
 <script>
-    // Animation for fading in elements on scroll
+    // Simple animation for fading in elements on scroll
     document.addEventListener('DOMContentLoaded', function() {
         const fadeElements = document.querySelectorAll('.fade-in');
         
@@ -208,6 +209,8 @@
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = 1;
                     entry.target.style.transform = 'translateY(0)';
+                    // Unobserve after animation to prevent repeated animations
+                    observer.unobserve(entry.target);
                 }
             });
         });

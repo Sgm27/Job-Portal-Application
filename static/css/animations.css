@@ -1,8 +1,15 @@
 /* Enhanced Animations for Modern UI */
 
-/* Smooth page transition */
+/* Smooth page transition - optimized for home page */
 .page-transition {
   animation: smoothPageTransition 0.5s ease-out forwards;
+}
+
+/* Special case for homepage */
+.homepage-special .page-transition {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 @keyframes smoothPageTransition {
@@ -21,6 +28,11 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Disable card hover animations on homepage for performance */
+.homepage-special .card {
+  transition: none !important;
+}
+
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
@@ -34,6 +46,21 @@
 .btn-scale:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Disable button animations on homepage for performance */
+.homepage-special .btn-scale {
+  transition: none;
+}
+
+.homepage-special .btn-scale:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Ensure instant-page elements have no animations */
+.instant-page * {
+  animation-duration: 0ms !important;
 }
 
 /* Pulse animation for notification badge */

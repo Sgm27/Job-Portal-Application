@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Login - Job Portal{% endblock %}
+{% block title %}Đăng Nhập - Job Portal{% endblock %}
 
 {% block content %}
 <div class="auth-container">
@@ -9,20 +9,20 @@
             <i class="bi bi-briefcase-fill"></i>
         </div>
         <div class="auth-card-content">
-            <h2 class="auth-title text-center">Welcome Back</h2>
-            <p class="auth-subtitle text-center">Please login to your account</p>
+            <h2 class="auth-title text-center">Chào Mừng Trở Lại</h2>
+            <p class="auth-subtitle text-center">Vui lòng đăng nhập vào tài khoản của bạn</p>
             
             <form method="post" class="auth-form">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="id_username" class="form-label">Username</label>
+                    <label for="id_username" class="form-label">Tên đăng nhập</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-person"></i></span>
                         {{ form.username }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="id_password" class="form-label">Password</label>
+                    <label for="id_password" class="form-label">Mật khẩu</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
                         {{ form.password }}
@@ -31,22 +31,22 @@
                 <div class="form-options">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="rememberMe" name="remember_me">
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                        <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
                     </div>
-                    <a href="#" class="forgot-link">Forgot password?</a>
+                    <a href="#" class="forgot-link">Quên mật khẩu?</a>
                 </div>
                 <div class="d-grid gap-2 mt-4">
                     <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Đăng Nhập
                     </button>
                 </div>
             </form>
             
             <div class="text-center mt-4">
                 <div class="divider">
-                    <span>OR</span>
+                    <span>HOẶC</span>
                 </div>
-                <p class="text-center text-muted mb-3">Login with Google</p>
+                <p class="text-center text-muted mb-3">Đăng nhập với Google</p>
                 <div class="social-login">
                     <a href="/auth/google/login/" class="btn btn-social btn-google">
                         <i class="bi bi-google"></i>
@@ -55,7 +55,7 @@
             </div>
             
             <div class="text-center mt-4">
-                <p class="register-prompt">Don't have an account? <a href="{% url 'register' %}" class="auth-link">Create Account</a></p>
+                <p class="register-prompt">Chưa có tài khoản? <a href="{% url 'register' %}" class="auth-link">Tạo Tài Khoản</a></p>
             </div>
         </div>
     </div>

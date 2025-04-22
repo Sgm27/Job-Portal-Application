@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Access Denied - Job Portal{% endblock %}
+{% block title %}Truy Cập Bị Từ Chối - Job Portal{% endblock %}
 
 {% block content %}
 <div class="container text-center py-5">
@@ -9,11 +9,11 @@
             <div class="card shadow border-0">
                 <div class="card-body p-5">
                     <h1 class="display-1 text-warning">403</h1>
-                    <h2 class="mb-4">Access Denied</h2>
-                    <p class="lead mb-4">You don't have permission to access this page. Please log in with an account that has the required permissions.</p>
+                    <h2 class="mb-4">Truy Cập Bị Từ Chối</h2>
+                    <p class="lead mb-4">Bạn không có quyền truy cập trang này. Vui lòng đăng nhập bằng tài khoản có quyền hạn cần thiết.</p>
                     <div class="d-flex justify-content-center gap-3">
-                        <a href="{% url 'home' %}" class="btn btn-primary">Go to Homepage</a>
-                        <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+                        <a href="{% url 'home' %}" class="btn btn-primary">Về Trang Chủ</a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-primary">Đăng Nhập</a>
                     </div>
                 </div>
             </div>

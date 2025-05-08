@@ -1,0 +1,121 @@
+Chương IV. CÀI ĐẶT VÀ HƯỚNG DẪN SỬ DỤNG
+
+4.1 Cài đặt CSDL
+
+1.Hệ thống quản trị cơ sở dữ liệu (CSDL) được sử dụng trong dự án này là SQLite. Đây là một hệ quản trị CSDL dạng tệp, gọn nhẹ và không yêu cầu một tiến trình máy chủ riêng biệt để hoạt động. Tệp CSDL mặc định có tên là db.sqlite3 và được lưu trữ tại thư mục gốc của dự án.
+2.Việc cài đặt CSDL được thực hiện tự động bởi Django, framework chính được sử dụng để phát triển ứng dụng. Khi người dùng thực hiện lệnh python manage.py migrate theo hướng dẫn cài đặt, Django sẽ tự động tạo tệp db.sqlite3 (nếu chưa tồn tại) và cấu trúc các bảng dữ liệu cần thiết dựa trên các định nghĩa model trong mã nguồn của dự án.
+3.Trong trường hợp người dùng muốn sử dụng một hệ quản trị CSDL khác như PostgreSQL, dự án cũng cung cấp khả năng cấu hình để kết nối đến PostgreSQL. Điều này đòi hỏi người dùng phải cài đặt PostgreSQL trên máy của mình, tạo một CSDL mới và sau đó cập nhật biến môi trường DATABASE_URL trong tệp .env với thông tin kết nối tương ứng (ví dụ: postgres://user:password@host:port/dbname). Sau khi cấu hình, lệnh python manage.py migrate cũng sẽ được sử dụng để khởi tạo cấu trúc bảng trong CSDL PostgreSQL.
+
+4.2 Cài đặt giả lập môi trường server hosting
+
+1.Để chạy ứng dụng này trên máy cục bộ nhằm mục đích phát triển hoặc thử nghiệm, dự án sử dụng máy chủ phát triển tích hợp sẵn của Django. Đây là một máy chủ web nhẹ, không được khuyến nghị sử dụng cho môi trường sản phẩm (production) thực tế do những hạn chế về hiệu năng và bảo mật, nhưng rất phù hợp cho việc phát triển.
+2.Để khởi động môi trường giả lập server, người dùng cần thực hiện lệnh python manage.py runserver từ thư mục gốc của dự án sau khi đã hoàn tất các bước cài đặt môi trường và thư viện cần thiết được nêu trong tệp README.md. Theo mặc định, máy chủ phát triển sẽ chạy trên địa chỉ IP 127.0.0.1 (localhost) và cổng 8000. Người dùng có thể truy cập ứng dụng thông qua trình duyệt web bằng cách nhập địa chỉ http://127.0.0.1:8000/.
+3.Quá trình cài đặt giả lập môi trường server hosting bao gồm việc thiết lập một môi trường ảo Python (virtual environment) để cô lập các gói thư viện của dự án, tránh xung đột với các dự án Python khác trên cùng một máy. Các bước chi tiết bao gồm: tạo môi trường ảo, kích hoạt môi trường ảo, và cài đặt các gói phụ thuộc được liệt kê trong tệp requirements.txt bằng lệnh pip install -r requirements.txt.
+4.Ngoài ra, dự án sử dụng tệp .env để quản lý các biến môi trường cấu hình quan trọng như SECRET_KEY (khóa bí mật cho ứng dụng Django), DEBUG (bật/tắt chế độ gỡ lỗi), OPENAI_API_KEY (khóa API cho các tính năng AI), và các thông tin cấu hình khác. Người dùng cần tạo tệp .env từ tệp ví dụ .env.example và điền các giá trị cần thiết. Các biến này sẽ được nạp vào ứng dụng khi khởi chạy, mô phỏng cách các ứng dụng được cấu hình trong môi trường hosting thực tế nơi các biến môi trường thường được thiết lập ở cấp độ server.
+5.Đối với việc phục vụ các tệp tĩnh (CSS, JavaScript, hình ảnh) trong quá trình phát triển, Django tự động xử lý khi DEBUG được đặt là True trong settings.py. Tuy nhiên, cho môi trường giống sản phẩm hơn hoặc khi DEBUG là False, lệnh python manage.py collectstatic cần được chạy để tập hợp tất cả các tệp tĩnh vào một thư mục staticfiles duy nhất, từ đó máy chủ web có thể phục vụ chúng hiệu quả hơn. Lệnh này cũng là một phần của quá trình chuẩn bị trước khi triển khai lên một server hosting thực thụ.
+
+4.5 Ứng dụng bảo mật cho Website
+
+4.5.1 Xác thực và phân quyền người dùng
+
+Hệ thống xác thực và phân quyền người dùng của trang web Job Portal Application được xây dựng dựa trên các cơ chế bảo mật hiện đại nhằm đảm bảo tính an toàn và bảo mật thông tin. Việc phân quyền được thực hiện thông qua mô hình phân quyền nhiều lớp, phân biệt rõ các vai trò người dùng như người tìm việc, nhà tuyển dụng và quản trị viên. Mỗi vai trò được cấp quyền truy cập đến các chức năng và dữ liệu phù hợp.
+
+4.5.2 Bảo mật mật khẩu và xác thực đa yếu tố
+
+Hệ thống áp dụng các biện pháp bảo mật mật khẩu mạnh thông qua cấu hình Django AUTH_PASSWORD_VALIDATORS với yêu cầu tối thiểu về độ dài mật khẩu là 8 ký tự. Dữ liệu người dùng được mã hóa và lưu trữ an toàn trong cơ sở dữ liệu. Ngoài ra, ứng dụng còn hỗ trợ xác thực thông qua tài khoản Google thông qua tích hợp Django Allauth, mang lại tính linh hoạt và an toàn cho người dùng.
+
+4.5.3 Bảo vệ chống tấn công CSRF và XSS
+
+Cơ chế bảo vệ chống tấn công CSRF (Cross-Site Request Forgery) được thực hiện thông qua middleware django.middleware.csrf.CsrfViewMiddleware. Khi người dùng đăng nhập, token CSRF được tạo ra và phải được gửi kèm với mỗi yêu cầu POST, PUT hoặc DELETE để xác minh nguồn gốc yêu cầu. Mã JavaScript phía máy khách cũng được thiết kế để tự động kèm theo CSRF token trong các yêu cầu Ajax để duy trì tính bảo mật.
+
+Để ngăn chặn tấn công XSS (Cross-Site Scripting), ứng dụng sử dụng cơ chế lọc đầu vào và hiển thị đầu ra an toàn thông qua hệ thống template của Django. Các biện pháp bổ sung như thiết lập SECURE_BROWSER_XSS_FILTER = True và SECURE_CONTENT_TYPE_NOSNIFF = True trong cấu hình bảo mật khi chạy ở môi trường sản xuất (không phải chế độ DEBUG).
+
+4.5.4 Bảo mật giao tiếp HTTP
+
+Trong môi trường triển khai sản xuất, ứng dụng áp dụng các biện pháp bảo mật HTTP nghiêm ngặt như:
+
+- Thực thi HTTPS qua cấu hình SECURE_SSL_REDIRECT = True
+- Kích hoạt HSTS (HTTP Strict Transport Security) với SECURE_HSTS_SECONDS = 31536000 (1 năm)
+- Mở rộng HSTS cho các tên miền con qua SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+- Đăng ký HSTS với danh sách preload của trình duyệt thông qua SECURE_HSTS_PRELOAD = True
+- Bảo vệ cookie bằng cài đặt SESSION_COOKIE_SECURE = True và CSRF_COOKIE_SECURE = True
+- Ngăn chặn clickjacking thông qua thiết lập X_FRAME_OPTIONS = 'DENY'
+
+4.5.5 Xác thực API và bảo mật JWT
+Giao diện lập trình ứng dụng (API) được bảo vệ bằng cơ chế xác thực JWT (JSON Web Token) thông qua thư viện rest_framework_simplejwt. Cơ chế này đảm bảo mỗi yêu cầu API phải đi kèm với token hợp lệ để xác thực quyền truy cập. Cấu hình JWT bao gồm:
+- Thời gian sống của access token: 1 ngày
+- Thời gian sống của refresh token: 7 ngày
+- Hủy token sau khi xoay vòng thông qua BLACKLIST_AFTER_ROTATION = True
+API JWT được cấu hình như là phương thức xác thực mặc định trong REST Framework, kết hợp với xác thực phiên cho truy cập từ giao diện trình duyệt thông qua SessionAuthentication.
+
+4.6 Các công nghệ (Chatbot "hướng dẫn cách cài đặt, triển khai và sử dụng")
+
+4.6.1 Công nghệ trí tuệ nhân tạo tích hợp với OpenAI
+
+Chatbot của ứng dụng được phát triển dựa trên công nghệ trí tuệ nhân tạo tiên tiến từ OpenAI. Hệ thống tích hợp trực tiếp với API của OpenAI để tạo ra các phản hồi thông minh, tự nhiên cho người dùng. Chatbot được cấu hình để sử dụng mô hình mặc định là GPT-4o, một trong những mô hình ngôn ngữ lớn (LLM) tiên tiến nhất hiện nay, đồng thời có cơ chế dự phòng để chuyển sang các mô hình khác như GPT-4o-mini khi cần thiết. Tham số temperature mặc định được đặt ở mức 0.7 để cân bằng giữa tính sáng tạo và tính chính xác của phản hồi.
+
+4.6.2 Kiến trúc lớp trợ giúp ChatGPT (ChatGPTHelper)
+
+Chatbot được xây dựng dựa trên lớp trợ giúp ChatGPTHelper với kiến trúc mô-đun hóa cao, hỗ trợ nhiều tính năng:
+1.Khởi tạo kết nối với API OpenAI dựa trên cấu hình từ tệp môi trường
+2.Quản lý các cuộc hội thoại và lưu trữ lịch sử tin nhắn
+3.Xây dựng và định dạng payload tin nhắn theo chuẩn API của OpenAI
+4.Phát hiện ngôn ngữ tự động và hỗ trợ đa ngôn ngữ (tiếng Việt và tiếng Anh)
+5.Xử lý lỗi thông minh với các thông báo phù hợp dựa trên loại lỗi gặp phải
+
+Lớp này hỗ trợ cả phiên bản API mới (v1.0.0+) sử dụng đối tượng client và phiên bản API cũ dựa trên module, đảm bảo tính tương thích với nhiều môi trường triển khai khác nhau.
+
+4.6.3 Hệ thống phân tích và hiểu ý định (Intent Recognition)
+
+Chatbot được tích hợp hệ thống phân tích ý định (intent recognition) thông minh để hiểu chính xác nhu cầu của người dùng. Khi nhận được tin nhắn từ người dùng, chatbot sẽ phân tích và phân loại theo ba nhóm chính:
+
+1.job_search - tìm kiếm công việc cụ thể
+2.web_search - tìm kiếm thông tin về công nghệ web, xu hướng, thông tin kỹ thuật
+3.general - các câu hỏi chung về nghề nghiệp, phát triển kỹ năng
+Dựa trên phân loại này, chatbot sẽ chọn công cụ xử lý phù hợp để tạo phản hồi tối ưu cho người dùng. Quá trình này được thực hiện thông qua một prompt phân tích ý định được gửi đến OpenAI API.
+
+4.6.4 Công cụ tìm kiếm web tích hợp (WebSearchTools)
+
+Chatbot được trang bị các công cụ tìm kiếm web tiên tiến thông qua lớp WebSearchTools, mang lại khả năng truy cập thông tin từ internet trong thời gian thực. Các công cụ tìm kiếm này bao gồm:
+
+1.Tìm kiếm việc làm thông minh (job_search): Hỗ trợ tìm kiếm dựa trên tiêu đề công việc, địa điểm, hoặc kỹ năng yêu cầu. Kết quả được đánh giá và xếp hạng sử dụng mô hình ngôn ngữ lớn để đảm bảo độ phù hợp cao.
+2.Tìm kiếm thông tin web (web_search): Cho phép người dùng truy vấn thông tin kỹ thuật, xu hướng công nghệ và hướng dẫn liên quan đến ngành CNTT.
+
+Cả hai công cụ đều sử dụng khả năng sinh văn bản của LLM để định dạng kết quả tìm kiếm thành nội dung dễ đọc, cung cấp phản hồi có cấu trúc và có thể bao gồm định dạng HTML hoặc Markdown khi cần thiết.
+
+4.6.5 Phân tích CV tích hợp với trí tuệ nhân tạo
+
+Một trong những tính năng nổi bật của chatbot là khả năng phân tích CV thông minh. Tính năng này cho phép người dùng tải lên hoặc chọn từ danh sách CV đã lưu trữ để phân tích. Quy trình phân tích bao gồm:
+
+1.Trích xuất văn bản từ file PDF sử dụng các công cụ như PyPDF2
+2.Phát hiện ngôn ngữ tự động trong CV bằng thư viện langdetect
+3.Tiền xử lý văn bản để loại bỏ định dạng không cần thiết
+4.Phân tích nội dung sử dụng OpenAI API để đánh giá điểm mạnh, điểm yếu và đưa ra gợi ý cải thiện
+5.Tạo báo cáo phân tích định dạng Markdown với các mục rõ ràng và chi tiết
+
+Chatbot cũng có thể đánh giá mức độ phù hợp của CV với một vị trí công việc cụ thể nếu người dùng cung cấp thông tin về công việc mục tiêu.
+
+4.6.6 Lưu trữ và quản lý cuộc hội thoại
+
+Hệ thống chatbot được thiết kế với khả năng lưu trữ và quản lý cuộc hội thoại thông qua các mô hình dữ liệu Conversation và Message. Mỗi cuộc hội thoại được liên kết với một người dùng cụ thể và có thể chứa nhiều tin nhắn. Cấu trúc này cho phép:
+1.Lưu trữ lịch sử hội thoại đầy đủ để tham khảo sau này
+2.Duy trì ngữ cảnh trong suốt quá trình tương tác với chatbot
+3.Phân loại tin nhắn theo vai trò (người dùng, trợ lý, hệ thống)
+4.Thời gian lưu trữ và quản lý cuộc hội thoại
+
+Người dùng có thể xem lịch sử hội thoại, xóa cuộc trò chuyện cũ, và tiếp tục cuộc trò chuyện đã diễn ra trước đó. API /chatbot/api/history/ và /chatbot/api/clear/ được cung cấp để hỗ trợ các chức năng này.
+
+4.6.7 Triển khai và cài đặt Chatbot
+
+Để triển khai và cài đặt chatbot trong ứng dụng Job Portal, cần thực hiện các bước sau:
+
+1.Đảm bảo cài đặt tất cả các thư viện phụ thuộc trong file requirements.txt, đặc biệt là openai, langchain, pypdf2 và langdetect.
+Cấu hình API key của OpenAI trong file môi trường .env:
+
+I. KẾT LUẬN
+Dự án Job Portal Application được phát triển với mục tiêu xây dựng một nền tảng tuyển dụng trực tuyến hiện đại, kết nối hiệu quả giữa nhà tuyển dụng và người tìm việc. Qua quá trình phân tích mã nguồn và cấu trúc, có thể đưa ra những kết luận chi tiết như sau:
+
+1. Tổng quan kiến trúc và công nghệ:
+
+Ứng dụng được xây dựng trên nền tảng Python với framework Django, một lựa chọn phổ biến cho các ứng dụng web đòi hỏi sự mạnh mẽ, linh hoạt và khả năng mở rộng nhanh chóng. Kiến trúc của dự án tuân thủ theo mô hình Model-Template-View (MTV) đặc trưng của Django, giúp tách biệt rõ ràng giữa logic nghiệp vụ (models và views), tầng trình bày (templates) và quản lý URL (urls.py). Dự án được chia thành các module (apps) chuyên biệt như accounts cho quản lý người dùng, jobs cho quản lý tin tuyển dụng và hồ sơ, api cho việc cung cấp giao diện lập trình ứng dụng, và chatbot cho tính năng tương tác thông minh. Việc sử dụng cơ sở dữ liệu SQLite mặc định cho môi trường phát triển và hỗ trợ PostgreSQL cho môi trường production (thông qua psycopg2-binary) cho thấy sự cân nhắc về tính linh hoạt và hiệu suất. Các công nghệ frontend chủ yếu dựa vào Django Templates kết hợp HTML, CSS và JavaScript cơ bản, đủ để xây dựng giao diện người dùng chức năng.
+

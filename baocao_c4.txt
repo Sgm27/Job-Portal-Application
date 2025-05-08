@@ -119,3 +119,100 @@ Dự án Job Portal Application được phát triển với mục tiêu xây d�
 
 Ứng dụng được xây dựng trên nền tảng Python với framework Django, một lựa chọn phổ biến cho các ứng dụng web đòi hỏi sự mạnh mẽ, linh hoạt và khả năng mở rộng nhanh chóng. Kiến trúc của dự án tuân thủ theo mô hình Model-Template-View (MTV) đặc trưng của Django, giúp tách biệt rõ ràng giữa logic nghiệp vụ (models và views), tầng trình bày (templates) và quản lý URL (urls.py). Dự án được chia thành các module (apps) chuyên biệt như accounts cho quản lý người dùng, jobs cho quản lý tin tuyển dụng và hồ sơ, api cho việc cung cấp giao diện lập trình ứng dụng, và chatbot cho tính năng tương tác thông minh. Việc sử dụng cơ sở dữ liệu SQLite mặc định cho môi trường phát triển và hỗ trợ PostgreSQL cho môi trường production (thông qua psycopg2-binary) cho thấy sự cân nhắc về tính linh hoạt và hiệu suất. Các công nghệ frontend chủ yếu dựa vào Django Templates kết hợp HTML, CSS và JavaScript cơ bản, đủ để xây dựng giao diện người dùng chức năng.
 
+2. Phân tích chức năng cốt lõi:
+
+2.1. Quản lý người dùng và phân quyền:
+
+Hệ thống quản lý người dùng được tùy biến từ AbstractUser của Django, cho phép định nghĩa các trường thông tin bổ sung và phân loại người dùng thành hai vai trò chính: 'Employer' (Nhà tuyển dụng) và 'Job Seeker' (Người tìm việc). Mỗi vai trò có những thuộc tính và quyền hạn riêng biệt, ví dụ: người tìm việc có thể tải lên và quản lý CV (tối đa 5 CV, có chức năng đặt CV chính), trong khi nhà tuyển dụng có thể đăng tải và quản lý các tin tuyển dụng. Hệ thống cũng hỗ trợ các tính năng cơ bản như đăng ký, đăng nhập, quản lý hồ sơ cá nhân, và tùy chọn đăng nhập bằng tài khoản Google thông qua django-allauth, tăng cường sự tiện lợi cho người dùng.
+
+2.2. Quản lý tin tuyển dụng và hồ sơ ứng tuyển:
+
+Chức năng quản lý công việc cho phép nhà tuyển dụng tạo mới, chỉnh sửa và xóa các tin đăng tuyển dụng. Mỗi tin tuyển dụng bao gồm các thông tin chi tiết như tiêu đề, mô tả công việc, yêu cầu, địa điểm (với danh sách các tỉnh thành Việt Nam được định nghĩa sẵn), mức lương (tối thiểu, tối đa), loại hình công việc và hạn nộp hồ sơ. Người tìm việc có thể tìm kiếm, xem chi tiết và ứng tuyển vào các công việc. Hệ thống quản lý đơn ứng tuyển (Application) liên kết giữa người tìm việc, công việc và CV đã sử dụng, đồng thời cho phép nhà tuyển dụng cập nhật trạng thái ứng tuyển (ví dụ: đang chờ, đã xem xét, đã từ chối, đã tuyển dụng) và ghi chú nội bộ. Tính năng thông báo (Notification) cũng được tích hợp để cập nhật cho người dùng về các sự kiện quan trọng như CV được xem hoặc trạng thái ứng tuyển thay đổi.
+
+3. Tích hợp Trí tuệ Nhân tạo (AI):
+
+3.1. Phân tích CV (Resume Parsing):
+
+Module cv_analyzer.py chịu trách nhiệm xử lý các tệp CV định dạng PDF. Nó sử dụng thư viện PyPDF2 và pdfplumber (nếu có) để trích xuất nội dung văn bản từ tệp CV. Sau khi trích xuất, thư viện langdetect được sử dụng để phát hiện ngôn ngữ của CV, một bước quan trọng cho các xử lý tiếp theo. Mặc dù hiện tại chức năng chính là trích xuất văn bản, đây là nền tảng để phát triển các tính năng phân tích sâu hơn như nhận dạng thực thể (NER) để bóc tách kỹ năng, kinh nghiệm, học vấn.
+
+3.2. Chatbot hỗ trợ thông minh:
+
+Ứng dụng tích hợp một chatbot (chatbot/langchain_helper.py) sử dụng mô hình ngôn ngữ lớn GPT-4o của OpenAI thông qua framework LangChain. Chatbot được thiết kế với một SYSTEM_PROMPT chi tiết, định hướng vai trò là một trợ lý AI tìm việc, chỉ trả lời các câu hỏi liên quan đến tìm kiếm việc làm, CV, phỏng vấn, và phát triển sự nghiệp. Nó có khả năng duy trì ngữ cảnh hội thoại nhờ ConversationBufferMemory và được huấn luyện để từ chối các câu hỏi không liên quan một cách lịch sự. Chatbot này hứa hẹn mang lại sự hỗ trợ tương tác và cá nhân hóa cho người dùng.
+
+4. Giao diện Lập trình Ứng dụng (API):
+
+Dự án cung cấp một hệ thống RESTful API xây dựng bằng Django REST Framework, cho phép các ứng dụng bên ngoài hoặc các thành phần frontend hiện đại (ví dụ: Single Page Applications) tương tác với dữ liệu của hệ thống. Các endpoints chính bao gồm /api/users/, /api/jobs/, /api/applications/ hỗ trợ các thao tác CRUD (Create, Read, Update, Delete). Việc xác thực API được thực hiện thông qua JSON Web Tokens (JWT) với django-rest-framework-simplejwt, một phương pháp phổ biến và an toàn cho các API hiện đại. Giao diện API có thể duyệt qua trình duyệt (Browsable API) khi DEBUG=True cũng là một tiện ích lớn cho quá trình phát triển và kiểm thử.
+
+5. Đánh giá tiềm năng và hạn chế ban đầu:
+
+Nhìn chung, Job Portal Application là một dự án có nền tảng vững chắc và nhiều tính năng hứa hẹn. Việc sử dụng Django và các công nghệ AI hiện đại mang lại tiềm năng lớn cho sự phát triển và mở rộng. Tuy nhiên, một số hạn chế ban đầu có thể kể đến là giao diện người dùng còn dựa trên Django templates truyền thống, có thể chưa mang lại trải nghiệm tương tác phong phú như các SPA hiện đại. Phần phân tích CV hiện tại mới dừng ở mức trích xuất văn bản, chưa khai thác sâu tiềm năng của AI.
+
+II. HƯỚNG PHÁT TRIỂN
+
+Để nâng cao giá trị và khả năng cạnh tranh của Job Portal Application, một số hướng phát triển chiến lược có thể được xem xét và triển khai:
+
+1. Nâng cao năng lực hệ thống phân tích CV:
+Mở rộng module cv_analyzer.py để không chỉ trích xuất văn bản mà còn thực hiện phân tích ngữ nghĩa sâu hơn. Cụ thể:
+    -Nhận dạng thực thể có tên (Named Entity Recognition - NER): Tự động xác định và trích xuất các thông tin quan trọng như kỹ năng (skills), kinh nghiệm làm việc (work experience), trình độ học vấn (education), chứng chỉ (certifications), thông tin liên hệ.
+    -Chuẩn hóa dữ liệu: Đồng bộ hóa các thuật ngữ kỹ năng và kinh nghiệm để dễ dàng cho việc tìm kiếm và so khớp.
+    -Đánh giá sơ bộ CV: Xây dựng mô hình chấm điểm CV dựa trên mức độ phù hợp với một mô tả công việc cụ thể hoặc các tiêu chí chung của ngành nghề.
+    -Gợi ý cải thiện CV: Dựa trên kết quả phân tích, cung cấp cho người dùng những gợi ý cụ thể để cải thiện nội dung và cấu trúc CV của họ.
+
+2. Phát triển Chatbot thành trợ lý ảo toàn diện:
+Nâng cấp chatbot hiện tại để trở thành một trợ lý ảo thông minh và chủ động hơn trong việc hỗ trợ người dùng:
+    -Tích hợp sâu với hệ thống: Cho phép chatbot thực hiện các hành động như tìm kiếm việc làm dựa trên yêu cầu của người dùng và hiển thị kết quả trực tiếp trong giao diện chat, hoặc hỗ trợ điền đơn ứng tuyển.
+    -Phân tích CV qua Chatbot: Người dùng có thể tải CV lên và yêu cầu chatbot phân tích, đưa ra nhận xét hoặc tóm tắt nhanh.
+    -Huấn luyện phỏng vấn thử: Xây dựng kịch bản phỏng vấn thử với chatbot, nơi chatbot đóng vai nhà tuyển dụng đặt câu hỏi và đưa ra phản hồi về câu trả lời của người dùng.
+    -Cung cấp thông tin thị trường: Tích hợp khả năng truy vấn thông tin về xu hướng thị trường lao động, mức lương tham khảo cho các vị trí và kỹ năng cụ thể.
+
+3. Xây dựng hệ thống gợi ý việc làm cá nhân hóa:
+Phát triển một thuật toán gợi ý việc làm (recommendation system) tinh vi hơn, dựa trên:
+    -Dữ liệu hồ sơ người dùng: Phân tích thông tin từ CV, kỹ năng đã khai báo, lịch sử ứng tuyển.
+    -Hành vi người dùng trên nền tảng: Các công việc đã xem, đã lưu, các tìm kiếm đã thực hiện.
+    -Content-based filtering và Collaborative filtering: Kết hợp cả hai phương pháp để đưa ra những gợi ý chính xác và đa dạng, bao gồm cả những công việc người dùng có thể chưa từng nghĩ tới nhưng lại phù hợp.
+    -Học máy liên tục: Cải thiện mô hình gợi ý theo thời gian dựa trên phản hồi và tương tác của người dùng.
+
+4. Mở rộng sang nền tảng di động (Mobile Application):
+Do API đã sẵn sàng, việc phát triển ứng dụng di động cho cả iOS và Android sẽ giúp tăng cường khả năng tiếp cận và sự tiện lợi cho người dùng. Ứng dụng di động nên tập trung vào các tính năng cốt lõi như tìm kiếm việc làm, quản lý hồ sơ, ứng tuyển nhanh và nhận thông báo đẩy (push notifications) về trạng thái ứng tuyển hoặc các công việc mới phù hợp.
+
+5. Tích hợp các công cụ hỗ trợ tuyển dụng nâng cao
+Đối với nhà tuyển dụng, có thể phát triển thêm các công cụ chuyên sâu:
+
+5.1. Hệ thống theo dõi ứng viên (ATS) nâng cao:
+Mở rộng tính năng ATS hiện tại với khả năng quản lý quy trình tuyển dụng phức tạp hơn, cho phép tùy chỉnh các giai đoạn tuyển dụng, tự động gửi email thông báo cho ứng viên, và lên lịch phỏng vấn.
+
+5.2. Tính năng đánh giá và sàng lọc tự động:
+Dựa trên kết quả phân tích CV và các tiêu chí do nhà tuyển dụng đặt ra, hệ thống có thể tự động sàng lọc và xếp hạng các ứng viên tiềm năng, giúp nhà tuyển dụng tiết kiệm thời gian và tập trung vào các ứng viên phù hợp nhất
+
+6. Tăng cường tương tác cộng đồng và phản hồi:
+Xây dựng các tính năng cộng đồng để người dùng có thể chia sẻ kinh nghiệm, đánh giá công ty, hoặc đặt câu hỏi. Hệ thống phản hồi chi tiết từ cả người tìm việc và nhà tuyển dụng về chất lượng tin đăng, quá trình phỏng vấn sẽ giúp cải thiện liên tục nền tảng.
+
+7. Tối ưu hóa hiệu năng và bảo mật hệ thống:
+    -Tối ưu hóa truy vấn cơ sở dữ liệu: Rà soát và cải thiện các truy vấn phức tạp để đảm bảo tốc độ phản hồi nhanh chóng khi lượng dữ liệu tăng lên.
+    -Caching: Áp dụng các chiến lược caching hợp lý cho các dữ liệu ít thay đổi để giảm tải cho server.
+    -Bảo mật: Thường xuyên cập nhật các thư viện và framework lên phiên bản mới nhất, thực hiện kiểm tra lỗ hổng bảo mật (vulnerability scanning), và tuân thủ các nguyên tắc bảo mật dữ liệu người dùng, đặc biệt là thông tin nhạy cảm trong CV. Mã hóa dữ liệu nhạy cảm khi lưu trữ và truyền tải.
+
+III. TÀI LIỆU THAM KHẢO
+
+Danh mục các tài liệu và công nghệ tham khảo chính được sử dụng hoặc liên quan đến việc phát triển và phân tích dự án:
+
+1. Frameworks và thư viện cốt lõi:
+    -Django Official Documentation: (https://docs.djangoproject.com/) - Nguồn tài liệu chính thức và toàn diện cho framework Django, là nền tảng xây dựng ứng dụng.
+    -Django REST Framework Documentation: (https://www.django-rest-framework.org/) - Hướng dẫn chi tiết về xây dựng API mạnh mẽ và linh hoạt với Django.
+    -Python Standard Library: (https://docs.python.org/3/library/) - Các module và thư viện sẵn có của Python được sử dụng xuyên suốt dự án.
+
+2. Công nghệ Trí tuệ Nhân tạo:
+    -OpenAI API Documentation: (https://platform.openai.com/docs/) - Tài liệu hướng dẫn tích hợp và sử dụng các mô hình ngôn ngữ lớn của OpenAI, cụ thể là GPT-4o cho chatbot.
+    -LangChain Documentation: (https://python.langchain.com/docs/) - Framework hỗ trợ xây dựng các ứng dụng dựa trên mô hình ngôn ngữ lớn, được sử dụng để phát triển chatbot và quản lý tương tác.
+    -PyPDF2 Documentation: (https://pypdf2.readthedocs.io/) - Thư viện xử lý file PDF, dùng để trích xuất nội dung văn bản từ CV.
+    -pdfplumber GitHub Repository: (https://github.com/jsvine/pdfplumber) - Một thư viện khác cho việc trích xuất văn bản và dữ liệu từ PDF, được xem xét như một giải pháp thay thế hoặc bổ sung.
+    -langdetect GitHub Repository: (https://github.com/Mimino666/langdetect) - Thư viện phát hiện ngôn ngữ của văn bản.
+
+3. Hệ thống xác thực và bảo mật:
+    -django-allauth Documentation: (https://django-allauth.readthedocs.io/) - Thư viện hỗ trợ tích hợp xác thực qua các nhà cung cấp bên thứ ba như Google.
+    -django-rest-framework-simplejwt Documentation: (https://django-rest-framework-simplejwt.readthedocs.io/) - Cung cấp giải pháp xác thực JWT cho Django REST Framework.
+    -OWASP (Open Web Application Security Project): (https://owasp.org/) - Nguồn tài liệu và công cụ hàng đầu về các phương pháp tốt nhất cho an toàn ứng dụng web.
+
+4. Nguồn tham khảo bổ sung:
+    -Requirements.txt: Tệp tin liệt kê các gói Python phụ thuộc của dự án, cung cấp cái nhìn tổng quan về các thư viện cụ thể được sử dụng.
+    -README.md: Tệp tin cung cấp thông tin tổng quan về dự án, hướng dẫn cài đặt và các tính năng chính.

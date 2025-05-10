@@ -419,6 +419,228 @@ Trách nhiệm:
             'status': 'active'
         },
         # --- Intern/Fresher Jobs End ---
+        # +++ AI, Web, Software Jobs Start +++
+        {
+            'title': 'AI Research Scientist',
+            'description': 'Conduct cutting-edge research in machine learning, deep learning, and artificial intelligence. Publish findings and contribute to the development of innovative AI solutions.',
+            'requirements': '- PhD or Master\'s in Computer Science, AI, or related field.\n- Strong publication record in top AI conferences/journals.\n- Expertise in Python, TensorFlow, PyTorch.',
+            'location': 'ho_chi_minh',
+            'min_salary': 50000000,
+            'max_salary': 80000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=40),
+            'status': 'active'
+        },
+        {
+            'title': 'Full-stack Web Developer (Remote)',
+            'description': 'Develop and maintain web applications using modern front-end and back-end technologies. Work collaboratively in a remote team environment.',
+            'requirements': '- 3+ years of experience with React/Angular/Vue and Node.js/Python/Ruby.\n- Proficient in database technologies (SQL/NoSQL).\n- Experience with cloud platforms (AWS, Azure, GCP).',
+            'location': 'remote',
+            'min_salary': 30000000,
+            'max_salary': 50000000,
+            'job_type': 'remote',
+            'application_deadline': timezone.now() + timedelta(days=30),
+            'status': 'active'
+        },
+        {
+            'title': 'Software Engineer (Mobile - iOS)',
+            'description': 'Design and build advanced applications for the iOS platform. Collaborate with cross-functional teams to define, design, and ship new features.',
+            'requirements': '- Proven working experience in iOS app development (Swift/Objective-C).\n- Experience with iOS frameworks such as Core Data, Core Animation, etc.\n- Familiarity with RESTful APIs to connect iOS applications to back-end services.',
+            'location': 'ha_noi',
+            'min_salary': 28000000,
+            'max_salary': 45000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=35),
+            'status': 'active'
+        },
+        {
+            'title': 'Machine Learning Engineer',
+            'description': 'Design, build, and deploy machine learning models to solve real-world problems. Work with large datasets and production systems.',
+            'requirements': '- Master\'s or Bachelor\'s in CS, Statistics, or related field.\n- Experience with ML frameworks (scikit-learn, Keras, etc.).\n- Strong programming skills in Python.',
+            'location': 'da_nang',
+            'min_salary': 35000000,
+            'max_salary': 60000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=30),
+            'status': 'active'
+        },
+        {
+            'title': 'React Native Developer',
+            'description': 'Develop cross-platform mobile applications using React Native. Focus on building user-friendly and performant mobile experiences.',
+            'requirements': '- 2+ years of experience with React Native.\n- Strong understanding of JavaScript, ES6+.\n- Experience with native build tools, like XCode, Android Studio.',
+            'location': 'ho_chi_minh',
+            'min_salary': 25000000,
+            'max_salary': 40000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=28),
+            'status': 'active'
+        },
+        {
+            'title': 'Back-end Developer (Java/Spring)',
+            'description': 'Develop robust and scalable server-side applications using Java and Spring Framework. Design and implement APIs and microservices.',
+            'requirements': '- 3+ years of experience with Java and Spring Boot.\n- Experience with RESTful APIs, microservices architecture.\n- Knowledge of databases (SQL/NoSQL) and CI/CD pipelines.',
+            'location': 'ha_noi',
+            'min_salary': 30000000,
+            'max_salary': 50000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=32),
+            'status': 'active'
+        },
+        {
+            'title': 'Data Scientist - NLP Specialist',
+            'description': 'Apply natural language processing techniques to extract insights from textual data. Develop models for text classification, sentiment analysis, etc.',
+            'requirements': '- Master\'s or PhD in a quantitative field.\n- Strong experience with NLP libraries (NLTK, SpaCy, Transformers).\n- Proficiency in Python and machine learning.',
+            'location': 'ho_chi_minh',
+            'min_salary': 40000000,
+            'max_salary': 70000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=38),
+            'status': 'active'
+        },
+        {
+            'title': 'Frontend Developer - Vue.js',
+            'description': 'Build interactive and responsive user interfaces using Vue.js. Collaborate with UI/UX designers and backend developers.',
+            'requirements': '- 2+ years of experience with Vue.js and its ecosystem (Vuex, Vue Router).\n- Proficient in HTML, CSS, JavaScript.\n- Experience with modern front-end build pipelines and tools.',
+            'location': 'da_nang',
+            'min_salary': 22000000,
+            'max_salary': 38000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=25),
+            'status': 'active'
+        },
+        {
+            'title': 'Software Development Engineer in Test (SDET)',
+            'description': 'Design and implement automated testing frameworks and test cases. Ensure software quality through continuous integration and delivery.',
+            'requirements': '- Experience in software development and test automation (Selenium, Appium, etc.).\n- Strong programming skills (Python, Java, C#).\n- Knowledge of CI/CD tools and agile methodologies.',
+            'location': 'ha_noi',
+            'min_salary': 28000000,
+            'max_salary': 48000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=29),
+            'status': 'active'
+        },
+        {
+            'title': 'AI Ethics Researcher',
+            'description': 'Investigate the ethical implications of AI technologies. Develop guidelines and frameworks for responsible AI development and deployment.',
+            'requirements': '- Advanced degree in Ethics, Law, Philosophy, CS, or related field with a focus on AI ethics.\n- Strong analytical and communication skills.\n- Understanding of current AI trends and societal impacts.',
+            'location': 'remote',
+            'min_salary': 35000000,
+            'max_salary': 60000000,
+            'job_type': 'remote',
+            'application_deadline': timezone.now() + timedelta(days=45),
+            'status': 'active'
+        },
+        {
+            'title': 'Junior Web Developer (Internship)',
+            'description': 'Assist senior developers in building and testing web applications. Learn and apply web development fundamentals in a practical setting.',
+            'requirements': '- Currently enrolled in or recent graduate of a CS or related program.\n- Basic knowledge of HTML, CSS, JavaScript.\n- Eagerness to learn and strong problem-solving skills.',
+            'location': 'ho_chi_minh',
+            'min_salary': 5000000,
+            'max_salary': 8000000,
+            'job_type': 'internship',
+            'application_deadline': timezone.now() + timedelta(days=15),
+            'status': 'active'
+        },
+        {
+            'title': 'Software Engineer (Android)',
+            'description': 'Develop native Android applications. Work with the latest Android SDKs and tools to create engaging mobile experiences.',
+            'requirements': '- Proven experience in Android app development (Java/Kotlin).\n- Familiarity with Android design principles and interface guidelines.\n- Experience with third-party libraries and APIs.',
+            'location': 'da_nang',
+            'min_salary': 26000000,
+            'max_salary': 42000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=33),
+            'status': 'active'
+        },
+        {
+            'title': 'Computer Vision Engineer',
+            'description': 'Develop and implement computer vision algorithms for image and video analysis. Work on projects related to object detection, image recognition, etc.',
+            'requirements': '- Master\'s or PhD in CS or related field with a focus on Computer Vision.\n- Experience with OpenCV, TensorFlow, PyTorch.\n- Strong C++ and Python programming skills.',
+            'location': 'ha_noi',
+            'min_salary': 40000000,
+            'max_salary': 75000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=36),
+            'status': 'active'
+        },
+        {
+            'title': 'Angular Developer',
+            'description': 'Build dynamic and responsive web applications using the Angular framework. Ensure high performance and scalability of front-end solutions.',
+            'requirements': '- 2+ years of experience with Angular and TypeScript.\n- Proficient in HTML, CSS, and JavaScript.\n- Experience with RxJS and state management (NgRx).',
+            'location': 'ho_chi_minh',
+            'min_salary': 27000000,
+            'max_salary': 43000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=26),
+            'status': 'active'
+        },
+        {
+            'title': 'Cloud Solutions Architect (Software Focus)',
+            'description': 'Design and implement cloud-based software solutions. Advise on cloud strategy, architecture, and best practices for application development.',
+            'requirements': '- Extensive experience with AWS, Azure, or GCP.\n- Strong understanding of software architecture principles.\n- Experience with containerization and microservices.',
+            'location': 'remote',
+            'min_salary': 50000000,
+            'max_salary': 90000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=40),
+            'status': 'active'
+        },
+        {
+            'title': 'Robotics Software Engineer',
+            'description': 'Develop software for robotic systems, including perception, navigation, and control. Integrate hardware and software components.',
+            'requirements': '- Experience with ROS (Robot Operating System).\n- Strong C++ and Python programming skills.\n- Knowledge of robotics algorithms and kinematics.',
+            'location': 'da_nang',
+            'min_salary': 38000000,
+            'max_salary': 65000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=34),
+            'status': 'active'
+        },
+        {
+            'title': 'Technical Writer (Software)',
+            'description': 'Create clear and concise documentation for software products, including API guides, user manuals, and tutorials.',
+            'requirements': '- Proven experience in technical writing for software.\n- Excellent written and verbal communication skills in English and Vietnamese.\n- Ability to understand complex technical concepts and explain them simply.',
+            'location': 'ho_chi_minh',
+            'min_salary': 20000000,
+            'max_salary': 35000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=24),
+            'status': 'active'
+        },
+        {
+            'title': 'Game Developer (Unity/Unreal Engine)',
+            'description': 'Develop games for various platforms using Unity or Unreal Engine. Work on game mechanics, graphics, and performance optimization.',
+            'requirements': '- Experience with Unity (C#) or Unreal Engine (C++).\n- Strong understanding of game development principles.\n- Portfolio of game projects.',
+            'location': 'ha_noi',
+            'min_salary': 25000000,
+            'max_salary': 45000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=30),
+            'status': 'active'
+        },
+        {
+            'title': 'AI Product Manager',
+            'description': 'Define and drive the product strategy for AI-powered features and products. Work closely with engineering, design, and research teams.',
+            'requirements': '- Experience in product management, preferably with AI/ML products.\n- Strong understanding of AI technologies and market trends.\n- Excellent communication and leadership skills.',
+            'location': 'ho_chi_minh',
+            'min_salary': 45000000,
+            'max_salary': 75000000,
+            'job_type': 'full_time',
+            'application_deadline': timezone.now() + timedelta(days=37),
+            'status': 'active'
+        },
+        {
+            'title': 'Part-time Web Content Uploader',
+            'description': 'Responsible for uploading and formatting content on company websites. Ensure accuracy and consistency of web content.',
+            'requirements': '- Basic HTML knowledge.\n- Attention to detail and good organizational skills.\n- Ability to work independently and meet deadlines.',
+            'location': 'remote',
+            'min_salary': 100000, # Assuming per hour or project-based
+            'max_salary': 150000, # Assuming per hour or project-based
+            'job_type': 'part_time',
+            'application_deadline': timezone.now() + timedelta(days=20),
+            'status': 'active'
+        }
+        # +++ AI, Web, Software Jobs End +++
     ]
     
     # Thêm các công việc mẫu vào cơ sở dữ liệu

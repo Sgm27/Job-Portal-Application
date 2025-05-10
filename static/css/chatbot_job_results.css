@@ -1,82 +1,220 @@
 /* Enhanced styles for chatbot job search results */
 
 .job-search-results {
-    background: #f8f9fb;
-    border-radius: 10px;
-    padding: 16px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
+    background: linear-gradient(to bottom, #f8f9fb, #f5f7fa);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 25px;
+    font-family: inherit;
+    line-height: 1.5;
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .job-search-results .result-header {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
     border-bottom: 1px solid #e9ecef;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
 }
 
 .job-search-results .result-header h5 {
-    font-weight: 600;
-    color: #3a3a3a;
-    margin-bottom: 5px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 1.15em;
+}
+
+.job-search-results .result-header h5 i {
+    margin-right: 10px;
+    color: #4285f4;
+}
+
+.job-search-results .result-header p {
+    margin-bottom: 0;
+    color: #555;
+    font-size: 0.95em;
+}
+
+.job-search-results .job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 .job-search-results .job-card {
     background: white;
-    border-radius: 8px;
-    padding: 15px;
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #4285f4;
+    transition: all 0.25s ease;
     margin-bottom: 15px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
-    border-left: 3px solid #4285f4;
-    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
 }
 
 .job-search-results .job-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-left-color: #0d6efd;
 }
 
 .job-search-results .job-title {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .job-search-results .job-link {
-    color: #4285f4;
+    color: #0d6efd;
     text-decoration: none;
-    font-size: 1.1em;
+    font-size: 1.15em;
+    display: inline-block;
+    font-weight: 600;
+    transition: color 0.2s ease;
 }
 
 .job-search-results .job-link:hover {
     text-decoration: underline;
+    color: #0a58ca;
 }
 
-.job-search-results .job-info {
+.job-search-results .job-confidence {
+    background: #f0f7ff;
+    border-radius: 15px;
+    padding: 2px 8px;
+    font-size: 0.75em;
+    color: #4285f4;
+    margin-left: 10px;
+}
+
+.job-search-results .job-company {
+    color: #444;
+    font-size: 0.95em;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.job-search-results .job-company i {
+    margin-right: 7px;
+    color: #555;
+}
+
+.job-search-results .job-description {
+    color: #333;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 0.95em;
+}
+
+.job-search-results .job-details {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    margin: 10px 0;
-    color: #555;
-    font-size: 0.9em;
+    gap: 12px;
+    margin-bottom: 18px;
+    font-size: 0.85em;
 }
 
 .job-search-results .job-detail-item {
-    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    color: #444;
+    background: #f8f9fa;
+    border-radius: 20px;
+    padding: 5px 12px;
+    transition: all 0.2s ease;
+}
+
+.job-search-results .job-detail-item:hover {
+    background: #f0f7ff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.job-search-results .job-detail-item i {
+    margin-right: 5px;
+    color: #666;
+}
+
+.job-search-results .job-detail-item.skills {
+    background: #f0f7ff;
 }
 
 .job-search-results .job-actions {
-    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
-.search-alternative-notice {
-    background-color: #fff4e5;
-    border-left: 3px solid #ff9800;
-    padding: 10px 15px;
-    margin-bottom: 15px;
-    border-radius: 5px;
+.job-search-results .btn {
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
 }
 
-.search-alternative-notice p {
-    margin: 0;
-    color: #554;
+.job-search-results .btn-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.job-search-results .btn-outline {
+    background-color: transparent;
+    border: 1px solid #0d6efd;
+    color: #0d6efd;
+}
+
+.job-search-results .btn i {
+    margin-right: 7px;
+}
+
+.job-search-results .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.job-search-results .btn-primary:hover {
+    background-color: #0a58ca;
+}
+
+.job-search-results .btn-outline:hover {
+    background-color: rgba(13, 110, 253, 0.08);
+}
+
+.job-search-results .result-footer {
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.job-search-results .all-jobs-link {
+    color: #0d6efd;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.job-search-results .all-jobs-link i {
+    margin-right: 7px;
+}
+
+.job-search-results .all-jobs-link:hover {
+    text-decoration: none;
+    background-color: rgba(13, 110, 253, 0.08);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .no-jobs-found {
@@ -85,12 +223,35 @@
     border-radius: 8px;
 }
 
-.all-jobs-link {
-    color: #4285f4;
-    font-weight: 500;
-    text-decoration: none;
+.no-jobs-found .alert {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
 }
 
-.all-jobs-link:hover {
-    text-decoration: underline;
+.no-jobs-found .alert i {
+    margin-right: 10px;
+}
+
+.no-jobs-found ul {
+    margin-bottom: 0;
+    padding-left: 20px;
+}
+
+.no-jobs-found ul li {
+    margin-bottom: 5px;
+}
+
+/* Fix for any nested elements that might be causing layout issues */
+.job-search-results * {
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+/* Ensure proper text wrapping for long content */
+.job-search-results .job-title strong,
+.job-search-results .job-description,
+.job-search-results .job-detail-item {
+    word-break: break-word;
+    overflow-wrap: break-word;
 }

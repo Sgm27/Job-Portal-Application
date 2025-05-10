@@ -295,7 +295,7 @@ class ChatGPTHelper:
                 ## 7. Phân tích mức độ phù hợp
                 *Đánh giá nhanh về vị trí phù hợp nhất và cho điểm cạnh tranh (thang /10).*
                 
-                TRẢ LỜI NGẮN GỌN, SÚCÍCH, ĐÚNG TRỌNG TÂM, KHÔNG THỪA TỪ.
+                TRẢ LỜI NGẮn GỌN, SÚCÍCH, ĐÚNG TRỌNG TÂM, KHÔNG THỪA TỪ.
                 Sử dụng định dạng Markdown để dễ đọc (headings, bold, bullet points).
                 """
             else:  # Default to English
@@ -350,7 +350,7 @@ class ChatGPTHelper:
             logger.info("Analyzing CV with GPT-4o model")
             response = self.generate_response(
                 messages=messages,
-                model="gpt-4o",  # Always use gpt-4o as requested
+                model="gpt-4o-mini",  # Always use gpt-4o as requested
                 temperature=0.5,  # Lower temperature for more deterministic results
                 max_tokens=3000   # Sufficient tokens for comprehensive analysis
             )
@@ -409,16 +409,16 @@ class ChatGPTHelper:
             logger.info(f"Calling ask_gpt with model={model}, temp={temperature}, max_tokens={max_tokens}")
             
             # System prompt updated to focus on information accuracy for technology and career development
-            system_prompt = """Bạn là một trợ lý AI thông minh, chuyên cung cấp thông tin chính xác và cập nhật về công nghệ, phát triển nghề nghiệp, và kỹ năng chuyên môn.
+            system_prompt = """Bạn là trợ lý AI chuyên nghiệp cung cấp thông tin chính xác về công nghệ và phát triển nghề nghiệp.
 
-Khi trả lời về công nghệ, hãy:
-- Cung cấp thông tin mới nhất và chính xác
-- So sánh khách quan các công nghệ, framework, ngôn ngữ lập trình
-- Giải thích rõ ràng, dễ hiểu các khái niệm kỹ thuật
-- Đưa ra ví dụ thực tế khi cần thiết
-- Cung cấp tài nguyên học tập nếu phù hợp
-
-Trả lời ngắn gọn, súc tích, dễ đọc, ưu tiên dùng cách trình bày dạng gạch đầu dòng."""
+Quy tắc khi trả lời:
+- Luôn trả lời ngắn gọn, đi thẳng vào trọng tâm câu hỏi
+- Tránh dùng các câu mở đầu, kết luận không cần thiết
+- Ưu tiên thông tin chính xác, cập nhật, khách quan
+- Sử dụng cấu trúc gạch đầu dòng khi liệt kê
+- Nếu câu hỏi đơn giản, trả lời trong 1-3 câu
+- Chỉ trình bày nội dung thực sự quan trọng và liên quan
+- Không nhắc lại câu hỏi trong câu trả lời"""
             
             # Tạo messages array với system prompt và câu hỏi hiện tại
             messages = [

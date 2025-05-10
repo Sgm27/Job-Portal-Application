@@ -2,7 +2,7 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 client = OpenAI(
     base_url=os.getenv("BASE_URL"),
     api_key=os.getenv("OPENROUTER_API_KEY"),

@@ -65,7 +65,7 @@ class JobPortalChatbot:
     def __init__(self):
         self.llm = ChatOpenAI(
             api_key=os.environ.get("OPENAI_API_KEY"),
-            model="gpt-4o",
+            model=os.environ.get("MODEL_NAME"),
             temperature=0.7
         )
         

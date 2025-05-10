@@ -24,6 +24,8 @@ from accounts.models import Resume
 from app.services.cv_analyzer import analyze_cv_file, extract_skills, analyze_text
 # Import web search tools
 from .web_search_tools import WebSearchTools
+# Import topic classifier
+from .topic_classifier import topic_classifier
 
 # Cấu hình logger
 logger = logging.getLogger(__name__)
@@ -115,6 +117,30 @@ def chatbot_api(request):
                 'conversation_id': conversation.id,
                 'is_html': False
             })
+        
+        # ADDED: Check if the query is work-related using topic classifier
+        is_work_related, explanation = topic_classifier.is_work_related(user_message)
+        
+        if not is_work_related:
+            # If not work-related, respond with a message indicating the bot only answers work-related questions
+            reject_message = "Tôi chỉ trả lời các câu hỏi có liên quan đến công việc, phát triển nghề nghiệp, và kỹ năng chuyên môn. Vui lòng đặt câu hỏi khác."
+            
+            # Save rejection response to conversation
+            Message.objects.create(
+                conversation=conversation,
+                role='assistant',
+                content=reject_message
+            )
+            
+            # Return the rejection message to the user
+            return JsonResponse({
+                'message': reject_message,
+                'conversation_id': conversation.id,
+                'is_html': False,
+                'is_markdown': False
+            })
+            
+        # Continue with the existing logic for work-related questions
         
         # Step 1: Kiểm tra nếu có resume_id, đây là request phân tích CV đã chọn
         if resume_id:

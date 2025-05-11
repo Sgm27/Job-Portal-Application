@@ -119,7 +119,17 @@ def chatbot_api(request):
             })
         
         # ADDED: Check if the query is work-related using topic classifier
-        is_work_related, explanation = topic_classifier.is_work_related(user_message)
+        is_work_related, is_greeting, explanation = topic_classifier.is_work_related(user_message)
+        
+        if is_greeting:
+            # If it's a greeting, respond with a greeting message
+            greeting_message = "Chào bạn, tôi là trợ lý AI của Job Portal bạn muốn giúp đỡ về vấn đề tìm kiếm công việc, chỉnh sửa tối ưu CV, cập nhật các xu hướng công nghệ mới nhất, các câu hỏi chung về nghề nghiệp, phát triển kỹ năng...  "
+            return JsonResponse({
+                'message': greeting_message,
+                'conversation_id': conversation.id,
+                'is_html': False,
+                'is_markdown': False
+            })
         
         if not is_work_related:
             # If not work-related, respond with a message indicating the bot only answers work-related questions
@@ -144,6 +154,7 @@ def chatbot_api(request):
         
         # Step 1: Kiểm tra nếu có resume_id, đây là request phân tích CV đã chọn
         if resume_id:
+            print(f"Resume ID: {resume_id}")
             try:
                 # Sử dụng CVAnalysisAgent để phân tích CV
                 analysis_result = CVAnalysisAgent.analyze_resume(request.user, resume_id)
@@ -278,7 +289,7 @@ def chatbot_api(request):
         "{user_message}"
         
         Chọn một trong các loại sau và trả về chỉ một từ khóa:
-        1. "job_search" - nếu người dùng đang tìm kiếm công việc cụ thể
+        1. "job_search" - nếu người dùng đang tìm kiếm công việc cụ thể trong trang web
         2. "web_search" - nếu người dùng đang hỏi về công nghệ web, xu hướng, thông tin kỹ thuật
         3. "general" - các câu hỏi chung khác về nghề nghiệp, phát triển kỹ năng
         

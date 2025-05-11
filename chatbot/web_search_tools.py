@@ -690,7 +690,7 @@ class WebSearchTools:
         try:
             # Use ChatGPT to generate information about trending web technologies
             search_prompt = f"""
-            Bạn là một chuyên gia về công nghệ web và phát triển phần mềm với kiến thức sâu rộng về các xu hướng công nghệ mới nhất. 
+            Bạn là một chuyên gia về công việc và phát triển phần mềm với kiến thức sâu rộng về các xu hướng công nghệ mới nhất. 
             
             Hãy cung cấp thông tin chuyên sâu về: {query}
             

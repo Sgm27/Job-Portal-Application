@@ -147,13 +147,13 @@ class ChatGPTHelper:
                 "error": error_message
             }
     
-    def generate_response(self, messages, model="gpt-3.5-turbo", temperature=0.7, max_tokens=1000):
+    def generate_response(self, messages, model="chatgpt-4o", temperature=0.7, max_tokens=1000):
         """
         Generate a response from ChatGPT
         
         Args:
             messages: List of message objects (role, content)
-            model: Model to use (default: gpt-3.5-turbo)
+            model: Model to use (default: chatgpt-4o)
             temperature: Sampling temperature (default: 0.7)
             max_tokens: Maximum tokens in response (default: 1000)
             

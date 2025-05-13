@@ -180,7 +180,7 @@ class ChatGPTHelper:
                 client = OpenAI(api_key=self.api_key)
                 
                 response = client.chat.completions.create(
-                    model=model,
+                    model="gpt-4o",
                     messages=messages,
                     temperature=temperature,
                     max_tokens=max_tokens
@@ -190,7 +190,7 @@ class ChatGPTHelper:
             except ImportError:
                 # Fallback to older approach if needed
                 response = openai.ChatCompletion.create(
-                    model=model,
+                    model="gpt-4o",
                     messages=messages,
                     temperature=temperature,
                     max_tokens=max_tokens
@@ -350,7 +350,7 @@ class ChatGPTHelper:
             logger.info("Analyzing CV with GPT-4o model")
             response = self.generate_response(
                 messages=messages,
-                model="gpt-4o-mini",  # Always use gpt-4o as requested
+                model="gpt-4o",  # Always use gpt-4o as requested
                 temperature=0.5,  # Lower temperature for more deterministic results
                 max_tokens=3000   # Sufficient tokens for comprehensive analysis
             )

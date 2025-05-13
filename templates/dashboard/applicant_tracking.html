@@ -262,7 +262,7 @@
                 <form method="post" action="{% url 'applicant_tracking' job.id %}" id="autoRejectForm" class="d-inline">
                     {% csrf_token %}
                     <input type="hidden" name="auto_reject" value="true">
-                    <button type="button" class="btn btn-warning px-3" id="btnAutoReject" data-bs-toggle="tooltip" data-bs-placement="top" title="Tự động đánh giá CV ứng viên dựa trên yêu cầu công việc và từ chối những ứng viên với điểm số dưới 5/10">
+                    <button type="button" class="btn btn-warning px-3" id="btnAutoReject" data-bs-toggle="tooltip" data-bs-placement="top" title="Tự động đánh giá CV ứng viên dựa trên yêu cầu công việc và từ chối những ứng viên với điểm số dưới 7/10">
                         <i class="bi bi-robot me-1"></i>Tự Động Đánh Giá
                     </button>
                 </form>

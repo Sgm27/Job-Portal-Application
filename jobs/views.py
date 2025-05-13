@@ -340,7 +340,7 @@ def auto_reject_applications(job, applications):
             )
             
             # If scoring was successful and score is below 5, auto-reject
-            if score_result['success'] and score_result['score'] < 5:
+            if score_result['success'] and score_result['score'] < 7:
                 # Update application status to rejected
                 application.status = 'rejected'
                 
